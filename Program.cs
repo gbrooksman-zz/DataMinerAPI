@@ -17,7 +17,7 @@ namespace DataMinerAPI
             Log.Logger = new LoggerConfiguration()
 						 .MinimumLevel.Information()
 						 .WriteTo.Console()
-						 .WriteTo.File("logs/log-{Date}.txt",
+						 .WriteTo.File("logs/alog-{Date}.txt",
 								fileSizeLimitBytes: 10000000,
 								retainedFileCountLimit: 30)
 						 .CreateLogger();
