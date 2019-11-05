@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
+using Serilog;
 
 namespace DataMinerAPI
 {
@@ -13,6 +14,16 @@ namespace DataMinerAPI
     {
         public static void Main(string[] args)
         {
+            Log.Logger = new LoggerConfiguration()
+						 .MinimumLevel.Information()
+						 .WriteTo.Console()
+						 .WriteTo.File("logs/log-{Date}.txt",
+								fileSizeLimitBytes: 10000000,
+								retainedFileCountLimit: 30)
+						 .CreateLogger();
+
+			Log.Information("DataMinerAPI Application startup");
+
             CreateHostBuilder(args).Build().Run();
         }
 

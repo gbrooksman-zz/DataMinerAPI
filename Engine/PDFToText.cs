@@ -6,7 +6,7 @@ using System.IO;
 using System.Text;
 
 
-namespace DataMiner.Engine
+namespace DataMinerAPI.Engine
 {
     public class PDFToText
 	{

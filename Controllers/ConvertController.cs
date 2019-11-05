@@ -1,8 +1,9 @@
 using Microsoft.AspNetCore.Mvc;
-using DataMiner.Engine;
+using DataMinerAPI.Engine;
 using System;
+using Serilog;
 
-namespace DataMiner.Controllers
+namespace DataMinerAPI.Controllers
 {
 	[Produces("application/json")]
 	[Route("api/convert")]
@@ -19,7 +20,7 @@ namespace DataMiner.Controllers
 
 			try
 			{
-				//Log.Information($"Started Request Guid: {requestGuid}");
+				Log.Information($"Started Request Guid: {requestGuid}");
 
 				int ibyteLength = (int)Request.ContentLength.GetValueOrDefault();
 
@@ -29,16 +30,16 @@ namespace DataMiner.Controllers
 
 				Engine.PDFToText txtE = new Engine.PDFToText();
 
-				//Log.Information($"Calling convert for input length: //{ibyteLength.ToString()}");
+				Log.Information($"Calling convert for input length: //{ibyteLength.ToString()}");
 
 				retArgs = txtE.ConvertTextPDF(bytes);
 
-				//Log.Information($"Convert finished, result length: //{retArgs.Content.Length} ");	
+				Log.Information($"Convert finished, result length: //{retArgs.Content.Length} ");	
 
 			}
 			catch (Exception ex)
 			{
-				//Log.Error(ex, "Could not convert file");
+				Log.Error(ex, "Could not convert file");
 
 				return BadRequest(new
 				{
