@@ -139,6 +139,7 @@ ClientBin/
 *.pfx
 *.publishsettings
 orleans.codegen.cs
+files/
 
 # SQL Server files
 *.mdf

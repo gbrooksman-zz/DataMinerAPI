@@ -1,0 +1,19 @@
+2019-11-11 15:44:34.373 -05:00 [INF] DataMinerAPI Application startup
+2019-11-11 15:45:14.794 -05:00 [INF] DataMinerAPI Application startup
+2019-11-11 15:46:32.321 -05:00 [INF] DataMinerAPI Application startup
+2019-11-11 15:52:15.410 -05:00 [INF] DataMinerAPI Application startup
+2019-11-11 15:56:41.692 -05:00 [INF] DataMinerAPI Application startup
+2019-11-11 15:59:53.854 -05:00 [INF] DataMinerAPI Application startup
+2019-11-11 16:01:07.828 -05:00 [INF] DataMinerAPI Application startup
+2019-11-11 16:07:46.806 -05:00 [INF] DataMinerAPI Application startup
+2019-11-11 16:08:49.383 -05:00 [INF] DataMinerAPI Application startup
+2019-11-11 16:09:41.977 -05:00 [INF] DataMinerAPI Application startup
+2019-11-11 16:09:59.815 -05:00 [INF] Started Test action
+2019-11-11 16:10:04.075 -05:00 [INF] Started Request Guid: 05f511df-5cd5-4c21-89c3-a819d7a85f4d
+2019-11-11 16:10:51.180 -05:00 [INF] DataMinerAPI Application startup
+2019-11-11 16:11:10.885 -05:00 [INF] Started Test action
+2019-11-11 16:11:25.231 -05:00 [INF] Started Request Guid: 46888fd0-a01b-4c3b-b030-8f893543d19b
+2019-11-11 16:12:24.586 -05:00 [INF] DataMinerAPI Application startup
+2019-11-11 16:12:34.793 -05:00 [INF] Started Test action
+2019-11-11 16:12:47.643 -05:00 [INF] Started Request Guid: fcfc434e-e0af-4809-8029-ed4d1651df36
+2019-11-11 16:12:55.939 -05:00 [INF] Calling convert for pdf input length: //0

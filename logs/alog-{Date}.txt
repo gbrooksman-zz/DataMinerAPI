@@ -1,2 +1,0 @@
-2019-11-05 18:02:02.355 -05:00 [INF] DataMinerAPI Application startup
-2019-11-05 18:02:27.551 -05:00 [INF] DataMinerAPI Application startup

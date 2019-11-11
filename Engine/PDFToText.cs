@@ -12,6 +12,7 @@ namespace DataMinerAPI.Engine
 	{
 		private readonly string appFolder;
 		private readonly string tempFolder;
+		private readonly string workingFolder;
 
 		public PDFToText()
 		{
@@ -21,44 +22,23 @@ namespace DataMinerAPI.Engine
 
 			appFolder = config.GetSection("Tesseract").GetValue<string>("EXEPath");
 			tempFolder = config.GetSection("Tesseract").GetValue<string>("TempPath");
+			workingFolder = config.GetSection("PDFToText").GetValue<string>("workingFolder");
 		}  
 
-		public EngineReturnArgs ConvertFilePDF(string fileName)
-		{
-			byte[] bytes = File.ReadAllBytes(fileName);
-
-			return ConvertTextPDF(bytes);
-		}
-
-		public EngineReturnArgs ConvertTextPDF(byte[] bytes) 
+		public EngineReturnArgs ConvertTextFromPDF(byte[] bytes, Guid requestGuid) 
 		{
 			EngineReturnArgs era = new EngineReturnArgs();
 
 			try
 			{  
 				string pdfContent = string.Empty;
-				//BitMiracle.Docotic.LicenseManager.AddLicenseData("6C2M7-UOMI1-N940I-85GVF-QLJR0");     //geoff's laptop license only 
 
-				//	this BitMiracle component does almost all of the work here. It was selected for use in this service
-				//	because it quikly and accuratley convert the pdf into well-formatted text.
-				//	retaining the correct formatting/positioning of text is important because other services that work
-				//	with the text may rely on positional data to parse content
+				string fileName = @$"/Data/{requestGuid}.pdf";
 
-				/* using (PdfDocument pdf = new PdfDocument(bytes))   
-				{
-					pdfContent = pdf.GetText();
-					bool isOK = pdfContent.Trim(Environment.NewLine.ToCharArray()).Length > 100;
-					if (isOK)
-					{
-						era.Success = true;
-						era.Message = "Conversion complete";
-						era.Content = pdfContent;
-					}
-					else
-					{
+				File.WriteAllBytes(fileName, bytes);
 
-					} */
-				//}
+				RunProcess("pdftotext", $" -layout {fileName} {fileName.Replace(".pdf",".txt")}");
+
 			}
 			catch (Exception ex)
 			{
@@ -138,6 +118,39 @@ namespace DataMinerAPI.Engine
 				Arguments = $@"{pdfImageName} stdout -l ENG --tessdata-dir {appFolder}tessdata",
 				CreateNoWindow = true,
 				RedirectStandardOutput = true,
+				UseShellExecute = false
+			};
+
+			process.StartInfo = info;
+			process.EnableRaisingEvents = true;
+
+			process.OutputDataReceived += new DataReceivedEventHandler
+			(
+				delegate (object sender, DataReceivedEventArgs e)
+				{
+					outputBuilder.Append(e.Data);
+				}
+			);
+
+			process.Start();
+			process.BeginOutputReadLine();
+			process.WaitForExit();
+			process.CancelOutputRead();
+
+			return outputBuilder.ToString();
+		}
+		private string RunProcess(string command, string arguments)
+		{
+			StringBuilder outputBuilder = new StringBuilder();
+
+			Process process = new Process();
+
+			ProcessStartInfo info = new ProcessStartInfo()
+			{
+				FileName = command,
+				Arguments = $@"{arguments}",
+				CreateNoWindow = false,
+				RedirectStandardOutput = false,
 				UseShellExecute = false
 			};
 

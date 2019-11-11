@@ -20,6 +20,9 @@ namespace DataMinerAPI
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddControllers();
+
+            services.AddCors();
+
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -29,6 +32,8 @@ namespace DataMinerAPI
             {
                 app.UseDeveloperExceptionPage();
             }
+           
+            app.UseCors("AllowMyOrigin");
 
             app.UseHttpsRedirection();
 
@@ -39,8 +44,9 @@ namespace DataMinerAPI
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapControllers();
-            });
-           
+            }); 
+
+     
         }
     }
 }

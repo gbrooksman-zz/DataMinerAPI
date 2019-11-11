@@ -3,20 +3,49 @@ using DataMinerAPI.Engine;
 using System;
 using Serilog;
 
+
 namespace DataMinerAPI.Controllers
 {
 	[Produces("application/json")]
 	[Route("api/convert")]
+
 	public class ConvertController : Controller
 	{
 
 		[HttpPost]
-		[ValidateAntiForgeryToken] 
-		public IActionResult Post()
+		[Route("Test")]		
+		public IActionResult Test(string tempValue)
+		{
+			Log.Information($"Started Test action");
+
+			IActionResult res = Ok();
+
+			string fileName = @"home/geoff/Projects/UL/Platform/DataMinerAPI/files/2.pdf";
+			
+			try
+			{
+
+				res = this.Post(fileName);
+
+			}
+			catch(Exception ex)
+			{
+				Log.Error(" in Test Method", ex);
+			}
+
+			return res;
+		}
+
+
+		[HttpPost]		
+		public IActionResult Post(string fileName)
 		{
 			Guid requestGuid = Guid.NewGuid();
 
 			EngineReturnArgs retArgs = new EngineReturnArgs();
+
+			string fileType = this.GetFileTypeFromName(fileName);
+
 
 			try
 			{
@@ -28,13 +57,36 @@ namespace DataMinerAPI.Controllers
 
 				Request.Body.ReadAsync(bytes, 0, ibyteLength);
 
-				Engine.PDFToText txtE = new Engine.PDFToText();
+				switch(fileType.ToLower())
+				{
+					case "pdf":
 
-				Log.Information($"Calling convert for input length: //{ibyteLength.ToString()}");
+						Engine.PDFToText txtE = new Engine.PDFToText();
 
-				retArgs = txtE.ConvertTextPDF(bytes);
+						Log.Information($"Calling convert for pdf input length: //{ibyteLength.ToString()}");
 
-				Log.Information($"Convert finished, result length: //{retArgs.Content.Length} ");	
+						retArgs = txtE.ConvertTextFromPDF(bytes,requestGuid);
+
+						Log.Information($"Convert finished, result length: //{retArgs.Content.Length} ");	
+				
+						break;
+
+					case "doc":
+
+						break;
+
+					case "docx":
+
+					case "xls":
+
+						break;
+
+					case "xlsx":
+
+						break;
+
+
+				}
 
 			}
 			catch (Exception ex)
@@ -65,5 +117,17 @@ namespace DataMinerAPI.Controllers
 				return NoContent();  //no result but no exception --???
 			}
 		}
+
+		private string GetFileTypeFromName(string fileName)
+		{
+			return System.IO.Path.GetExtension(fileName).Replace(".","");
+		}
+
+
 	}
+
+
+
+
+
 }

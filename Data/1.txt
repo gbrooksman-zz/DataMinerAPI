@@ -1,0 +1,498 @@
+                                               Safety Data Sheet
+Material Name: Magnolia / Phellodendron Extract Blend                                                  SDS ID: CORTEX-001
+      Section 1 - PRODUCT AND COMPANY IDENTIFICATION
+      Material Name
+      Magnolia / Phellodendron Extract Blend
+      Product Code
+      7059501
+      Trade Names
+      Latin Name: Magnolia officinalis Rehder & E.H. Wilson, Phellodendron amurense Rupr.
+      Product Use
+      Dietary ingredient
+      Restrictions on Use
+      None known.
+      Details of the supplier of the safety data sheet
+      CORTEX SCIENTIFIC BOTANICALS
+      PO Box 3316
+      Central Point, OR 97502
+      Phone: 541-973-2252
+      Emergency Phone #: 800-424-9300
+      www.cortexscientific.com
+      Section 2 - HAZARDS IDENTIFICATION
+      Classification in accordance with paragraph (d) of 29 CFR 1910.1200.
+      Combustible Dust
+      Serious Eye Damage/Eye Irritation - Category 2A
+      GHS Label Elements
+      Symbol(s)
+
+
+
+
+      Signal Word
+      Warning
+      Hazard Statement(s)
+      May form combustible dust concentrations in air.
+      Causes serious eye irritation.
+      Precautionary Statement(s)
+      Prevention
+      Wear eye protection/face protection.
+      Wash thoroughly after handling.
+      Response
+      IF IN EYES: Rinse cautiously with water for several minutes. Remove contact lenses, if present and easy to do.
+      Continue rinsing.
+      If eye irritation persists: Get medical advice/attention.
+                       ____________________________________________________________
+Page 1 of 10                                 Issue date: 2019-10-21   Revision 3.1                      Print date: 2019-10-21
+                                              Safety Data Sheet
+Material Name: Magnolia / Phellodendron Extract Blend                                                       SDS ID: CORTEX-001
+      Storage
+      None needed according to classification criteria.
+      Disposal
+      Dispose of contents/container in accordance with local/regional/national/international regulations.
+      Section 3 - COMPOSITION / INFORMATION ON INGREDIENTS
+                     CAS                                       Component Name                                 Percent
+
+      Confidential                        Magnolia bark extractives                                   Confidential
+
+      Confidential                        Phellodendron bark extractives                              Confidential
+
+      2086-83-1                           Berberine                                                   > 0.1
+
+      35354-74-6                          Honokiol                                                    > 1.5
+
+      528-43-8                            Magnolol                                                    Confidential
+
+      9057-07-2                           Starch, pregelatinized                                      Confidential
+
+      7631-86-9                           Silica dioxide                                              Confidential
+
+      9005-25-8                           Starch                                                      Confidential
+
+      Component Related Regulatory Information
+      The chemical identity and/or percentage of composition is being withheld as a trade secret.
+      Section 4 - FIRST AID MEASURES
+      Inhalation
+      Remove person to fresh air and keep comfortable for breathing. Call a POISON CENTER or doctor if you feel
+      unwell.
+      Skin
+      Wash skin with soap and water for at least 15 minutes while removing contaminated clothing and shoes. Get
+      medical attention, if needed. Thoroughly clean and dry contaminated clothing and shoes before reuse.
+      Eyes
+      Rinse cautiously with water for several minutes. Remove contact lenses, if present and easy to do. Continue rinsing.
+      If irritation persists, get medical attention.
+      Ingestion
+      If a large amount is swallowed, get medical attention.
+      Most Important Symptoms/Effects
+      Acute
+      May cause eye irritation.
+      Delayed
+      No information on significant adverse effects.
+      Indication of any immediate medical attention and special treatment needed
+      Treat symptomatically and supportively.
+
+
+
+                       ____________________________________________________________
+Page 2 of 10                               Issue date: 2019-10-21       Revision 3.1                        Print date: 2019-10-21
+                                              Safety Data Sheet
+Material Name: Magnolia / Phellodendron Extract Blend                                                     SDS ID: CORTEX-001
+      Section 5 - FIRE FIGHTING MEASURES
+      Extinguishing Media
+      Suitable Extinguishing Media
+      carbon dioxide, regular dry chemical, regular foam, water
+      Unsuitable Extinguishing Media
+      None reported.
+      Special Hazards Arising from the Chemical
+      Combustible Dust. Dust/air mixtures may ignite or explode. Avoid generating dust; fine dust dispersed in air in
+      sufficient concentrations, and in the presence of an ignition source is a potential dust explosion hazard.
+      Hazardous Combustion Products
+      None known.
+      Fire Fighting Measures
+      Avoid inhalation of material or combustion by-products. Move material from fire area if it can be done without risk.
+      Use extinguishing agents appropriate for surrounding fire. Dike for later disposal. Stay upwind and keep out of low
+      areas.
+      Special Protective Equipment and Precautions for Firefighters
+      Wear full protective fire fighting gear including self contained breathing apparatus (SCBA) for protection against
+      possible exposure.
+      Section 6 - ACCIDENTAL RELEASE MEASURES
+      Personal Precautions, Protective Equipment and Emergency Procedures
+      Do not breathe dust. Keep unnecessary people away, isolate hazard area and deny entry.
+      Methods and Materials for Containment and Cleaning Up
+      Avoid dust formation. Collect spilled material in appropriate container for disposal. Dispose of contents/container in
+      accordance with local/regional/national/international regulations.
+      Environmental Precautions
+      Avoid dust formation. Ventilate affected area. Discharge into the environment must be avoided.
+      Section 7 - HANDLING AND STORAGE
+      Precautions for Safe Handling
+      Use methods to minimize dust. Use only outdoors or in a well-ventilated area. Avoid breathing
+      dust/fume/gas/mist/vapors/spray. Minimize dust generation and accumulation. Routine housekeeping should be
+      instituted to ensure that dusts do not accumulate on surfaces.
+      Conditions for Safe Storage, Including any Incompatibilities
+      None needed according to classification criteria.
+      Protect from light, moisture, and excessive heat. Keep separated from incompatible substances.
+      Incompatible Materials
+      Acids, bases, oxidizing materials.
+      Section 8 - EXPOSURE CONTROLS / PERSONAL PROTECTION
+      Component Exposure Limits
+      Silica dioxide   7631-86-9
+
+      NIOSH:           6 mg/m3 TWA
+
+                       ____________________________________________________________
+Page 3 of 10                               Issue date: 2019-10-21       Revision 3.1                       Print date: 2019-10-21
+                                              Safety Data Sheet
+Material Name: Magnolia / Phellodendron Extract Blend                                                   SDS ID: CORTEX-001
+                       3000 mg/m3 IDLH
+
+      OSHA (US):       20 mppcf TWA ; ((80)/(% SiO2) mg/m3 TWA )
+
+      Starch           9005-25-8
+
+      ACGIH:           10 mg/m3 TWA
+
+      NIOSH:           10 mg/m3 TWA total dust ; 5 mg/m3 TWA respirable dust
+
+      OSHA (US):       15 mg/m3 TWA total dust ; 5 mg/m3 TWA respirable fraction
+
+      Mexico:          10 mg/m3 TWA [VLE-PPT ]
+
+      ACGIH - Threshold Limit Values - Biological Exposure Indices (BEI)
+      There are no biological limit values for any of this product's components.
+      Engineering Controls
+      Provide local exhaust ventilation system. Ensure compliance with applicable exposure limits. Ensure that dust-
+      handling systems (such as exhaust ducts, dust collectors, vessels, and processing equipment) are designed in a
+      manner to prevent the escape of dust into the work area (i.e., there is no leakage from the equipment).
+      Individual Protection Measures, such as Personal Protective Equipment
+      Eye/face protection
+      Wear splash resistant safety goggles. Provide an emergency eye wash fountain and quick drench shower in the
+      immediate work area.
+      Skin Protection
+      Wear appropriate chemical resistant clothing.
+      Respiratory Protection
+      Under conditions of frequent use or heavy exposure, respiratory protection may be needed. Respiratory protection is
+      ranked in order from minimum to maximum. Consider warning properties before use. Any air-purifying half-mask
+      respirator equipped with organic vapor cartridge(s) in combination with an N95, R95, or P95 filter. The following
+      filters may also be used: N99, R99, P99, N100, R100 or P100. Any air-purifying full-facepiece respirator (gas mask)
+      with a chin-style, front-mounted or back-mounted organic vapor canister. Any powered, air-purifying respirator with
+      a tight-fitting facepiece, organic vapor cartridge(s) and high-efficiency particulate filter(s). Any supplied-air
+      respirator with a full facepiece that is operated in a pressure-demand or other positive-pressure mode. For Unknown
+      Concentrations or Immediately Dangerous to Life or Health -. Any supplied-air respirator with a full facepiece that
+      is operated in a pressure-demand or other positive-pressure mode in combination with an auxiliary self-contained
+      breathing apparatus operated in pressure-demand or other positive-pressure mode. Any self-contained breathing
+      apparatus that has a full facepiece and is operated in a pressure-demand or other positive-pressure mode.
+      Glove Recommendations
+      Wear appropriate chemical resistant gloves.
+      Section 9 - PHYSICAL AND CHEMICAL PROPERTIES
+      Appearance                     Brown powder     Physical State                           solid
+
+      Odor                           Not available    Color                                    brown
+
+      Odor Threshold                 Not available    pH                                       Not available
+
+      Melting Point                  Not available    Boiling Point                            Not available
+
+
+                       ____________________________________________________________
+Page 4 of 10                               Issue date: 2019-10-21       Revision 3.1                    Print date: 2019-10-21
+                                              Safety Data Sheet
+Material Name: Magnolia / Phellodendron Extract Blend                                                    SDS ID: CORTEX-001
+      Boiling Point Range            Not available    Freezing point                            Not available
+
+      Evaporation Rate               Not available    Flammability (solid, gas)                 Not available
+
+      Autoignition Temperature       Not available    Flash Point                               Not available
+
+      Lower Explosive Limit          Not available    Decomposition temperature                 Not available
+
+      Upper Explosive Limit          Not available    Vapor Pressure                            Not available
+
+      Vapor Density (air=1)          Not available    Specific Gravity (water=1)                Not available
+
+      Water Solubility               Not available    Partition coefficient: n-octanol/water    Not available
+
+      Viscosity                      Not available    Kinematic viscosity                       Not available
+
+      Solubility (Other)             Not available    Bulk Density                              0.3 - 1 g/mL °C
+
+      Density                        Not available    Physical Form                             powder
+
+      Molecular Weight               Not available
+
+      Section 10 - STABILITY AND REACTIVITY
+      Reactivity
+      No reactivity hazard is expected.
+      Chemical Stability
+      Stable at normal temperatures and pressure.
+      Possibility of Hazardous Reactions
+      Will not polymerize.
+      Conditions to Avoid
+      Avoid heat, flames, sparks and other sources of ignition. Avoid contact with incompatible materials.
+      Incompatible Materials
+      Acids, bases, oxidizing materials.
+      Hazardous decomposition products
+      Oxides of carbon, oxides of silicon
+      Section 11 - TOXICOLOGICAL INFORMATION
+      Information on Likely Routes of Exposure
+      Inhalation
+      May cause respiratory irritation.
+      Skin Contact
+      May cause skin irritation.
+      Eye Contact
+      May cause eye irritation.
+      Ingestion
+      Ingestion of large amounts may cause headache, drowsiness, dizziness, and loss of coordination.
+      Acute and Chronic Toxicity
+                       ____________________________________________________________
+Page 5 of 10                                Issue date: 2019-10-21     Revision 3.1                      Print date: 2019-10-21
+                                             Safety Data Sheet
+Material Name: Magnolia / Phellodendron Extract Blend                                                  SDS ID: CORTEX-001
+      Component Analysis - LD50/LC50
+      The components of this material have been reviewed in various sources and the following selected endpoints are
+      published:
+      Silica dioxide (7631-86-9)
+      Oral LD50 Rat 7900 mg/kg (in olive oil ;no deaths occurred )
+      Dermal LD50 Rabbit >2000 mg/kg
+      Inhalation LC50 Rat >2.2 mg/L 1 h
+      Product Toxicity Data
+      Acute Toxicity Estimate
+      Dermal    > 2000 mg/kg
+
+      Oral      > 2000 mg/kg
+
+      Immediate Effects
+      May cause eye irritation.
+      Delayed Effects
+      No information on significant adverse effects.
+      Irritation/Corrosivity Data
+      May cause eye irritation.
+      Respiratory Sensitization
+      No information available for the product.
+      Dermal Sensitization
+      No information available for the product.
+      Component Carcinogenicity
+      Silica dioxide   7631-86-9
+
+      IARC:            Monograph 68 [1997] ; Supplement 7 [1987] (Group 3 (not classifiable))
+
+      Starch           9005-25-8
+
+      ACGIH:           A4 - Not Classifiable as a Human Carcinogen
+
+      Germ Cell Mutagenicity
+      No information available for the product.
+      Tumorigenic Data
+      No information available for the product.
+      Reproductive Toxicity
+      No information available for the product.
+      Specific Target Organ Toxicity - Single Exposure
+      No target organs identified.
+      Specific Target Organ Toxicity - Repeated Exposure
+      No target organs identified.
+      Aspiration hazard
+      No data available.
+                       ____________________________________________________________
+Page 6 of 10                               Issue date: 2019-10-21     Revision 3.1                     Print date: 2019-10-21
+                                              Safety Data Sheet
+Material Name: Magnolia / Phellodendron Extract Blend                                                       SDS ID: CORTEX-001
+      Medical Conditions Aggravated by Exposure
+      respiratory disorders
+      Additional Data
+      Some preparations of magnolia bark have been reported to interact with prescription weight loss medications and to
+      enhance the effects of medications that lower blood pressure; Magnolia / Phellodendron Extract Blend has not been
+      studied to determine whether it has the same effects. Not recommended for use if pregnant except under the advice
+      of a healthcare professional. Not recommended for use if dehydrated.
+      Section 12 - ECOLOGICAL INFORMATION
+      Component Analysis - Aquatic Toxicity
+      Silica dioxide   7631-86-9
+
+      Fish:            LC50 96 h Brachydanio rerio 5000 mg/L [static ]
+
+      Algae:           EC50 72 h Pseudokirchneriella subcapitata 440 mg/L IUCLID
+
+      Invertebrate:    EC50 48 h Ceriodaphnia dubia 7600 mg/L IUCLID
+
+      Section 13 - DISPOSAL CONSIDERATIONS
+      Disposal Methods
+      Dispose of contents/container in accordance with local/regional/national/international regulations.
+      Component Waste Numbers
+      The U.S. EPA has not published waste numbers for this product's components.
+      Section 14 - TRANSPORT INFORMATION
+      US DOT Information:
+      UN/NA #: Not regulated
+
+      TDG Information:
+      UN#: Not regulated
+      International Bulk Chemical Code
+      This material does not contain any chemicals required by the IBC Code to be identified as dangerous chemicals in
+      bulk.
+      Section 15 - REGULATORY INFORMATION
+      U.S. Federal Regulations
+      None of this product's components are listed under SARA Sections 302/304 (40 CFR 355 Appendix A), SARA
+      Section 313 (40 CFR 372.65), CERCLA (40 CFR 302.4), TSCA 12(b), or require an OSHA process safety plan.
+      SARA Section 311/312 (40 CFR 370 Subparts B and C) reporting categories
+      Combustible Dust; Serious Eye Damage/Eye Irritation
+      U.S. State Regulations
+      The following components appear on one or more of the following state hazardous substances lists:
+      Component        CAS          CA    MA     MN     NJ    PA
+
+      Silica dioxide   7631-86-9    Yes   Yes    Yes    No    Yes
+
+      Starch           9005-25-8    No    Yes    Yes    No    Yes
+
+
+                       ____________________________________________________________
+Page 7 of 10                               Issue date: 2019-10-21       Revision 3.1                        Print date: 2019-10-21
+                                                Safety Data Sheet
+Material Name: Magnolia / Phellodendron Extract Blend                                                        SDS ID: CORTEX-001
+      California Safe Drinking Water and Toxic Enforcement Act (Proposition 65)
+      Not listed under California Proposition 65.
+      Component Analysis - Inventory
+      Magnolia bark extractives (Confidential)
+      US   CA    AU     CN     EU    JP - ENCS      JP - ISHL     KR KECI - Annex 1      KR KECI - Annex 2
+
+      No   No    No     No     No    No             No            No                     No
+
+
+      KR - REACH CCA          MX     NZ    PH   TH-TECI      TW        VN (Draft)
+
+      No                      No     No    No   No           No        No
+
+      Phellodendron bark extractives (Confidential)
+      US   CA    AU     CN     EU    JP - ENCS      JP - ISHL     KR KECI - Annex 1      KR KECI - Annex 2
+
+      No   No    No     No     No    No             No            No                     No
+
+
+      KR - REACH CCA          MX     NZ    PH   TH-TECI      TW        VN (Draft)
+
+      No                      No     No    No   No           No        No
+
+
+      Berberine (2086-83-1)
+      US   CA    AU     CN     EU     JP - ENCS       JP - ISHL    KR KECI - Annex 1         KR KECI - Annex 2
+
+      No   No    No     No     EIN    No              No           No                        No
+
+
+      KR - REACH CCA          MX     NZ    PH   TH-TECI      TW        VN (Draft)
+
+      No                      No     No    No   No           Yes       Yes
+
+
+      Honokiol (35354-74-6)
+      US   CA    AU     CN     EU     JP - ENCS      JP - ISHL    KR KECI - Annex 1          KR KECI - Annex 2
+
+      No   No    No     Yes    No     No             No           No                         No
+
+
+      KR - REACH CCA          MX     NZ    PH    TH-TECI        TW      VN (Draft)
+
+      No                      No     Yes   No    No             Yes     Yes
+
+
+      Magnolol (528-43-8)
+      US   CA    AU     CN     EU     JP - ENCS      JP - ISHL    KR KECI - Annex 1          KR KECI - Annex 2
+
+
+                       ____________________________________________________________
+Page 8 of 10                                Issue date: 2019-10-21            Revision 3.1                   Print date: 2019-10-21
+                                                         Safety Data Sheet
+Material Name: Magnolia / Phellodendron Extract Blend                                                                   SDS ID: CORTEX-001
+      No    No       No     Yes    No        No               No           No                         No
+
+
+      KR - REACH CCA              MX     NZ        PH    TH-TECI         TW     VN (Draft)
+
+      No                          No     Yes       No    No              Yes    Yes
+
+      Starch, pregelatinized (9057-07-2)
+      US    CA       AU     CN     EU     JP - ENCS        JP - ISHL       KR KECI - Annex 1      KR KECI - Annex 2
+
+      No    No       No     No     No     No               No              No                     No
+
+
+      KR - REACH CCA              MX     NZ        PH    TH-TECI         TW     VN (Draft)
+
+      No                          No     No        No    No              Yes    No
+
+
+      Silica dioxide (7631-86-9)
+      US       CA     AU     CN         EU        JP - ENCS        JP - ISHL    KR KECI - Annex 1          KR KECI - Annex 2
+
+      Yes      DSL    Yes    Yes        EIN       Yes              Yes          Yes                        No
+
+
+      KR - REACH CCA              MX     NZ        PH     TH-TECI        TW      VN (Draft)
+
+      No                          Yes    Yes       Yes    Yes            Yes     Yes
+
+
+      Starch (9005-25-8)
+      US       CA     AU     CN         EU        JP - ENCS        JP - ISHL    KR KECI - Annex 1          KR KECI - Annex 2
+
+      Yes      DSL    Yes    Yes        EIN       Yes              Yes          Yes                        No
+
+
+      KR - REACH CCA              MX     NZ        PH     TH-TECI        TW      VN (Draft)
+
+      No                          Yes    Yes       Yes    No             Yes     Yes
+
+      Section 16 - OTHER INFORMATION
+      HMIS Rating
+      Health: 1 *. Fire: 1 Reactivity: 0 Other:
+      Hazard Scale: 0 = Minimal 1 = Slight 2 = Moderate 3 = Serious 4 = Severe * = Chronic hazard
+      NFPA Ratings
+      Health: 1 Fire: 1 Instability: 0 Other:
+      Hazard Scale: 0 = Minimal 1 = Slight 2 = Moderate 3 = Serious 4 = Severe
+      Summary of Changes
+      Revision 1.0, 19 July 2017: New SDS.
+
+                          ____________________________________________________________
+Page 9 of 10                                         Issue date: 2019-10-21            Revision 3.1                     Print date: 2019-10-21
+                                              Safety Data Sheet
+Material Name: Magnolia / Phellodendron Extract Blend                                                      SDS ID: CORTEX-001
+      Key / Legend
+      ACGIH - American Conference of Governmental Industrial Hygienists; ADR - European Road Transport; AU -
+      Australia; BOD - Biochemical Oxygen Demand; C - Celsius; CA - Canada; CA/MA/MN/NJ/PA -
+      California/Massachusetts/Minnesota/New Jersey/Pennsylvania*; CAS - Chemical Abstracts Service; CERCLA -
+      Comprehensive Environmental Response, Compensation, and Liability Act; CFR - Code of Federal Regulations
+      (US); CLP - Classification, Labelling, and Packaging; CN - China; CPR - Controlled Products Regulations; DFG -
+      Deutsche Forschungsgemeinschaft; DOT - Department of Transportation; DSD - Dangerous Substance Directive;
+      DSL - Domestic Substances List; EC – European Commission; EEC - European Economic Community; EIN -
+      European Inventory of (Existing Commercial Chemical Substances); EINECS - European Inventory of Existing
+      Commercial Chemical Substances; ENCS - Japan Existing and New Chemical Substance Inventory; EPA -
+      Environmental Protection Agency; EU - European Union; F - Fahrenheit; F - Background (for Venezuela Biological
+      Exposure Indices); IARC - International Agency for Research on Cancer; IATA - International Air Transport
+      Association; ICAO - International Civil Aviation Organization; IDL - Ingredient Disclosure List; IDLH -
+      Immediately Dangerous to Life and Health; IMDG - International Maritime Dangerous Goods; ISHL - Japan
+      Industrial Safety and Health Law; IUCLID - International Uniform Chemical Information Database; JP - Japan;
+      Kow - Octanol/water partition coefficient; KR KECI Annex 1 - Korea Existing Chemicals Inventory (KECI) / Korea
+      Existing Chemicals List (KECL); KR KECI Annex 2 - Korea Existing Chemicals Inventory (KECI) / Korea
+      Existing Chemicals List (KECL) , KR - Korea; LD50/LC50 - Lethal Dose/ Lethal Concentration; LEL - Lower
+      Explosive Limit; LLV - Level Limit Value; LOLI - List Of LIsts™ - ChemADVISOR’s Regulatory Database; MAK
+      - Maximum Concentration Value in the Workplace; MEL - Maximum Exposure Limits; MX – Mexico; Ne- Non-
+      specific; NFPA - National Fire Protection Agency; NIOSH - National Institute for Occupational Safety and Health;
+      NJTSR - New Jersey Trade Secret Registry; Nq - Non-quantitative; NSL – Non-Domestic Substance List (Canada);
+      NTP - National Toxicology Program; NZ - New Zealand; OSHA - Occupational Safety and Health Administration;
+      PEL- Permissible Exposure Limit; PH - Philippines; RCRA - Resource Conservation and Recovery Act; REACH-
+      Registration, Evaluation, Authorisation, and restriction of Chemicals; RID - European Rail Transport; SARA -
+      Superfund Amendments and Reauthorization Act; Sc - Semi-quantitative; STEL - Short-term Exposure Limit;
+      TCCA – Korea Toxic Chemicals Control Act; TDG - Transportation of Dangerous Goods; TLV - Threshold Limit
+      Value; TSCA - Toxic Substances Control Act; TW – Taiwan; TWA - Time Weighted Average; UEL - Upper
+      Explosive Limit; UN/NA - United Nations /North American; US - United States; VLE - Exposure Limit Value
+      (Mexico); VN (Draft) - Vietnam (Draft); WHMIS - Workplace Hazardous Materials Information System (Canada).
+      Other Information
+      Disclaimer:
+      The above information pertains to the use and handling of the material in an industrial (e.g. manufacturing and/or
+      warehouse) environment, and may not be relevant to products manufactured from the material. Supplier gives no
+      warranty with respect to the information, express or implied, and assumes no liability resulting from its use. Supplier
+      expressly disclaims any and all liability for direct, indirect, incidental, consequential, special, exemplary or any
+      other damages arising out of the handling, use or misuse of this product. No information provided shall be deemed
+      to be a recommendation to use any product in conflict with any existing patent rights.
+
+
+
+
+                       ____________________________________________________________
+Page 10 of 10                               Issue date: 2019-10-21       Revision 3.1                      Print date: 2019-10-21
+
