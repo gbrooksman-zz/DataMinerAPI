@@ -17,3 +17,72 @@
 2019-11-11 16:12:34.793 -05:00 [INF] Started Test action
 2019-11-11 16:12:47.643 -05:00 [INF] Started Request Guid: fcfc434e-e0af-4809-8029-ed4d1651df36
 2019-11-11 16:12:55.939 -05:00 [INF] Calling convert for pdf input length: //0
+2019-11-12 04:31:45.618 -05:00 [INF] DataMinerAPI Application startup
+2019-11-12 04:32:02.525 -05:00 [INF] Started Test action
+2019-11-12 04:32:16.474 -05:00 [INF] Started Request Guid: 5608d5e2-c3aa-4027-8d5e-c6ca78dbcee2
+2019-11-12 04:32:29.024 -05:00 [INF] Calling convert for pdf input length: //0
+2019-11-12 04:36:32.391 -05:00 [INF] DataMinerAPI Application startup
+2019-11-12 04:36:45.046 -05:00 [INF] Started Test action
+2019-11-12 04:36:56.809 -05:00 [INF] Started Request Guid: 5af45cbe-a4bd-452e-bf79-5a397e06b28a
+2019-11-12 04:39:22.247 -05:00 [INF] DataMinerAPI Application startup
+2019-11-12 06:44:08.957 -05:00 [INF] DataMinerAPI Application startup
+2019-11-12 06:44:18.794 -05:00 [INF] Started Test action
+2019-11-12 06:44:38.483 -05:00 [INF] Started Request Guid: 5b6ed53d-bf2d-47fa-9d4e-c9326dbea5b6
+2019-11-12 07:07:37.528 -05:00 [INF] DataMinerAPI Application startup
+2019-11-12 07:07:45.782 -05:00 [INF] Started Test action
+2019-11-12 07:07:58.659 -05:00 [INF] Started Request Guid: 203f00a1-5bb1-47b7-92bc-971b2d0a8d56
+2019-11-12 07:08:09.872 -05:00 [INF] Calling convert for pdf input length: 473532
+2019-11-12 07:09:28.100 -05:00 [INF] DataMinerAPI Application startup
+2019-11-12 07:09:38.074 -05:00 [INF] Started Test action
+2019-11-12 07:09:38.078 -05:00 [INF] Started Request Guid: 619a30d5-25b0-4787-9883-a4ffc92689d1
+2019-11-12 07:09:38.100 -05:00 [INF] Calling convert for pdf input length: 473532
+2019-11-12 07:13:04.629 -05:00 [INF] DataMinerAPI Application startup
+2019-11-12 07:13:15.495 -05:00 [INF] Started Test action
+2019-11-12 07:13:15.497 -05:00 [INF] Started Request Guid: fcb62a5f-cf41-4f70-9f08-d5c617c4e897
+2019-11-12 07:13:15.508 -05:00 [INF] Calling convert for pdf input length: 473532
+2019-11-12 07:27:14.827 -05:00 [INF] DataMinerAPI Application startup
+2019-11-12 07:27:23.325 -05:00 [INF] Started Test action
+2019-11-12 07:27:23.327 -05:00 [INF] Started Request Guid: 06cad8e2-4bfa-49b5-a4e3-653314cc12b6
+2019-11-12 07:27:23.342 -05:00 [INF] Calling convert for pdf 
+2019-11-12 07:27:23.544 -05:00 [INF] Convert finished
+2019-11-12 07:28:09.871 -05:00 [INF] Started Test action
+2019-11-12 07:28:09.872 -05:00 [INF] Started Request Guid: d82dbf3d-5c0f-4ac5-bad4-82e7f5eee3de
+2019-11-12 07:28:09.881 -05:00 [INF] Calling convert for pdf 
+2019-11-12 07:28:10.000 -05:00 [INF] Convert finished
+2019-11-12 07:28:37.792 -05:00 [INF] Started Test action
+2019-11-12 07:28:37.793 -05:00 [INF] Started Request Guid: 7a130e87-53ad-4335-941f-66a519d451cb
+2019-11-12 07:28:37.841 -05:00 [INF] Calling convert for pdf 
+2019-11-12 07:28:38.037 -05:00 [INF] Convert finished
+2019-11-12 07:28:55.842 -05:00 [INF] Started Test action
+2019-11-12 07:28:55.842 -05:00 [INF] Started Request Guid: 10df0b6c-125d-4641-98c8-2893fa3930a0
+2019-11-12 07:28:55.850 -05:00 [INF] Calling convert for pdf 
+2019-11-12 07:28:55.978 -05:00 [INF] Convert finished
+2019-11-12 07:32:07.611 -05:00 [INF] DataMinerAPI Application startup
+2019-11-12 07:32:48.477 -05:00 [INF] Started Test action
+2019-11-12 07:32:48.485 -05:00 [INF] Started Request Guid: 8113c1d1-aec3-41ac-bd97-40ffd784b241
+2019-11-12 07:32:48.523 -05:00 [INF] Calling convert for pdf 
+2019-11-12 07:32:48.550 -05:00 [INF] Convert finished
+2019-11-12 07:33:18.610 -05:00 [INF] Started Test action
+2019-11-12 07:33:18.610 -05:00 [INF] Started Request Guid: 10cc03b9-683e-40a8-a0a2-7e51b169ab4e
+2019-11-12 07:33:18.661 -05:00 [INF] Calling convert for pdf 
+2019-11-12 07:33:18.667 -05:00 [INF] Convert finished
+2019-11-12 07:33:47.143 -05:00 [INF] DataMinerAPI Application startup
+2019-11-12 07:33:54.723 -05:00 [INF] Started Test action
+2019-11-12 07:33:54.726 -05:00 [INF] Started Request Guid: 17a28cc5-e259-4629-be0f-7cfbee32a570
+2019-11-12 07:33:54.737 -05:00 [INF] Calling convert for pdf 
+2019-11-12 07:33:54.894 -05:00 [INF] Convert finished
+2019-11-12 07:35:04.049 -05:00 [INF] DataMinerAPI Application startup
+2019-11-12 07:35:13.978 -05:00 [INF] Started Test action
+2019-11-12 07:35:13.980 -05:00 [INF] Started Request Guid: 24d14ab3-9b3e-48e5-adbb-69121c2c4bcb
+2019-11-12 07:35:13.996 -05:00 [INF] Calling convert for pdf 
+2019-11-12 07:35:14.028 -05:00 [INF] Convert finished
+2019-11-12 07:36:02.215 -05:00 [INF] DataMinerAPI Application startup
+2019-11-12 07:36:09.424 -05:00 [INF] Started Test action
+2019-11-12 07:36:09.426 -05:00 [INF] Started Request Guid: 9cadde94-5b68-435b-b9f6-3bc04abc80a9
+2019-11-12 07:36:09.436 -05:00 [INF] Calling convert for pdf 
+2019-11-12 07:36:09.469 -05:00 [INF] Convert finished
+2019-11-12 07:40:02.080 -05:00 [INF] DataMinerAPI Application startup
+2019-11-12 07:40:12.085 -05:00 [INF] Started Test action
+2019-11-12 07:40:12.097 -05:00 [INF] Started Request Guid: 45f2f6db-5b7e-49a6-ba29-07dbfdd0830b
+2019-11-12 07:40:12.112 -05:00 [INF] Calling convert for pdf 
+2019-11-12 07:40:12.273 -05:00 [INF] Convert finished

@@ -4,14 +4,14 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
 using System.Text;
-
+using Serilog;
 
 namespace DataMinerAPI.Engine
 {
     public class PDFToText
 	{
-		private readonly string appFolder;
-		private readonly string tempFolder;
+	//	private readonly string appFolder;
+	//	private readonly string tempFolder;
 		private readonly string workingFolder;
 
 		public PDFToText()
@@ -20,29 +20,30 @@ namespace DataMinerAPI.Engine
 				.AddJsonFile("appsettings.json", true, true)
 				.Build();
 
-			appFolder = config.GetSection("Tesseract").GetValue<string>("EXEPath");
-			tempFolder = config.GetSection("Tesseract").GetValue<string>("TempPath");
+		//	appFolder = config.GetSection("Tesseract").GetValue<string>("EXEPath");
+		//	tempFolder = config.GetSection("Tesseract").GetValue<string>("TempPath");
 			workingFolder = config.GetSection("PDFToText").GetValue<string>("workingFolder");
 		}  
 
-		public EngineReturnArgs ConvertTextFromPDF(byte[] bytes, Guid requestGuid) 
+		public EngineReturnArgs ConvertTextFromPDF(string fileName, Guid requestGuid) 
 		{
 			EngineReturnArgs era = new EngineReturnArgs();
 
 			try
-			{  
-				string pdfContent = string.Empty;
+			{  				
+				//string fileName = @$"Data/{requestGuid}.pdf";
 
-				string fileName = @$"/Data/{requestGuid}.pdf";
+				string textFileName = fileName.Replace(".pdf",".txt");				
 
-				File.WriteAllBytes(fileName, bytes);
+				//File.WriteAllBytes(fileName, bytes);
 
-				RunProcess("pdftotext", $" -layout {fileName} {fileName.Replace(".pdf",".txt")}");
+				string converter = @"Engine/pdftotext";
 
+				RunProcess(converter, $" -layout {fileName} {textFileName}");
 			}
 			catch (Exception ex)
 			{
-				//Log.Error(ex, "In Convert.PDF");
+				Log.Error(ex, "In Convert.PDF");
 				era.Success = false;
 				era.Message = "Conversion failed";
 				era.Content = ex.Message;
@@ -106,7 +107,7 @@ namespace DataMinerAPI.Engine
 		}
 
 
-		private string ImageToText(string pdfImageName)
+	/* 	private string ImageToText(string pdfImageName)
 		{
 			StringBuilder outputBuilder = new StringBuilder();
 
@@ -138,12 +139,13 @@ namespace DataMinerAPI.Engine
 			process.CancelOutputRead();
 
 			return outputBuilder.ToString();
-		}
-		private string RunProcess(string command, string arguments)
+		} */
+		private bool RunProcess(string command, string arguments)
 		{
 			StringBuilder outputBuilder = new StringBuilder();
-
 			Process process = new Process();
+
+			try{
 
 			ProcessStartInfo info = new ProcessStartInfo()
 			{
@@ -156,29 +158,24 @@ namespace DataMinerAPI.Engine
 
 			process.StartInfo = info;
 			process.EnableRaisingEvents = true;
+			
+			process.Start();			
+			process.WaitForExit();	
 
-			process.OutputDataReceived += new DataReceivedEventHandler
-			(
-				delegate (object sender, DataReceivedEventArgs e)
-				{
-					outputBuilder.Append(e.Data);
-				}
-			);
-
-			process.Start();
-			process.BeginOutputReadLine();
-			process.WaitForExit();
-			process.CancelOutputRead();
-
-			return outputBuilder.ToString();
+			return true;
+			}
+			catch(Exception ex)
+			{
+				Log.Error("RunProcess", ex);
+				return false;
+			}
 		}
 
-		//private string GetFileContent(string data)
-		//{
-		//	var result = System.Text.Encoding.Unicode.GetBytes(data);
-		//	return Convert.ToBase64String(result);
-
-		//}
+		private string GetFileContent(string data)
+		{
+			var result = System.Text.Encoding.Unicode.GetBytes(data);
+			return Convert.ToBase64String(result);
+		}
 	}
 }
 

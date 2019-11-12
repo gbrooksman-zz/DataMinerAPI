@@ -20,7 +20,7 @@ namespace DataMinerAPI.Controllers
 
 			IActionResult res = Ok();
 
-			string fileName = @"home/geoff/Projects/UL/Platform/DataMinerAPI/files/2.pdf";
+			string fileName = @"files/2.pdf";
 			
 			try
 			{
@@ -46,16 +46,20 @@ namespace DataMinerAPI.Controllers
 
 			string fileType = this.GetFileTypeFromName(fileName);
 
-
 			try
 			{
 				Log.Information($"Started Request Guid: {requestGuid}");
 
-				int ibyteLength = (int)Request.ContentLength.GetValueOrDefault();
+				//byte[] bytes = System.IO.File.ReadAllBytes(fileName);
+				
+				//int ibyteLength = bytes.Length;
 
-				byte[] bytes = new byte[ibyteLength];
+				//int ibyteLength = (int)Request.ContentLength.GetValueOrDefault();
 
-				Request.Body.ReadAsync(bytes, 0, ibyteLength);
+				//byte[] bytes = new byte[ibyteLength];
+
+
+				//Request.Body.ReadAsync(bytes, 0, ibyteLength);
 
 				switch(fileType.ToLower())
 				{
@@ -63,11 +67,11 @@ namespace DataMinerAPI.Controllers
 
 						Engine.PDFToText txtE = new Engine.PDFToText();
 
-						Log.Information($"Calling convert for pdf input length: //{ibyteLength.ToString()}");
+						Log.Information($"Calling convert for pdf ");
 
-						retArgs = txtE.ConvertTextFromPDF(bytes,requestGuid);
+						retArgs = txtE.ConvertTextFromPDF(fileName,requestGuid);
 
-						Log.Information($"Convert finished, result length: //{retArgs.Content.Length} ");	
+						Log.Information($"Convert finished");	
 				
 						break;
 
