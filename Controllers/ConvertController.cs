@@ -13,14 +13,14 @@ namespace DataMinerAPI.Controllers
 	{
 
 		[HttpPost]
-		[Route("Test")]		
-		public IActionResult Test(string tempValue)
+		[Route("TestPDF")]		
+		public IActionResult TestPDF(string tempValue)
 		{
 			Log.Information($"Started Test action");
 
 			IActionResult res = Ok();
 
-			string fileName = @"files/2.pdf";
+			string fileName = @"1.pdf";
 			
 			try
 			{
@@ -30,12 +30,56 @@ namespace DataMinerAPI.Controllers
 			}
 			catch(Exception ex)
 			{
-				Log.Error(" in Test Method", ex);
+				Log.Error(" in TestPDF Method", ex);
 			}
 
 			return res;
 		}
 
+
+		[HttpPost]
+		[Route("TestWord")]		
+		public IActionResult TestWord(string tempValue)
+		{
+			Log.Information($"Started Test action");
+
+			IActionResult res = Ok();
+
+			string fileName = @"1.docx";
+			
+			try
+			{
+				res = this.Post(fileName);
+			}
+			catch(Exception ex)
+			{
+				Log.Error(" in TestWord Method", ex);
+			}
+
+			return res;
+		}
+
+		[HttpPost]
+		[Route("TestExcel")]		
+		public IActionResult TestExcel(string tempValue)
+		{
+			Log.Information($"Started Test action");
+
+			IActionResult res = Ok();
+
+			string fileName = @"1.xlsx";
+			
+			try
+			{
+				res = this.Post(fileName);
+			}
+			catch(Exception ex)
+			{
+				Log.Error(" in TestExcel Method", ex);
+			}
+
+			return res;
+		}
 
 		[HttpPost]		
 		public IActionResult Post(string fileName)
@@ -65,11 +109,11 @@ namespace DataMinerAPI.Controllers
 				{
 					case "pdf":
 
-						Engine.PDFToText txtE = new Engine.PDFToText();
+						Engine.PDFToText pdfEngine = new Engine.PDFToText();
 
 						Log.Information($"Calling convert for pdf ");
 
-						retArgs = txtE.ConvertTextFromPDF(fileName,requestGuid);
+						retArgs = pdfEngine.ConvertTextFromPDF(fileName,requestGuid);
 
 						Log.Information($"Convert finished");	
 				
@@ -81,11 +125,32 @@ namespace DataMinerAPI.Controllers
 
 					case "docx":
 
+							Log.Information($"Calling convert for docx");
+
+							Engine.WordToText wordEngine = new Engine.WordToText();
+
+							wordEngine.ConvertWordToText(fileName,requestGuid);
+
+							Log.Information($"Convert finished");	
+
+							break;
+
 					case "xls":
 
 						break;
 
 					case "xlsx":
+						
+						Log.Information($"Calling convert for docx");
+
+						Engine.ExcelToText excelEngine = new Engine.ExcelToText();
+
+						excelEngine.ConvertExcelToText(fileName,requestGuid);
+
+						Log.Information($"Convert finished");	
+
+						break;
+
 
 						break;
 

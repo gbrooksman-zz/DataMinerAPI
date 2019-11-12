@@ -27,19 +27,26 @@ namespace DataMinerAPI.Engine
 
 		public EngineReturnArgs ConvertTextFromPDF(string fileName, Guid requestGuid) 
 		{
+			//what if it is a text file?
+
 			EngineReturnArgs era = new EngineReturnArgs();
 
+			string inputDir = @"files/";
+			string workingDir = @"work/";
+
 			try
-			{  				
-				//string fileName = @$"Data/{requestGuid}.pdf";
+			{ 
+				string fileExtension = System.IO.Path.GetExtension(fileName);
 
-				string textFileName = fileName.Replace(".pdf",".txt");				
+				string conversionTarget = $"{workingDir}{requestGuid}{fileExtension}";
 
-				//File.WriteAllBytes(fileName, bytes);
+				File.Copy($"{inputDir}{fileName}", conversionTarget);		
+
+				string textFileName = conversionTarget.Replace(fileExtension,".txt");				
 
 				string converter = @"Engine/pdftotext";
 
-				RunProcess(converter, $" -layout {fileName} {textFileName}");
+				RunProcess(converter, $" -layout {conversionTarget} {textFileName}");
 			}
 			catch (Exception ex)
 			{

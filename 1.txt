@@ -1,0 +1,911 @@
+#
+Test Property
+Test Method
+Sample Size
+Test Principle/Requirements
+Results
+Rating
+Defect Code
+
+LABELING & MARKING VERIFICATION (FOR PACKAGE & PRODUCT)
+1.1
+One Time Use Products 
+Fair Packaging and Labeling Act OR 
+
+All Other Products
+Uniform Packaging and Labeling Regulations
+F.P. & L. Act
+(16 CFR 500)
+OR
+NIST Uniform Laws and Regulations Handbook 130
+1
+Manufacturer, packer, or distributor’s name & address (city, state & zip)
+Regulation failure that make the product could not be sold on the market ,  failure will stop the shipment until the supplier can provide evidence that the failed points is corrected，must be completed in 3 working days 
+Critical  
+ 
+REG000
+
+
+
+
+
+Product Identification
+
+
+
+
+
+
+
+Net quantity of contents shall be expressed in terms of weight or mass, measure, numerical count, or combination so as to give accurate information to facilitate consumer comparison (U.S. and metric units).
+
+
+
+1.2
+Country of Origin Marking
+19 CFR 134.11
+1
+Shall indicate country of origin legibly, permanently, and in comparable size and close proximity to any mention of country other than country in which the article was manufactured or produced.  Must be visible at point of purchase.
+Regulation failure that make the product could not be sold on the market ,  failure will stop the shipment until the supplier can provide evidence that the failed points is corrected，must be completed in 3 working days 
+Critical  
+ 
+REG000
+
+1.3
+Claims Verification
+Actual Use & Document Check
+1
+The product shall comply with all claims as described in package, labels, stuffer sheets and PLM.
+Each claim checked shall be listed individually in the test report and a synopsis of each of the test methods used shall be provided.
+
+Key performance  failure that make the user to  be cheated ,  failure will stop the shipment until the supplier can provide evidence that the failed points is corrected，must be completed in 3 working days
+Critical  
+ 
+REG000
+
+1.4
+Safety Certification Mark
+Home Depot Requirement
+1
+The provided safety certification mark & report shall be validated.
+THD only accepted UL, ETL and CSA third part certification.
+Safety failure that electrical shock  , failure will stop the shipment until the supplier can provide evidence that the failed points is corrected，must be completed in 3 working days
+Critical 
+REG103
+1.4.1
+FlexPLM - Certification & Safety Verification
+Home Depot Requirement
+1
+[Applicable to all products with a safety agency, certification or compliance mark requirement] 
+
+Vendor shall list all certifications for the product in the certifications section of FlexPLM. Verify that all of the fields below are entered correctly in FlexPLM: 
+1. Certification Type 
+2. Certification ID 
+3. Expiration Date 
+The lab is responsible for confirming that each certification claim is listed and verified based on the documentation provided during onboarding. 
+
+Acceptance Criteria: 
+1. The result is PASS, if all the certification information listed in FlexPLM matches the certification documents provided with the sample. 
+2. All certification claims must also be present and match the information on the packaging or artwork provided. 
+
+NOTE: Contact the Home Depot engineer immediately if any certifications are missing or failure occurs during testing.
+
+
+
+1.5
+FCC Report (If applicable) 
+Document Check
+1
+FCC test report shall be provided for verification if the operating frequency > 9kHz for AC, or operating frequency > 1.705MHz for Battery operated product.
+Relative FCC marking and instruction shall be provided
+
+The device has been considered eligible for authorization under VoC or DoC prior to Nov 02, 2017 may continue to be authorized until Nov 02, 2018. If not, the Supplier’s Declaration of Conformity will apply (SDoC). A specific logo (an element of the existing DoC requirements) was not required for SDoC. 
+
+Marking on the product if applicable:
+Verification (FCC VOC):
+This device complies with part 15 of the FCC Rules. Operation is subject to the following two conditions: (1) This device may not cause harmful interference, and (2) this device must accept any interference received, including interference that may cause undesired operation.
+Declaration (FCC DOC):
+
+Certificate (FCC ID)
+FCC ID number and:
+This device complies with part 15 of the FCC Rules. Operation is subject to the following two conditions: (1) This device may not cause harmful interference, and (2) this device must accept any interference received, including interference that may cause undesired operation.
+Supplier's Declaration of Conformity (SDoC)
+This device complies with part 15 of the FCC Rules. Operation is subject to the following two conditions: (1) This device may not cause harmful interference, and (2) this device must accept any interference received, including interference that may cause undesired operation.
+
+FCC information to the user (on the package or instruction manual)
+FCC part 15 Information to the user (Class B digital device for example): 
+Note: NOTE: This equipment has been tested and found to comply with the limits for a Class B digital device, pursuant to Part 15 of the FCC Rules. These limits are designed to provide reasonable protection against harmful interference in a residential installation. This equipment generates, uses and can radiate radio frequency energy and, if not installed and used in accordance with the instructions, may cause harmful interference to radio communications. However, there is no guarantee that interference will not occur in a particular installation. If this equipment does cause harmful interference to radio or television reception, which can be determined by turning the equipment off and on, the user is encouraged to try to correct the interference by one or more of the following measures:
+—Reorient or relocate the receiving antenna.
+—Increase the separation between the equipment and receiver.
+—Connect the equipment into an outlet on a circuit different from that to which the receiver is connected.
+—Consult the dealer or an experienced radio/TV technician for help.
+FCC part 18 Information to the user.
+(a) The interference potential of the device or system
+(b) Maintenance of the system
+(c) Simple measures that can be taken by the user to correct interference.
+(d) Manufacturers of RF lighting devices must provide an advisory statement, either on the product packaging or with other user documentation, similar to the following: This product may cause interference to radio equipment and should not be installed near maritime safety communications equipment or other critical navigation or communication equipment operating between 0.45-30MHz. Variations of this language are permitted provided all the points of the statement are addressed and may be presented in any legible font or text style.
+For FCC part 18 Declaration of conformity (DOC) , FCC part 15 SDoC and FCC part 18 SDoC, a compliance information also need included, and there is no specific format for this information:
+(1) Identification of the product, e.g., name and model number.
+(2) A statement similar to the following:
+This device complies with Part 18 of the FCC Rules.
+(3) The name and address of the responsible party as defined in §2.909 of the rules. This party must be located within the United States.
+
+Regulation failure that effect  the TV communication,  failure will stop the shipment until the supplier can provide evidence that the failed points is corrected，must be completed in 3 working days
+Critical  
+ 
+REG102
+1.6
+CEC Requirement For Lighting Controls
+CEC-400
+1
+For Lighting Controls:
+-Product with the sample’s model number & brand name shall can be found in CEC compliance certification database
+Website:
+https://cacertappliances.energy.ca.gov/Pages/ApplianceSearch.aspx
+
+Regulation failure that make the product could not be sold on the California market ,  failure will stop the shipment until the supplier can provide evidence that the failed points is corrected，must be completed in 3 working days
+Critical  
+REG102
+1.7
+Bilingual for US market 
+Home Depot Requirement
+1
+All US market products literature including labeling, markings ,artwork, Caution, Warning and User Manual must have English ;Spanish  Is optional .
+
+
+
+
+1.8
+User Manual / Important Safety Instructions / Assembly Instructions / wiring and Installation Instructions
+UL 773A 6th Ed. Cls. 43 & THD requirement
+
+
+1
+Instructions for field wiring a unit shall be provided on the package or with the unit and shall include a wiring diagram or the equivalent giving the electrical rating and illustrating how connections to the supply circuit are to be made.
+
+Hubs provided separately shall have instructions stating that the hub shall be connected to the conduit before the hub is connected to the enclosure.
+
+Instructions and warnings shall be provided in the user manual identifying reasonable, foreseeable uses or misuses of the product. It shall also include instructions regarding the installation, use, safety and maintenance.
+All accessories shall be described in the user’s manual and provided with instructions for proper use. And all accessories described in user’s manual shall be provided.
+Standard failure make the certification cancelled,  failure will stop the shipment until the supplier can provide evidence that the failed points is corrected，must be completed in 3 working days
+Critical
+Reg104
+1.9
+General Markings
+UL773A 6th Ed.42
+
+
+1
+The following markings shall be legibly and readily visible after the product is installed:
+- Manufacturer’s name, trademark or etc.
+- Model number or etc. (if any)
+- Electrical rating (if any)
+- Date code
+- Indoor or outdoor use
+Standard failure make the certification cancelled,  failure will stop the shipment until the supplier can provide evidence that the failed points is corrected，must be completed in 3 working days
+Critical
+Reg101
+1.10
+Cautionary and Warning
+UL 773A 6th Ed. Cls. 42
+
+
+1
+A unit shall be rated and legibly and permanently marked, where readily visible before installation, in accordance with the requirements of the Table 42.1
+Standard failure make the certification cancelled,  failure will stop the shipment until the supplier can provide evidence that the failed points is corrected，must be completed in 3 working days
+Critical
+Reg105
+1.11
+Plastic Bag Warning Statement
+Visual CheckRequirements Based on Various State Laws
+
+Home Depot Requirement
+1
+Plastic bags with a thickness of less than one mil (0.001 inch), in which a diameter is 5 inches or greater (when formed into a circle) used as packaging or packaging article for domestic/household use (e.g. laundry bag, garbage bag) shall contain a warning statement as following or equivalent to below, visible on both sides of each bag: WARNING: Keep this bag away from babies and children. Do not use in cribs, beds, carriages or playpens. The thin film may cling to nose and mouth and prevent breathing. This bag is not a toy. 
+The warnings shall be printed clearly as to prevent the ink from smearing or upon a gummed label securely attached to the bag. It shall be contrasted by typography, layout or color from the contents of the bag and from other printed matter on the bag, if any. 
+If the total length and width is > 40”, the warning shall be repeated in 20-inch intervals. The font size shall adhere to: 
+Total length and width of bag
+Font size
+60 inches or more
+at least 24 points
+40 inches to less than 60 inches
+at least 18 points
+25 inches to less than 40 inches
+at least 14 points
+less than 25 inches
+at least 10 points
+
+Regulation failure make that child was choked ,  failure will stop the shipment until the supplier can provide evidence that the failed points is corrected，must be completed in 3 working days 
+Critical  
+ 
+REG000
+
+1.12
+Reporting Requirements for the TSCA Mercury Inventory
+
+(For US only)
+40 CFR Part 713
+TSCA section 8(b)(10)
+--
+The supplier shall provide a letter of guarantee from the vendor saying mercury is not present. 
+If the supplier states that elemental mercury and/or mercury compounds are included in items supplied to The Home Depot. The supplier shall provide a copy of the mercury submittal to CDX. 
+
+ⓘ  Attach a copy or screen print of the form submitted to CDX to the test report.  
+
+ⓘ This test line is applicable to all Table 2 - Categories and Subcategories of Mercury-Added Products according to 40 CFR §713.11 (LINK).
+
+ACCEPTANCE CRITERION: 
+Supplier provided a valid letter of compliance.
+The supplier provided a copy of the form submitted to CDX
+Regulation failure that make the product could not be sold on the market ,  failure will stop the shipment until the supplier can provide evidence that the failed points is corrected，must be completed in 3 working days
+Critical
+
+REG000
+
+PHySICAL REQUIREMENTS (CONSTRUCTION, WORKMANSHIP, ETC…) 
+2.1
+Overall Size
+General Measurement
+1
+Overall dimensions of product shall be recorded.
+Report overall size; shall meet PLM, instruction or packaging and label claims (If applicable) (±5%)
+Data ,failure of these test items will require that the supplier provide corrective actions by the next product shipment
+Major 
+Phy101
+2.2
+Product  Weight
+General Measurement
+1
+Report product Weight (including product and all accessories), it shall meet PLM, instruction, packaging and label claims (If applicable) (±5%).
+Data , failure of these test items will require that the supplier provide corrective actions by the next product shipment
+Major 
+Phy103
+2.3
+Workmanship
+Visual Check
+1
+Shall have no major defects such as:
+Cracks or breaks on the provided accessory.
+Serious scratches on the external surface.
+Peeling off of rating or caution/warning labels.
+PHySICA, failure of these test items will require that the supplier provide corrective actions by the next product shipment
+Major 
+Cos101/102
+2.4
+Unit Assembly Check
+Proprietary Method
+1
+Assemble the lighting step by step according to the instruction manual. There shall be no any potential failure that would cause the risk of fire, electric shock & personal injury or affect the product performance & usability.
+PHySICA, failure will stop  the shipment  until the supplier can provide evidence that the failed points is corrected，must be completed in 3 working days  
+Critical 
+FUN302
+2.5
+Mechanical Assembly 
+Visual Check
+1
+All components such as PCB, switch, lampholder, decorative parts, etc. shall be securely fixed and prevented from falling down.
+PHySICA, failure of these test items will require that the supplier provide corrective actions by the next product shipment
+Major
+
+2.6
+Protection Against Personal Injury
+Visual Check
+1
+An edge, projection, and corner of enclosure, frame, guard, handle, or the like shall be smooth and well rounded and not sufficiently sharp to constitute a risk of personal injury.
+PHySICA，failure will stop the shipment until the supplier can provide evidence that the failed points is corrected，must be completed in 3 working days
+Critical
+FUN302
+2.7
+Input/output wire 
+UL 773A 6th Ed. Cls. 8.3
+
+1
+Wire rating should be recorded, minimum 18AWG.
+Standard failure make the certification cancelled,  failure will stop the shipment until the supplier can provide evidence that the failed points is corrected，must be completed in 3 working days
+Critical
+Reg101
+2.8
+Internal Wiring
+UL 773A 6th Ed. Cls. 11.2
+
+1
+Internal wiring shall be supported or routed so that contact with moving parts or parts having sharp edges or burrs, that may cause abrasion of conductor insulation, will not be likely
+Standard failure make the certification cancelled,  failure will stop the shipment until the supplier can provide evidence that the failed points is corrected，must be completed in 3 working days
+Critical
+Reg101
+2.9
+Sharp Points / Edges
+16 CFR 1500.48/1500.49 (Scope widened)
+1
+Shall have no sharp points/edges, other than those required for function.  An edge, projection, and corner of enclosure, frame, guard, handle, or the like shall be smooth and rounded and not sufficiently sharp to  constitute a risk of personal injury
+Regulation failure,  failure will stop shipment  until the supplier can provide evidence that the failed points is corrected，must be completed in 3 working days  
+Critical
+SAF303
+2.10
+Splices and Connections
+Proprietary Method
+1
+All splices and connectors shall be mechanically secured. It shall not be detached under 5-lbs force for 1 sec.
+PHySICA, failure of these test items will require that the supplier provide corrective actions by the next product shipment
+Major
+
+2.11
+Hardness Test By 3H Pencil
+(For Paint And Coating)
+Home Depot Requirement
+1
+Using 3H pencil to test on the painting. 
+Obvious scratch mark or paint peeling off shall not be found.
+
+
+
+2.12
+Adhesion Test By 3M Transparent Tape 600
+(For Paint And Coating)
+Home Depot Requirement
+1
+A grid of 100 squares of size 1mm x 1mm shall be scribed through the coating to the substrate material. “3M” Transparent Tape 600 is attached to the coating/painting over the grid. Upon removal of the tape, no more than 10 pieces of painting or powder coating may be detached.
+
+
+
+Performance Tests 
+3.1
+Functional Check
+
+VIDEO RECORD THIS TEST
+
+Actual Use
+1
+All the major features shall be matched with the installation and use instructions and claims made on the packaging, with no inaccurate or misleading statements about the product, or any other user-friendliness problems.
+Key performance failure make the product inoperable , failure will stop shipment  until the supplier can provide evidence that the failed points is corrected，must be completed in 3 working days  
+Critical
+FUNXXXX
+3.2
+Auto Detection
+
+Home Depot Requirement
+1
+Motion detector turns your light on automatically after sensing moving sources in its coverage area, and stays on as long as motion is detected. When motion stops, light will remain on for the pre-determined time that you set (___ minutes). Then turn off automatically.
+
+Detection Range shall be reviewed under Section 3.4 of the protocol.
+
+The data to be measured and recorded
+1 minute:   +/- 10 seconds
+5 minute:   +/- 10 seconds
+10 minute: +/- 15 seconds
+Shall  be performed for each timer setting.
+Performance，failure will stop  the shipment  until the supplier can provide evidence that the failed points is corrected，must be completed in 3 working days  
+Critical
+FUNXXXX
+3.3
+Dusk - To - Dawn(if equipped)
+
+Home Depot Requirement
+1
+Light turns on at dusk and off at dawn automatically, regardless the presence of motion
+
+Performance，failure will stop  the shipment  until the supplier can provide evidence that the failed points is corrected，must be completed in 3 working days  
+Critical
+FUNXXXX
+3.4
+Sensitivity Distance and 
+Maximum Coverage Angle-Wall mount 
+Home Depot Requirement
+1
+The fixture should be installed per instruction manual, Test to be conducted in a large room/open field w/o secondary movement.  
+1. RADIAL Sensitivity DETECTION：Measurements to be conducted on a fan grid with the motion detector at the vertex.  The Reference starting point directly perpendicular to the detector is the zero point for this angle measurement. Move forward directly to the detector within this vector@1 step/sec until get the triggered sensor, and record the angle and distance. Then.  Then repeat it every 15 degrees in both direction from the reference zero vector , and measure and record at each angle..  Plot trigger vector points on polar graph.  Compare maximum sensitivity angle with the claimed performance.     
+Test method refer to attachment 1
+
+2. LATERAL Sensitivity DETECTION：
+Landscape orientation  ：
+Measurements to be conducted on a fan grid with the motion detector at the vertex.  The reference starting point directly perpendicular to the detector is the zero point for the angle measurement.  FROM 90 degree to 60 degree, draw two R+2m line (one right ,one left), FROM 0 degree to 45 degree, draw two R line (one right ,one left) Move forward directly  to the detector on this vector @ 1 step/sec until the sensor triggers and record distance.  Then Repeat every 2m in lengthways directions from the reference R+2m line vector. 
+
+(one right ,one left)Advance directly toward the detector on this vector @ 1 step/sec until the sensor triggers and record distance.  Then Repeat every 2m in lengthways directions from the reference R+2m line vector. 
+
+
+
+Key performance failure make the user to be  cheated , failure will stop shipment  until the supplier can provide evidence that the failed points is corrected，must be completed in 3 working days  
+Critical
+FUNXXXX
+3.4(con’d)
+Sensitivity Distance and 
+maximum coverage angle-wall mount 
+Home Depot Requirement
+1
+Lengthways directions :
+ Measurements to be conducted on a fan grid with the motion detector at the vertex. The reference starting point directly perpendicular to the horizontal line through the lamp.  Perpendicular to the horizontal line draw two R+2m line (one right ,one left), the detector Advance.  from R+2m to the horizontal line
+Measure and record at each .distance  Plot trigger vector points on polar graph . Move forward directly to the detector on this vector @ 1 step/sec until the sensor triggers and record distance.  Then Repeat every 2m in landscape orientation from the reference R+2m line vector. 
+Test method refer to attachment 2
+
+Compare maximum sensitivity distance with the claimed performance.  
+Tester requirement;
+weight ≥60kg, height: ≥165cm
+hair not longer than shoulder
+with short sleeves
+Reach range of approximately ___ feet , and approximately ___ angle, the sensor Detection when set to “H” position.
+
+The data to be measured and recorded, failure of product if it doesn’t meet mfg’rs spec.
+Note: UL may accept this test conduct on the lab of the factory by the UL engineer witness. And UL accepts the equivalent report provided by the factory.
+
+Key performance failure make the user to be  cheated , failure will stop shipment  until the supplier can provide evidence that the failed points is corrected，must be completed in 3 working days  
+Critical
+FUNXXXX
+3.5 
+Sensitivity Distance and 
+maximum coverage angle-Ceiling mount 
+Home Depot Requirement
+1
+Repeat  test Sensitivity Distance and 
+maximum coverage angle with ceiling mount 
+Key performance failure make the user to be  cheated , failure will stop shipment  until the supplier can provide evidence that the failed points is corrected，must be completed in 3 working days  
+Critical
+FUNXXXX
+3.6
+Activating
+LUX
+
+Home Depot Requirement
+1
+Light on ________
+Light off ____ lux
+The data should be measure and record
+Shall be performed for each sensitive setting.
+
+Sample shall perform function within 5 LUX of manufacturer’s claim.
+Performance ，failure will stop  the shipment  until the supplier can provide evidence that the failed points is corrected，must be completed in 3 working days  
+Critical
+
+3.7
+Operation Test
+
+VIDEO RECORD THIS TEST
+
+UL 773A 6th Ed. Cls. 24
+
+1
+A unit shall withstand 110 percent of its rated voltage continuously, without damage, and shall operate acceptably at 85 percent of its rated voltage, with maximum load. 
+Standard failure make the certification cancelled,  failure will stop the shipment until the supplier can provide evidence that the failed points is corrected，must be completed in 3 working days
+Critical
+
+3.8
+Endurance Test 
+
+VIDEO RECORD THIS TEST
+
+THD requirement
+1
+At rated voltage input, cover the photo sensor, the sample shall be load with 2 pieces MAX current per the instruction manual and energized for total 72 hours. The ambient temperature shall be maintained within 25C±5C.  .
+During and after the test, the unit shall be operated properly. Loose, melting or deformation of any parts shall not occur. Smoke or fog shall not be observed. Bad smell and burnout bulb shall not be found. The outlook of the sample shall not significantly change.
+
+
+
+3.9
+Duty Cycle 
+
+VIDEO RECORD THIS TEST
+
+THD requirement
+1
+A unit shall withstand an overload condition without electrical or mechanical breakdown, Duty cycle 1 s on and 9 s off., Total of  7,000 cycles for motion control and 14,668 cycles for light control , At 105 percent of maximum rated voltage with the photocell circuit simulating dusk or dawn conditions and the load circuit carrying maximum current
+Key performance failure make the user to be  cheated , failure of these test items will require that the supplier provide corrective actions by the next product shipment
+Major 
+FUNXXXX
+3.10
+Brand Logos and Brand Colors - Color evaluation by visual examination
+AATCC evaluation procedure 1 modified
+AATCC evaluation procedure 9 modified
+THD Requirement
+1
+To perform color evaluation between test samples against color references (color chips by Color Solutions International - CSI)Testing procedure: 1. Perform the color evaluation using the gray scale - color change, color chips and light box with D65 CWF lighting.2. Record the color grading for each portion of the sample.
+3. Product must meet a reading of 4 or higher 
+Modification = expanded scope to non-textile material.
+Key performance failure make the brand color lose out of controlled ,  failure of these test items will require that the supplier provide corrective actions by the next product shipment
+Major 
+FUNXXXX
+SAFETY TESTS
+4.1
+Dielectric Voltage Withstand Test
+
+VIDEO RECORD THIS TEST
+UL 773A, 6thed. Cls. 23
+
+
+1
+A unit shall withstand for 1 minute without breakdown the application of a 60 hertz alternating potential of 1000 V plus twice the maximum rated voltage between live parts of opposite polarity and between live parts and grounded metal parts.
+
+
+
+4.2
+Leakage Current Test
+
+
+VIDEO RECORD THIS TEST
+UL 773A, 6thed. Cls. 31
+
+
+1
+The Leakage current measured with the unit energize or non-energize shall not exceed 0.5 mA.
+Safety failure that make risk of shock ,failure will stop shipment  until the supplier can provide evidence that the failed points is corrected，must be completed in 3 working days  
+Critical
+SAF307
+4.3
+Continuity Test
+
+Proprietary Method
+1
+Each product shall be tested to determine that continuity between all blades and pin of attachment plug and end terminal or receptacle of the female connector by using a digital multimeter.
+Safety failure that make risk of shock ,failure will stop shipment  until the supplier can provide evidence that the failed points is corrected，must be completed in 3 working days  
+Critical
+SAF307
+4.4
+Accessibility of Uninsulated Live Parts
+UL773A, 6th Ed. Cls.4
+1
+Construction shall be such that uninsulated live parts that may involve a risk of electric shock shall not be accessible to contact by user under conditions of normal use as described in 4.7.
+
+A probe inserted through an opening in an enclosure, guard, or operator accessible barrier, shall not touch any uninsulated live part that involves a risk of electric shock. The probe shall be rotated with the movable sections straight or in any possible position resulting from bending one or more sections in the same direction. The maximum force applied to the probe shall not exceed approximately 10 N.
+Safety failure that make risk of shock ,failure will stop shipment  until the supplier can provide evidence that the failed points is corrected，must be completed in 3 working days  
+Critical
+SAF307
+CHEMICAL ANALYSIS
+5.1
+* CA Prop. 65
+(mandatory in state California)
+UL Protocol 
+--
+Consent Judgment of related court cases based on California Proposition 65.
+
+-no consent judgements
+
+Note: Database should be checked for additional judgments.
+
+
+
+5.1.1
+FlexPLM – CA Prop 65 Warning Label Verification
+Home Depot Requirement
+1
+[Applicable to all products requiring a California Proposition 65 Warning Label] 
+
+The sample shall be reviewed against California Proposition 65 to determine if additional testing or labeling is required. All chemicals that fail to meet the acceptable limits shall be entered into the Prop 65 section of FlexPLM. Once all the chemicals are entered review the warning label generated by system. Verify that the California Proposition 65 warning label listed in FlexPLM matches the warning label on the packaging or artwork provided during onboarding. 
+  
+Acceptance Criteria: 
+1. The result is PASS, if the California Proposition 65 warning label listed in FlexPLM matches the warning label provided with the sample. 
+2. The warning label must be present and match the information on the packaging or artwork provided. 
+
+NOTE: FlexPLM is not able to display the equilateral triangle symbol with the exclamation point in the center. However, it is still required on the warning label.
+
+
+
+5.2
+California Proposition 65 Label Requirements
+UL Protocol
+1
+[Label Requirements] 
+If a Proposition 65 warning label is needed it must meet the following requirements: 
+
+•Warning label must be in all languages used in product information. 
+•Font size must be at least 6 pt. 
+•Warning label must contain a triangle symbol with exclamation point in the center followed by the word WARNING in capital and bold letters. 
+• Must contain at least one or more chemical sources. 
+• Must contain the type of exposure hazard as stated by the Prop 65 chemical list. 
+• Must reference the URL:  www.P65Warnings.ca.gov 
+
+
+[Only for old format warning label] 
+If the old format warning label is used, manufacturer date code must be present on interior and exterior package prior to Aug 30, 2018. 
+
+Report the date code.
+Regulation failure that make the product could not be sold on the market ,  failure will stop the shipment until the supplier can provide evidence that the failed points is corrected，must be completed in 3 working days
+Critical
+
+REG000
+
+OTHER TESTS
+6.1
+Other Special Features
+---
+1
+All special features claimed on the instruction sheet or packaging shall be verified.
+
+
+
+
+Key:  
+*
+Additional Charge For This Test
+Only with dark grey Shaded Lines Are Included For PoPT Testing.  Failure will stop shipment until the supplier can provide evidence that the failed points is corrected，must be completed in 3  working days
+Only with shadow grey Shaded Lines Are Included For PoPT Testing failure of these test items will require that the supplier provide corrective actions by the next product shipment
+Blank item just apply to PPT, not apply to POPT.
+
+Testing Charge & Sample Size & Turnaround Time
+
+Item
+Price (APAC)
+Sample Size
+Lead Time
+PPT
+Basic Package Price
+USD 700
+
+3 pieces (additional samples may be required for tests with additional charge)
+7 working days
+
+POPT  with dark grey Shaded Lines
+Basic level 1  Package Price（1.1; 1.2; 1.3; 1.4; 1.5; 1.7; 1.8; 1.9; 1.10; 2.4; 2.6; 2.7; 2.8; 2.9; 3.1; 3.2; 3.3; 3.4; 3.5; 3.6;3.7; 4.2; 4.3; 4.4）
+
+USD 400
+
+3 pieces (additional samples may be required for tests with additional charge)
+3 working days
+POPT  with shadow  grey Shaded Lines
+Basic  level 2 Package Price （2.1; 2.2; 2.3; 2.5; 2.10; 3.9;3.10; 3.13; 3.14）
+USD 200
+
+3 pieces (additional samples may be required for tests with additional charge
+7 calendar days
+
+
+Additional Charge (net)
+Item
+Price
+Sample Size
+Lead Time
+Ca. Prop 65
+On Quote
+Subject to actual sample
+
+PPT Critical Test Video Recording
+50 USD
+Up to 8 Critical tests. 
+(Additional charge for more than 8 tests)
+
+
+10 USD
+Each critical test (over 8 test)
+
+
+Notes – The definition of the Rating
+Critical - is reserved for defects which could result in hazardous or unsafe conditions for individuals using or maintaining the product as well as defects contravening legal regulations
+Major - refers to functional defects reducing the usability or solidity of the product as well as obvious visual defects reducing the sales value of the product
+Minor - refers to defects that are unlikely to reduce the use of the product, but nevertheless may influence the sale
+Good – no defect found
+Attachment 1 
+
+
+
+ Attachment 2
+
+Checklist
+
+This checklist is designed to help service provider protocol writer ensure that the test protocol is completed to an acceptable standard for editorial and peer review.
+Service providers should ask themselves each of the below questions when writing the test protocol.
+Check “Yes” if question has been considered in the test protocol writing.
+Remember to include this completed checklist with your protocol when you submit it to THD.
+
+Protocol Check Points
+Yes
+IR Check Points
+Labeling & Marking Verification (For Package & Product)
+
+
+Are all identification and information correct (i.e. supplier, factory, address, model #, code, country of origin, warning marking, etc…)?
+
+Are you verifying the accuracy of all identification information, and ensuring that they are consistent with passed PPT findings?
+Are all THD labeling standards included (Shipping mark, safety certification mark, Bilingual on caution / warning / instruction statement, SKU number, Vendor code, Date code, UPC)?
+
+Are you checking that THD labeling standards are being met?
+Is the usage of the product documented correctly in its appropriate languages (i.e. product, cartons, instruction manual, safety / assembly instructions, warning labels, and other printed material)?
+
+Is there a checkpoint to confirm that the languages on the product, packaging, and manuals are appropriate
+Are product description and product pictures correct against product summary and requirements?
+
+Are you confirming that the product in the package matches the product shown on the package? Are you confirming that the product in the package and shown on the package matches the products in the PO?
+Is the labeling or instructions misleading or inconsistent with product?
+
+Is there a check to verify that labeling and instructions are the same as that from the passed PPT results? 
+Does product carry evidence of conformity assessment marking and is that marking valid (UL, CSA, UPC, NSF, NFPA, ETL, CE, NOM, CCC, ICC, or equivalent safety certification mark)?
+
+Is there a check on the validity of the conformity assessment markings? Are the markings consistent with the passed PPT results?
+Physical Requirements (Construction, Workmanship…)
+
+
+Have proper tolerances been identified for all critical parameters?
+
+Has acceptable tolerances been established on measurements of critical attributes? Have proxies been established where critical attributes cannot be accessed?
+Did you ensure the test addresses all the stated product specs/requirements from THD?
+
+Did you ensure that the IR addresses all tests from the passed PPT results?
+Did you verify if sample has any defects on workmanship (i.e. cracks, scratches, peeling, factory assembly etc)?
+
+Did you clearly quantify acceptance criteria for defects on workmanship, cracks, scratches, and other aesthetic defects?
+Did you check all samples for similarities / dissimilarities between different models and any defects or damage?
+
+Have you reviewed the feasibility of maintaining reference sample to confirm that PSI samples are the same as PPT accepted samples?
+Did you consider other products can interface with this product (i.e. toilet seat interfaces with toilet bowl; gas regulator interfaces with gas tank)?
+
+Have you identified the attributes that are critical for the product to interface with other products?
+Did you verify if the unit can be assembled according to the instruction manual in a timely manner?
+
+Have you included checks to verify that units can be assembled according to the instructions and in a timely manner?
+Are finish requirements including material, color coating, and texture conform to product requirements (if available)?
+
+Did you establish clear acceptance criteria for material verification, color, and coating texture, blemishes, and finish?
+Did you consider if pallet / package design and packaging material meet THD and Eco standards?
+
+Did you include appropriate verification on pallet standards, and packaging standards?
+Reliability & Performance Tests
+
+
+Do product performance characteristics conform to product requirements and product claim (i.e. accuracy, power source, response time, battery life, etc.)?
+
+Has all the product performance claims and basic expected performance been identified? Has acceptance performance criteria been quantified? Have proxies been established where actual performance attribute cannot be accessed?
+Is the product being tested appropriately to validate its intended function as described in the instruction manual?  If the intended function cannot be determined from the instruction manual has it been obtained through other methods and is the product being tested accordingly?
+
+Have all intended functionality transferred from the passed PPT to the IR?
+Is the proper media or additional testing materials being used according to the intended function of the product?
+
+Is the proper media or additional testing materials being used according to the intended function of the product?
+Did you consider previous recall data on similar products (THD recall data, CPSC website)?
+
+Can the PPT testing based on recall be part of the PSI; if not, have you consider how conformance can be checked at PSI?
+Did you consider the critical, major, and minor findings on similar products?
+
+Have all potential failure modes been classified into major, minor and critical? Have the number of failed items for rejection been established in each case?
+Have THD standards been taken into consideration (Product Specification, Manufacturing excellence in the supplier reference guide)?
+
+
+Is packaging testing in accordance to THD packaging PPT SOP Requirements?
+
+Have all possible THD packaging testing been incorporated into the IR, such as drop test, burst strength, etc?
+Did you consider static load bearing test for load carrying components
+
+Have you identified an inspection method for confirming load bearing capacities? Have you identified all the physical attributes that are responsible for supporting the load?
+Did you consider dynamic load bearing test for load carrying components
+
+Have you identified an inspection method for confirming load bearing capacities? Have you identified all the physical attributes that are responsible for supporting the load?
+Did you consider endurance cycling for mechanical motion components?
+
+Have you identified what level of endurance cycling can be completed at PSI? Have you set up acceptance criteria for cycling at PSI?
+Did you consider functionally harmful quantities of water intrusion test for outdoor products?
+
+Did you determine what functionality can be subjected to water intrusion tests? Have you identified modified water intrusion that is suitable for PSI? Have you determined what components are responsible for maintaining water intrusion capability?
+Did you perform corrosion resistance test for outdoor products?
+
+Can the full corrosion resistance testing be conducted at PSI; if not, can it be modified for PSI?
+Did you check supporting documents for motor ratings?
+
+Has all the important motor rating attributes been captured? Are there checks that can quickly uncover when motors do not comply with the rating? 
+Did you perform basic functional check after UV exposure for outdoor products?
+
+Can the full UV check be conducted at PSI; if not, can it be modified for PSI?
+Did you perform basic function check after endurance cycling test?
+
+Has post endurance functional testing been included? Has any acceptable deviation in performance from endurance testing been quantified?
+Did you check for assembly hardware to make sure it is not attached packaging material?
+
+
+Measure the assembly hardware and record weight for Inspection check
+
+
+Did you account for tests to address common failure complaints from online reviews and RTV comments?
+
+
+Is the proper Application condition considered? 
+
+
+Is sales country weather environment considered?
+
+
+Safety Tests
+
+
+Has the safety standard been considered in generation of test protocol?
+
+     
+Are all of the relevant governing bodies over the safety listing in this product identified?
+
+     
+What were the latest updates to the standard?
+
+     
+Have you reviewed any pending changes to standards and federal / state regulations?
+
+     
+If sold in Mexico and Canada, are there additional NOM or Health Canada requirements?
+
+     
+Did you consider if this product has play value and/or if it looks like a toy?
+
+     
+How could the customer misuse the product?
+
+     
+Did you consider the potential misuses of the product which could cause key safety issues (i.e. fall, hurt, suffocate)?
+
+     
+Did you consider the past misuse issues into protocol (if available)?
+
+     
+Chemical Analysis
+
+
+Were all controlled / regulated hazardous materials checked (Lead, Mercury, Cadmium, Hexavalent Chromium, Polybrominated Biphenyls, Polybrominated Diphenyl Ether, Formaldehyde, Phathalete, and other hazardous substances)?
+
+     
+Other
+
+
+Were all special features on instruction sheet or packaging verified?
+
+     
+Did you consider the test to verify the potential manufacturing process defects?
+
+     
+
+
+Revision History
+ 
+Revision #
+Date
+Description
+THD QA Approved By
+THD PE Approved By
+SP Revised By
+SP Reviewed By
+1
+2016-08-02
+Initial release
+Hayden Williams
+
+August 12, 2016
+Darryl Gregory
+
+August 12, 2016
+Peter Lei
+Ocean Shang
+2
+2016-08-17
+Added item 1.6, CEC Requirement For Lighting Controls
+Julio Ortiz
+
+2016-09-09
+Darryl Gregory
+
+August 18, 2016
+Peter Lei
+Ocean Shang
+3
+2017-06-06
+Added item 5.2, California Proposition 65 Label Requirements
+Hayden Williams
+2017-11-16
+Deshawn Ingram
+2017-07-05
+Peter Lei
+Ocean Shang
+4
+2018-08-30
+Added 1.12, Reporting Requirements for the TSCA Mercury Inventory
+
+Julio Ortiz
+2018-11-26
+Peter Lei
+Ocean Shang
+
+2018-09-29
+Update items 3.1, 3.7, 3.8, 3.9, 3.11, 4.1, adding video recording
+
+Julio Ortiz
+2018-11-26
+Peter Lei
+Ocean Shang
+
+2018-10-23
+Update items 4.2, adding video recording
+
+Julio Ortiz
+2018-11-26
+Peter Lei
+Ocean Shang
+

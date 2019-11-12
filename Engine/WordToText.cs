@@ -13,12 +13,21 @@ namespace DataMinerAPI.Engine
 {
     public class WordToText
 	{
-        public  string ConvertWordToText(string fileName)
+        public bool ConvertWordToText(string fileName, Guid requestGuid)
         {
+            string inputDir = @"files/";
+			string workingDir = @"work/";
+
+            string fileExtension = System.IO.Path.GetExtension(fileName);
+
+			string conversionTarget = $"{workingDir}{requestGuid}{fileExtension}";
+
+			File.Copy($"{inputDir}{fileName}", conversionTarget);	
+
             const string wordmlNamespace = "http://schemas.openxmlformats.org/wordprocessingml/2006/main";
 
             StringBuilder textBuilder = new StringBuilder();
-            using (WordprocessingDocument wdDoc = WordprocessingDocument.Open(fileName, false))
+            using (WordprocessingDocument wdDoc = WordprocessingDocument.Open(conversionTarget, false))
             {
                 // Manage namespaces to perform XPath queries.  
                 NameTable nt = new NameTable();
@@ -42,7 +51,12 @@ namespace DataMinerAPI.Engine
                 }
 
             }
-            return textBuilder.ToString();
+
+            string textFileName = conversionTarget.Replace(".docx", ".txt");
+
+            File.WriteAllText($"{textFileName}", textBuilder.ToString());
+
+            return true;
         }
     }
 }

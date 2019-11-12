@@ -140,6 +140,7 @@ ClientBin/
 *.publishsettings
 orleans.codegen.cs
 files/
+work/
 
 # SQL Server files
 *.mdf

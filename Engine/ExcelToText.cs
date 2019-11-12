@@ -14,11 +14,21 @@ namespace DataMinerAPI.Engine
 {
     public class ExcelToText
 	{
-        public  string ConvertExcelToText(string fileName)
+        public bool ConvertExcelToText(string fileName, Guid requestGuid)
         {
+            
+            string inputDir = @"files/";
+			string workingDir = @"work/";
+
+            string fileExtension = System.IO.Path.GetExtension(fileName);
+
+			string conversionTarget = $"{workingDir}{requestGuid}{fileExtension}";
+
+			File.Copy($"{inputDir}{fileName}", conversionTarget);	
+
             string ret = string.Empty;
 
-            using (FileStream fs = new FileStream(fileName, FileMode.Open, FileAccess.Read, FileShare.ReadWrite))
+            using (FileStream fs = new FileStream(conversionTarget, FileMode.Open, FileAccess.Read, FileShare.ReadWrite))
             {
                 using (SpreadsheetDocument doc = SpreadsheetDocument.Open(fs, false))
                 {
@@ -41,11 +51,11 @@ namespace DataMinerAPI.Engine
                             {
                                 int ssid = int.Parse(c.CellValue.Text);
                                 string str = sst.ChildElements[ssid].InnerText;
-                                Console.WriteLine("Shared string {0}: {1}", ssid, str);
+                               // Console.WriteLine("Shared string {0}: {1}", ssid, str);
                             }
                             else if (c.CellValue != null)
                             {
-                                Console.WriteLine("Cell contents: {0}", c.CellValue.Text);
+                              //  Console.WriteLine("Cell contents: {0}", c.CellValue.Text);
                                 ret += c.CellValue.Text;
                             }
                         }
@@ -53,7 +63,11 @@ namespace DataMinerAPI.Engine
                 }
             }
 
-            return ret;
+            string textFileName = conversionTarget.Replace(".xlsx", ".txt");
+
+            File.WriteAllText($"{textFileName}", ret);
+
+            return true;
         }    
     }
 }
