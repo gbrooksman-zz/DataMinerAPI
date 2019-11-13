@@ -23,6 +23,8 @@ namespace DataMinerAPI
 
             services.AddCors();
 
+            services.AddSingleton(Configuration.GetSection("ServiceSettings").Get<ServiceSettings>());
+
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

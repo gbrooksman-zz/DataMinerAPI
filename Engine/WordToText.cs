@@ -1,62 +1,66 @@
-using Microsoft.Extensions.Configuration;
+
 using System;
-using System.Collections.Generic;
-using System.Diagnostics;
 using System.IO;
 using System.Text;
 using System.Xml;
 using DocumentFormat.OpenXml.Packaging;  
-using DocumentFormat.OpenXml.Wordprocessing;  
-
+using Serilog;
 
 namespace DataMinerAPI.Engine
 {
     public class WordToText
 	{
-        public bool ConvertWordToText(string fileName, Guid requestGuid)
+        public EngineReturnArgs ConvertWordToText(string conversionSource, Guid requestGuid, string fileExtension)
         {
-            string inputDir = @"files/";
-			string workingDir = @"work/";
+            EngineReturnArgs era = new EngineReturnArgs();
 
-            string fileExtension = System.IO.Path.GetExtension(fileName);
+            try
+            {               
 
-			string conversionTarget = $"{workingDir}{requestGuid}{fileExtension}";
+                const string wordmlNamespace = "http://schemas.openxmlformats.org/wordprocessingml/2006/main";
 
-			File.Copy($"{inputDir}{fileName}", conversionTarget);	
-
-            const string wordmlNamespace = "http://schemas.openxmlformats.org/wordprocessingml/2006/main";
-
-            StringBuilder textBuilder = new StringBuilder();
-            using (WordprocessingDocument wdDoc = WordprocessingDocument.Open(conversionTarget, false))
-            {
-                // Manage namespaces to perform XPath queries.  
-                NameTable nt = new NameTable();
-                XmlNamespaceManager nsManager = new XmlNamespaceManager(nt);
-                nsManager.AddNamespace("w", wordmlNamespace);
-
-                // Get the document part from the package.  
-                // Load the XML in the document part into an XmlDocument instance.  
-                XmlDocument xdoc = new XmlDocument(nt);
-                xdoc.Load(wdDoc.MainDocumentPart.GetStream());
-
-                XmlNodeList paragraphNodes = xdoc.SelectNodes("//w:p", nsManager);
-                foreach (XmlNode paragraphNode in paragraphNodes)
+                StringBuilder sb = new StringBuilder();
+                using (WordprocessingDocument wdDoc = WordprocessingDocument.Open(conversionSource, false))
                 {
-                    XmlNodeList textNodes = paragraphNode.SelectNodes(".//w:t", nsManager);
-                    foreach (System.Xml.XmlNode textNode in textNodes)
+ 
+                    NameTable nt = new NameTable();
+                    XmlNamespaceManager nsManager = new XmlNamespaceManager(nt);
+
+                    nsManager.AddNamespace("w", wordmlNamespace);
+
+                    XmlDocument xdoc = new XmlDocument(nt);
+                    xdoc.Load(wdDoc.MainDocumentPart.GetStream());
+
+                    XmlNodeList paragraphNodes = xdoc.SelectNodes("//w:p", nsManager);
+
+                    foreach (XmlNode paragraphNode in paragraphNodes)
                     {
-                        textBuilder.Append(textNode.InnerText);
-                    }
-                    textBuilder.Append(Environment.NewLine);
+                        XmlNodeList textNodes = paragraphNode.SelectNodes(".//w:t", nsManager);
+                        foreach (System.Xml.XmlNode textNode in textNodes)
+                        {
+                            sb.Append(textNode.InnerText);
+                        }
+                        sb.Append(Environment.NewLine);
+                    }   
                 }
 
+                string textFileName = conversionSource.Replace(".docx", ".txt");
+                string textResults = sb.ToString();
+                File.WriteAllText($"{textFileName}", textResults);
+
+                era.Content = textResults;
+				era.Success = true;
+				era.Message = "Conversion ok";
+            }
+            catch(Exception ex)
+            {
+                Log.Error(ex, "In ConvertWordToText");
+				era.Success = false;
+				era.Message = "Conversion failed";
+				era.Content = ex.Message;
             }
 
-            string textFileName = conversionTarget.Replace(".docx", ".txt");
-
-            File.WriteAllText($"{textFileName}", textBuilder.ToString());
-
-            return true;
+            return era;
         }
     }
 }

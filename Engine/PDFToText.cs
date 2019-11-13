@@ -10,43 +10,25 @@ namespace DataMinerAPI.Engine
 {
     public class PDFToText
 	{
-	//	private readonly string appFolder;
-	//	private readonly string tempFolder;
-		private readonly string workingFolder;
-
 		public PDFToText()
 		{
-			IConfiguration config = new ConfigurationBuilder()
-				.AddJsonFile("appsettings.json", true, true)
-				.Build();
 
-		//	appFolder = config.GetSection("Tesseract").GetValue<string>("EXEPath");
-		//	tempFolder = config.GetSection("Tesseract").GetValue<string>("TempPath");
-			workingFolder = config.GetSection("PDFToText").GetValue<string>("workingFolder");
 		}  
 
-		public EngineReturnArgs ConvertTextFromPDF(string fileName, Guid requestGuid) 
+		public EngineReturnArgs ConvertPDFToText(string conversionSource, Guid requestGuid, string fileExtension) 
 		{
-			//what if it is a text file?
-
 			EngineReturnArgs era = new EngineReturnArgs();
-
-			string inputDir = @"files/";
-			string workingDir = @"work/";
-
 			try
 			{ 
-				string fileExtension = System.IO.Path.GetExtension(fileName);
-
-				string conversionTarget = $"{workingDir}{requestGuid}{fileExtension}";
-
-				File.Copy($"{inputDir}{fileName}", conversionTarget);		
-
-				string textFileName = conversionTarget.Replace(fileExtension,".txt");				
+				string textFileName = conversionSource.Replace(fileExtension,".txt");				
 
 				string converter = @"Engine/pdftotext";
 
-				RunProcess(converter, $" -layout {conversionTarget} {textFileName}");
+				RunProcess(converter, $" -layout {conversionSource} {textFileName}");
+
+				era.Content = File.ReadAllText(textFileName,Encoding.UTF8);
+				era.Success = true;
+				era.Message = "Conversion ok";
 			}
 			catch (Exception ex)
 			{

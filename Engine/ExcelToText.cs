@@ -1,73 +1,74 @@
-using Microsoft.Extensions.Configuration;
 using System;
-using System.Collections.Generic;
-using System.Diagnostics;
 using System.IO;
 using System.Text;
-using System.Xml;
 using DocumentFormat.OpenXml.Packaging;  
 using DocumentFormat.OpenXml.Spreadsheet;  
 using System.Linq;
+using Serilog;
 
 
 namespace DataMinerAPI.Engine
 {
     public class ExcelToText
 	{
-        public bool ConvertExcelToText(string fileName, Guid requestGuid)
-        {
+        public EngineReturnArgs ConvertExcelToText(string conversionSource, Guid requestGuid, string fileExtension)
+        {     
+            EngineReturnArgs era = new EngineReturnArgs();
+
+            try
+            {  
+                string textFileName = conversionSource.Replace(".xlsx", ".txt");
             
-            string inputDir = @"files/";
-			string workingDir = @"work/";
-
-            string fileExtension = System.IO.Path.GetExtension(fileName);
-
-			string conversionTarget = $"{workingDir}{requestGuid}{fileExtension}";
-
-			File.Copy($"{inputDir}{fileName}", conversionTarget);	
-
-            string ret = string.Empty;
-
-            using (FileStream fs = new FileStream(conversionTarget, FileMode.Open, FileAccess.Read, FileShare.ReadWrite))
-            {
-                using (SpreadsheetDocument doc = SpreadsheetDocument.Open(fs, false))
+                using (SpreadsheetDocument doc = SpreadsheetDocument.Open(conversionSource, false))
                 {
-                    WorkbookPart workbookPart = doc.WorkbookPart;
-                    SharedStringTablePart sstpart = workbookPart.GetPartsOfType<SharedStringTablePart>().First();
-                    SharedStringTable sst = sstpart.SharedStringTable;
-
-                    WorksheetPart worksheetPart = workbookPart.WorksheetParts.First();
-                    Worksheet sheet = worksheetPart.Worksheet;
-
-                   // var cells = sheet.Descendants<Cell>();
-                    var rows = sheet.Descendants<Row>();
-
-                    // Or... via each row
-                    foreach (Row row in rows)
+                    foreach (Sheet sheet in doc.WorkbookPart.Workbook.Descendants<Sheet>())
                     {
-                        foreach (Cell c in row.Elements<Cell>())
+                        WorksheetPart sheetPart = (WorksheetPart)doc.WorkbookPart.GetPartById(sheet.Id);
+                        Worksheet workSheet = sheetPart.Worksheet;
+
+                        SharedStringTablePart sharedStringPart = doc.WorkbookPart.GetPartsOfType<SharedStringTablePart>().First();
+                        SharedStringItem[] sharedStringItem = sharedStringPart.SharedStringTable.Elements<SharedStringItem>().ToArray();
+
+                        using (var outputFile = File.CreateText(textFileName))
                         {
-                            if ((c.DataType != null) && (c.DataType ==  CellValues.SharedString))
+                            foreach (var row in workSheet.Descendants<Row>())
                             {
-                                int ssid = int.Parse(c.CellValue.Text);
-                                string str = sst.ChildElements[ssid].InnerText;
-                               // Console.WriteLine("Shared string {0}: {1}", ssid, str);
-                            }
-                            else if (c.CellValue != null)
-                            {
-                              //  Console.WriteLine("Cell contents: {0}", c.CellValue.Text);
-                                ret += c.CellValue.Text;
+                                StringBuilder sb = new StringBuilder();
+                                foreach (Cell cell in row)
+                                {
+                                    string cellText = string.Empty;
+                                    if (cell.CellValue != null)
+                                    {
+                                        if (cell.DataType != null && cell.DataType.Value == CellValues.SharedString)
+                                        {
+                                            cellText = sharedStringItem[int.Parse(cell.CellValue.Text)].InnerText;
+                                        }
+                                        else
+                                        {
+                                            cellText = cell.CellValue.Text;
+                                        }
+                                    }
+                                    sb.Append(string.Format("{0},", cellText.Trim()));
+                                }                                
+                                outputFile.WriteLine(sb.ToString().TrimEnd(','));
                             }
                         }
                     }
                 }
+
+                era.Content = File.ReadAllText(textFileName,Encoding.UTF8);
+			    era.Success = true;
+			    era.Message = "Conversion ok";
             }
-
-            string textFileName = conversionTarget.Replace(".xlsx", ".txt");
-
-            File.WriteAllText($"{textFileName}", ret);
-
-            return true;
+            catch (Exception ex)
+            {
+                Log.Error(ex, "In ConvertExcelToText");
+				era.Success = false;
+				era.Message = "Conversion failed";
+				era.Content = ex.Message;
+            }       
+          
+            return era;
         }    
     }
 }

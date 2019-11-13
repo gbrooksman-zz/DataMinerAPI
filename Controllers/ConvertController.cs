@@ -2,7 +2,8 @@ using Microsoft.AspNetCore.Mvc;
 using DataMinerAPI.Engine;
 using System;
 using Serilog;
-
+using System.IO;
+using Microsoft.Extensions.Configuration;
 
 namespace DataMinerAPI.Controllers
 {
@@ -11,6 +12,11 @@ namespace DataMinerAPI.Controllers
 
 	public class ConvertController : Controller
 	{
+		private readonly ServiceSettings settings;
+		public ConvertController(ServiceSettings _settings)
+		{
+			settings = _settings;
+		}
 
 		[HttpPost]
 		[Route("TestPDF")]		
@@ -67,7 +73,7 @@ namespace DataMinerAPI.Controllers
 
 			IActionResult res = Ok();
 
-			string fileName = @"1.xlsx";
+			string fileName = @"2.xlsx";
 			
 			try
 			{
@@ -81,9 +87,34 @@ namespace DataMinerAPI.Controllers
 			return res;
 		}
 
+		[HttpPost]
+		[Route("TestText")]		
+		public IActionResult TestText(string tempValue)
+		{
+			Log.Information($"Started Test action");
+
+			IActionResult res = Ok();
+
+			string fileName = @"1.txt";
+			
+			try
+			{
+				res = this.Post(fileName);
+			}
+			catch(Exception ex)
+			{
+				Log.Error(" in TestText Method", ex);
+			}
+
+			return res;
+		}
+
 		[HttpPost]		
 		public IActionResult Post(string fileName)
-		{
+		{			
+			string inputDir = settings.FilesFolder;
+			string workingDir = settings.WorkingFolder;
+
 			Guid requestGuid = Guid.NewGuid();
 
 			EngineReturnArgs retArgs = new EngineReturnArgs();
@@ -92,7 +123,13 @@ namespace DataMinerAPI.Controllers
 
 			try
 			{
-				Log.Information($"Started Request Guid: {requestGuid}");
+				Log.Information($"Started Conversion for request Guid: {requestGuid}");
+
+				string fileExtension = System.IO.Path.GetExtension(fileName);
+
+				string conversionSource = $"{workingDir}{requestGuid}{fileExtension}";
+
+				System.IO.File.Copy($"{inputDir}{fileName}", conversionSource);		
 
 				//byte[] bytes = System.IO.File.ReadAllBytes(fileName);
 				
@@ -101,7 +138,6 @@ namespace DataMinerAPI.Controllers
 				//int ibyteLength = (int)Request.ContentLength.GetValueOrDefault();
 
 				//byte[] bytes = new byte[ibyteLength];
-
 
 				//Request.Body.ReadAsync(bytes, 0, ibyteLength);
 
@@ -113,7 +149,7 @@ namespace DataMinerAPI.Controllers
 
 						Log.Information($"Calling convert for pdf ");
 
-						retArgs = pdfEngine.ConvertTextFromPDF(fileName,requestGuid);
+						retArgs = pdfEngine.ConvertPDFToText(conversionSource,requestGuid, fileExtension);
 
 						Log.Information($"Convert finished");	
 				
@@ -129,7 +165,7 @@ namespace DataMinerAPI.Controllers
 
 							Engine.WordToText wordEngine = new Engine.WordToText();
 
-							wordEngine.ConvertWordToText(fileName,requestGuid);
+							retArgs = wordEngine.ConvertWordToText(conversionSource,requestGuid, fileExtension);
 
 							Log.Information($"Convert finished");	
 
@@ -145,16 +181,23 @@ namespace DataMinerAPI.Controllers
 
 						Engine.ExcelToText excelEngine = new Engine.ExcelToText();
 
-						excelEngine.ConvertExcelToText(fileName,requestGuid);
+						retArgs = excelEngine.ConvertExcelToText(conversionSource,requestGuid, fileExtension);
 
 						Log.Information($"Convert finished");	
 
 						break;
 
+					default:
+
+						Log.Information($"File type not explicitly handled so calling convert for text");
+
+						Engine.TextToText textEngine = new Engine.TextToText();
+
+						retArgs = textEngine.ConvertTextToText(conversionSource,requestGuid, fileExtension);
+
+						Log.Information($"Convert finished");	
 
 						break;
-
-
 				}
 
 			}

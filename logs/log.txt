@@ -158,3 +158,104 @@
 2019-11-12 16:02:01.227 -05:00 [INF] Started Request Guid: cd6453f5-10b6-4e0f-ab45-862f77b52f0a
 2019-11-12 16:02:01.227 -05:00 [INF] Calling convert for docx
 2019-11-12 16:02:02.275 -05:00 [INF] Convert finished
+2019-11-12 16:58:14.474 -05:00 [INF] DataMinerAPI Application startup
+2019-11-12 17:00:32.950 -05:00 [INF] Started Test action
+2019-11-12 17:00:32.952 -05:00 [INF] Started Request Guid: 5a78fad0-cb5a-4f24-9bf3-1d6d279be4de
+2019-11-12 17:00:32.957 -05:00 [INF] Calling convert for docx
+2019-11-12 17:00:38.017 -05:00 [INF] Convert finished
+2019-11-12 17:02:21.087 -05:00 [INF] DataMinerAPI Application startup
+2019-11-12 17:02:26.118 -05:00 [INF] Started Test action
+2019-11-12 17:02:26.120 -05:00 [INF] Started Request Guid: 5338e6d8-5ce8-459b-bd3d-6347f83650f3
+2019-11-12 17:02:26.124 -05:00 [INF] Calling convert for docx
+2019-11-12 17:02:32.928 -05:00 [INF] Convert finished
+2019-11-13 05:15:03.634 -05:00 [INF] DataMinerAPI Application startup
+2019-11-13 05:15:26.306 -05:00 [INF] Started Test action
+2019-11-13 05:15:26.308 -05:00 [INF] Started Request Guid: e684544b-4249-49c5-9b49-9b6b9fbd2296
+2019-11-13 05:15:26.312 -05:00 [INF] Calling convert for docx
+2019-11-13 05:15:26.746 -05:00 [INF] Convert finished
+2019-11-13 05:35:23.114 -05:00 [INF] DataMinerAPI Application startup
+2019-11-13 05:35:39.543 -05:00 [INF] Started Test action
+2019-11-13 05:35:39.548 -05:00 [INF] Started Request Guid: 44b45ec1-c6d1-4065-bfa5-312680f304ee
+2019-11-13 05:35:39.553 -05:00 [INF] Calling convert for docx
+2019-11-13 05:37:03.461 -05:00 [INF] DataMinerAPI Application startup
+2019-11-13 05:37:18.691 -05:00 [INF] Started Test action
+2019-11-13 05:37:18.695 -05:00 [INF] Started Request Guid: 87321bbf-1835-4e0b-86e0-8cde7df9575d
+2019-11-13 05:37:18.702 -05:00 [INF] Calling convert for docx
+2019-11-13 05:38:08.800 -05:00 [INF] Convert finished
+2019-11-13 05:38:58.784 -05:00 [INF] DataMinerAPI Application startup
+2019-11-13 05:39:08.297 -05:00 [INF] Started Test action
+2019-11-13 05:39:08.301 -05:00 [INF] Started Request Guid: c80b2edd-83c5-4894-9b5d-c9b6efba8263
+2019-11-13 05:39:08.305 -05:00 [INF] Calling convert for docx
+2019-11-13 05:39:13.762 -05:00 [INF] Convert finished
+2019-11-13 06:04:04.379 -05:00 [INF] DataMinerAPI Application startup
+2019-11-13 06:04:15.437 -05:00 [INF] Started Test action
+2019-11-13 06:04:15.439 -05:00 [INF] Started Request Guid: b0c6a9a8-1c4c-4af1-bdb0-de917aad2588
+2019-11-13 06:04:15.443 -05:00 [INF] Calling convert for docx
+2019-11-13 06:04:27.354 -05:00 [INF] Convert finished
+2019-11-13 06:05:31.595 -05:00 [INF] DataMinerAPI Application startup
+2019-11-13 06:05:40.002 -05:00 [INF] Started Test action
+2019-11-13 06:05:40.012 -05:00 [INF] Started Request Guid: 9ebedf76-9600-41e0-beb6-b855c08c1ca9
+2019-11-13 06:05:40.019 -05:00 [INF] Calling convert for docx
+2019-11-13 06:05:54.463 -05:00 [INF] Convert finished
+2019-11-13 06:06:39.343 -05:00 [INF] Started Test action
+2019-11-13 06:06:39.343 -05:00 [INF] Started Request Guid: a765d584-de9f-4a1a-8370-12ac68f5ec6b
+2019-11-13 06:06:39.344 -05:00 [INF] Calling convert for docx
+2019-11-13 06:08:36.132 -05:00 [INF] DataMinerAPI Application startup
+2019-11-13 06:08:49.122 -05:00 [INF] Started Test action
+2019-11-13 06:08:49.124 -05:00 [INF] Started Request Guid: 4f07df0a-61b7-42b2-b929-f9779be07d25
+2019-11-13 06:08:49.129 -05:00 [INF] Calling convert for docx
+2019-11-13 06:40:09.369 -05:00 [INF] DataMinerAPI Application startup
+2019-11-13 06:40:23.158 -05:00 [INF] Started Test action
+2019-11-13 06:40:23.161 -05:00 [INF] Started Request Guid: 0332f78f-f398-4e5a-805c-87dba9c59ec6
+2019-11-13 06:40:23.166 -05:00 [INF] Calling convert for docx
+2019-11-13 06:44:11.030 -05:00 [INF] Convert finished
+2019-11-13 07:44:47.881 -05:00 [INF] DataMinerAPI Application startup
+2019-11-13 07:45:07.082 -05:00 [INF] Started Test action
+2019-11-13 07:45:07.083 -05:00 [INF] Started Request Guid: d02ccf2a-4003-4fa9-89dc-413f971e0b43
+2019-11-13 07:45:07.088 -05:00 [INF] Calling convert for docx
+2019-11-13 07:45:08.636 -05:00 [INF] Convert finished
+2019-11-13 07:51:46.010 -05:00 [INF] DataMinerAPI Application startup
+2019-11-13 07:51:58.384 -05:00 [INF] Started Test action
+2019-11-13 07:51:58.386 -05:00 [INF] Started Request Guid: 2981f53f-d9c9-458b-83cb-c455bccc2ad4
+2019-11-13 07:51:58.393 -05:00 [INF] Calling convert for docx
+2019-11-13 07:51:58.855 -05:00 [INF] Convert finished
+2019-11-13 07:52:59.429 -05:00 [INF] Started Test action
+2019-11-13 07:52:59.432 -05:00 [INF] Started Request Guid: 80815c90-d3bd-4986-afdf-e676b58e9cfb
+2019-11-13 07:52:59.435 -05:00 [INF] Calling convert for docx
+2019-11-13 07:52:59.544 -05:00 [INF] Convert finished
+2019-11-13 12:34:10.516 -05:00 [INF] DataMinerAPI Application startup
+2019-11-13 12:34:22.452 -05:00 [INF] Started Test action
+2019-11-13 12:36:19.244 -05:00 [INF] DataMinerAPI Application startup
+2019-11-13 12:36:26.933 -05:00 [INF] Started Test action
+2019-11-13 12:51:28.326 -05:00 [INF] DataMinerAPI Application startup
+2019-11-13 12:51:38.688 -05:00 [INF] Started Test action
+2019-11-13 12:51:45.201 -05:00 [INF] Started Conversion for request Guid: 033bd24b-db0a-4d49-8d35-f7314a15ed8f
+2019-11-13 12:52:33.871 -05:00 [INF] DataMinerAPI Application startup
+2019-11-13 12:52:42.666 -05:00 [INF] Started Test action
+2019-11-13 12:52:42.669 -05:00 [INF] Started Conversion for request Guid: e150974d-96f6-4a6f-9a9b-8e16fa8c9df1
+2019-11-13 12:53:44.639 -05:00 [INF] DataMinerAPI Application startup
+2019-11-13 12:53:56.645 -05:00 [INF] Started Test action
+2019-11-13 12:53:56.648 -05:00 [INF] Started Conversion for request Guid: c35b8669-cead-4ae9-9ceb-588ae28c94d5
+2019-11-13 12:54:32.233 -05:00 [INF] DataMinerAPI Application startup
+2019-11-13 12:54:41.541 -05:00 [INF] Started Test action
+2019-11-13 12:54:41.544 -05:00 [INF] Started Conversion for request Guid: 33e62d2d-6db7-45cd-b1e7-b87d3ed08842
+2019-11-13 12:54:41.555 -05:00 [INF] Calling convert for docx
+2019-11-13 12:54:41.988 -05:00 [INF] Convert finished
+2019-11-13 12:54:58.939 -05:00 [INF] Started Test action
+2019-11-13 12:54:58.940 -05:00 [INF] Started Conversion for request Guid: 2843434d-9e32-4c19-bc35-2267cf16965f
+2019-11-13 12:54:58.942 -05:00 [INF] Calling convert for docx
+2019-11-13 12:54:59.049 -05:00 [INF] Convert finished
+2019-11-13 12:55:09.649 -05:00 [INF] Started Test action
+2019-11-13 12:55:09.651 -05:00 [INF] Started Conversion for request Guid: 0f8b237d-d2f6-40b3-83a7-7f3069b05d78
+2019-11-13 12:55:09.660 -05:00 [INF] Calling convert for docx
+2019-11-13 12:55:17.222 -05:00 [INF] Convert finished
+2019-11-13 12:55:30.721 -05:00 [INF] Started Test action
+2019-11-13 12:55:30.721 -05:00 [INF] Started Conversion for request Guid: 34ab1ae2-cf4a-49b6-956c-2a7cff5c9722
+2019-11-13 12:55:30.745 -05:00 [INF] Calling convert for pdf 
+2019-11-13 12:55:30.915 -05:00 [INF] Convert finished
+2019-11-13 13:05:34.639 -05:00 [INF] DataMinerAPI Application startup
+2019-11-13 13:06:36.721 -05:00 [INF] DataMinerAPI Application startup
+2019-11-13 13:06:58.365 -05:00 [INF] Started Test action
+2019-11-13 13:06:58.376 -05:00 [INF] Started Conversion for request Guid: 32f3dff6-5c35-473d-b16b-4b2fb7abf99e
+2019-11-13 13:06:58.386 -05:00 [INF] File type not explicitly handled so calling convert for text
+2019-11-13 13:06:58.388 -05:00 [INF] Convert finished
