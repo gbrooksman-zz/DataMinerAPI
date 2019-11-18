@@ -14,13 +14,21 @@ namespace DataMinerAPI
     {
         public static void Main(string[] args)
         {
-            Log.Logger = new LoggerConfiguration()
+          /*   Log.Logger = new LoggerConfiguration()
 						 .MinimumLevel.Information()
 						 .WriteTo.Console()
 						 .WriteTo.File("logs/log.txt",
 								fileSizeLimitBytes: 10000000,
 								retainedFileCountLimit: 30)
-						 .CreateLogger();
+						 .CreateLogger(); */
+
+            var configuration = new ConfigurationBuilder()
+                                        .AddJsonFile("appsettings.json")
+                                        .Build();
+
+             Log.Logger = new LoggerConfiguration()             
+                                .ReadFrom.Configuration(configuration)
+                                .CreateLogger();
 
 			Log.Information("DataMinerAPI Application startup");
 

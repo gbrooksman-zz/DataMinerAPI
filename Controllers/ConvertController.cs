@@ -2,8 +2,6 @@ using Microsoft.AspNetCore.Mvc;
 using DataMinerAPI.Engine;
 using System;
 using Serilog;
-using System.IO;
-using Microsoft.Extensions.Configuration;
 
 namespace DataMinerAPI.Controllers
 {
@@ -22,21 +20,20 @@ namespace DataMinerAPI.Controllers
 		[Route("TestPDF")]		
 		public IActionResult TestPDF(string tempValue)
 		{
-			Log.Information($"Started Test action");
+			Log.Debug(" in TestPDF method ");
 
 			IActionResult res = Ok();
 
-			string fileName = @"1.pdf";
+			string fileName = "1.pdf";
 			
 			try
 			{
-
 				res = this.Post(fileName);
-
 			}
 			catch(Exception ex)
 			{
 				Log.Error(" in TestPDF Method", ex);
+				res = BadRequest();
 			}
 
 			return res;
@@ -47,18 +44,20 @@ namespace DataMinerAPI.Controllers
 		[Route("TestWord")]		
 		public IActionResult TestWord(string tempValue)
 		{
-			Log.Information($"Started Test action");
+			Log.Debug(" in TestWord method ");
 
 			IActionResult res = Ok();
 
-			string fileName = @"1.docx";
+			string fileName = "1.docx";
 			
 			try
 			{
 				res = this.Post(fileName);
+
 			}
 			catch(Exception ex)
 			{
+				res = BadRequest();
 				Log.Error(" in TestWord Method", ex);
 			}
 
@@ -69,11 +68,11 @@ namespace DataMinerAPI.Controllers
 		[Route("TestExcel")]		
 		public IActionResult TestExcel(string tempValue)
 		{
-			Log.Information($"Started Test action");
+			Log.Debug(" in Testexcel method ");
 
 			IActionResult res = Ok();
 
-			string fileName = @"2.xlsx";
+			string fileName = "2.xlsx";
 			
 			try
 			{
@@ -81,7 +80,8 @@ namespace DataMinerAPI.Controllers
 			}
 			catch(Exception ex)
 			{
-				Log.Error(" in TestExcel Method", ex);
+				res = BadRequest();
+				Log.Error(" in TestExcel Method", ex);				
 			}
 
 			return res;
@@ -91,11 +91,11 @@ namespace DataMinerAPI.Controllers
 		[Route("TestText")]		
 		public IActionResult TestText(string tempValue)
 		{
-			Log.Information($"Started Test action");
+			Log.Debug(" in TestText method ");
 
 			IActionResult res = Ok();
 
-			string fileName = @"1.txt";
+			string fileName = "1.txt";
 			
 			try
 			{
@@ -103,6 +103,7 @@ namespace DataMinerAPI.Controllers
 			}
 			catch(Exception ex)
 			{
+				res = BadRequest();
 				Log.Error(" in TestText Method", ex);
 			}
 
@@ -123,7 +124,7 @@ namespace DataMinerAPI.Controllers
 
 			try
 			{
-				Log.Information($"Started Conversion for request Guid: {requestGuid}");
+			//	Log.Information($"Started Conversion for request Guid: {requestGuid}");
 
 				string fileExtension = System.IO.Path.GetExtension(fileName);
 
@@ -147,11 +148,11 @@ namespace DataMinerAPI.Controllers
 
 						Engine.PDFToText pdfEngine = new Engine.PDFToText();
 
-						Log.Information($"Calling convert for pdf ");
+					//	Log.Information($"Calling convert for pdf ");
 
 						retArgs = pdfEngine.ConvertPDFToText(conversionSource,requestGuid, fileExtension);
 
-						Log.Information($"Convert finished");	
+				//		Log.Information($"Convert finished");	
 				
 						break;
 
@@ -161,13 +162,13 @@ namespace DataMinerAPI.Controllers
 
 					case "docx":
 
-							Log.Information($"Calling convert for docx");
+					//	Log.Information($"Calling convert for docx");
 
 							Engine.WordToText wordEngine = new Engine.WordToText();
 
 							retArgs = wordEngine.ConvertWordToText(conversionSource,requestGuid, fileExtension);
 
-							Log.Information($"Convert finished");	
+					//		Log.Information($"Convert finished");	
 
 							break;
 
@@ -198,6 +199,12 @@ namespace DataMinerAPI.Controllers
 						Log.Information($"Convert finished");	
 
 						break;
+				}
+
+				if (settings.DeleteWorkingFiles)
+				{
+					System.IO.File.Delete(conversionSource);
+					System.IO.File.Delete(conversionSource.Replace(fileType, "txt"));
 				}
 
 			}

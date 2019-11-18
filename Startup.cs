@@ -4,6 +4,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using LiteDB;
+using Serilog;
 
 namespace DataMinerAPI
 {
@@ -34,8 +35,10 @@ namespace DataMinerAPI
             {
                 app.UseDeveloperExceptionPage();
             }
+
+            app.UseSerilogRequestLogging(); 
            
-            app.UseCors("AllowMyOrigin");
+            app.UseCors("AllowAnyOrigin");
 
             app.UseHttpsRedirection();
 

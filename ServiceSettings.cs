@@ -22,6 +22,8 @@ namespace DataMinerAPI
 
         public string WorkingFolder { get; set; }
 
+        public bool DeleteWorkingFiles { get; set; }
+
     }
 
 }
