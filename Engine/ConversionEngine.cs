@@ -123,7 +123,7 @@ namespace DataMinerAPI.Engine
 
                 TextProcessorEngine textEngine = new TextProcessorEngine(cache, settings);
 
-                ResultEntity textEngineResult = textEngine.ProcessContent(retArgs.DocumentContent, keyWordsXML, retArgs.RequestID.ToString(), application);
+                ResultEntity textEngineResult = textEngine.ProcessDocumentContent(retArgs.DocumentContent, keyWordsXML, retArgs.RequestID.ToString(), application);
             
                 if (textEngineResult.Success)
                 {                    

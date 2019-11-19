@@ -142,7 +142,7 @@ namespace DataMinerAPI.Engine
 						Messages = entity.Messages,
 						RequestGuid = entity.RequestGuid,
 						Score = entity.Score,
-						SearchTerms = entity.SearchTerms
+						DocItems = entity.DocItems
 
 					});
 
@@ -187,7 +187,7 @@ namespace DataMinerAPI.Engine
 				cmd.Parameters.Add(entity.RequestGuid);
 				cmd.Parameters.Add(entity.Application);
 				cmd.Parameters.Add(entity.Content);
-				cmd.Parameters.Add(entity.SearchTerms.ToString());
+				cmd.Parameters.Add(entity.DocItems.ToString());
 				cmd.Parameters.Add(entity.FormulaItems.ToString());
 				cmd.Parameters.Add(entity.Score);
 				cmd.Parameters.Add(entity.Messages.ToString());

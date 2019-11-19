@@ -26,7 +26,7 @@ namespace DataMinerAPI.Controllers
 
 		private string GetSampleKeywords()
 		{
-			return System.IO.File.ReadAllText(@"/files/keywords.xml");
+			return System.IO.File.ReadAllText(@"files/keywords.xml");
 		}
 
 		[HttpPost]

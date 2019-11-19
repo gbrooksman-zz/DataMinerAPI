@@ -46,7 +46,7 @@ namespace DataMinerAPI.Models
 		/// <summary>
 		/// 
 		/// </summary>
-		public List<SearchTerm> SearchTerms { get; set; }
+		public List<DocItem> DocItems { get; set; }
 
 		/// <summary>
 		/// 

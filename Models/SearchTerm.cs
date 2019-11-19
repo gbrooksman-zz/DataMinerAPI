@@ -14,19 +14,19 @@ namespace DataMinerAPI.Models
 
 		public int TotalScore { get; set; }
 
-		public List<SearchTerm> SearchTerms { get; set; }
+		public List<DocItem> DocItems { get; set; }
 	}
 
 
 	/// <summary>
 	///
 	/// </summary>
-	public class SearchTerm
+	public class DocItem
 	{
 		/// <summary>
 		///
 		/// </summary>
-		public string Item { get; set; }
+		public string Description { get; set; }
 
 		/// <summary>
 		///
@@ -53,7 +53,13 @@ namespace DataMinerAPI.Models
 		/// </summary>
 		public string Result { get; set; }
 
-		public List<string> Synonyms { get; set; }
+		public Terms Terms { get; set; }
 	}	
+
+
+	public class Terms 
+	{		
+		public List<string> Term { get; set; }
+	}
 
 }

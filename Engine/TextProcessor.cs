@@ -11,6 +11,7 @@ using DataMinerAPI.Models;
 using System.IO;
 using System.Xml.Serialization;
 
+
 namespace DataMinerAPI.Engine
 {
 	/// <summary>
@@ -149,7 +150,7 @@ namespace DataMinerAPI.Engine
 
 		public int CalculateScore(ResultEntity entity)
 		{
-			int attrScore = entity.SearchTerms.Sum(x => x.Score) + entity.FormulaItems.Sum(x => x.Score);
+			int attrScore = entity.DocItems.Sum(x => x.Score) + entity.FormulaItems.Sum(x => x.Score);
 
 			if (settings.MaxAttributeScore > 0)
 			{
@@ -170,7 +171,7 @@ namespace DataMinerAPI.Engine
 		{
 			SearchSet searchSet = new SearchSet();
 
-			XmlSerializer serializer = new XmlSerializer(typeof(SearchSet));
+			XmlSerializer serializer = new XmlSerializer(typeof(SearchSet), new XmlRootAttribute("SearchSet"));
 			using (TextReader reader = new StringReader(xml))
 			{
 				searchSet = (SearchSet) serializer.Deserialize(reader);
@@ -187,13 +188,13 @@ namespace DataMinerAPI.Engine
 		/// <param name="requestGuid"></param>
 		/// <param name="application"></param>
 		/// <returns></returns>
-		public ResultEntity ProcessContent(string content, string keywordsXML, string requestGuid, string application)
+		public ResultEntity ProcessDocumentContent(string content, string keywordsXML, string requestGuid, string application)
 		{					
 			SearchSet searchSet = GetSearchSet(keywordsXML);
 
 			ResultEntity parsedElements = new ResultEntity(requestGuid, application)
 			{
-				SearchTerms = new List<SearchTerm>(),
+				DocItems = new List<DocItem>(),
 				FormulaItems = new List<FormulaItem>(),
 				Messages = new List<string>()
 			};
@@ -210,7 +211,7 @@ namespace DataMinerAPI.Engine
 				return parsedElements;
 			}
 
-			List<SearchTerm> searchResults = new List<SearchTerm>();
+			List<DocItem> searchResults = new List<DocItem>();
 
 			//-------------------------------------------------------------------------------------------------------------
 
@@ -218,10 +219,10 @@ namespace DataMinerAPI.Engine
 
 			List<string> textlines = lines.Where(x => !string.IsNullOrWhiteSpace(x)).Select( y=>y.ToLower()).ToList();
 
-            parsedElements.SearchTerms.AddRange(from SearchTerm searchTerm in searchSet.SearchTerms
+            parsedElements.DocItems.AddRange(from DocItem searchTerm in searchSet.DocItems
                                         select FindSearchTerm(searchTerm, textlines));
 
-            parsedElements.Messages.Add($"Count of Keywords: {parsedElements.SearchTerms.Where(s => !string.IsNullOrEmpty(s.Result)).Count()}");
+            parsedElements.Messages.Add($"Count of Keywords: {parsedElements.DocItems.Where(s => !string.IsNullOrEmpty(s.Result)).Count()}");
 
 			if (searchSet.DoFormula)
 			{
@@ -455,10 +456,10 @@ namespace DataMinerAPI.Engine
 		/// <param name="searchTerm"></param>
 		/// <param name="textlines"></param>
 		/// <returns></returns>
-		private SearchTerm FindSearchTerm(SearchTerm searchTerm, List<string> textlines)
+		private DocItem FindSearchTerm(DocItem searchTerm, List<string> textlines)
 		{
 			int currentLine = 0;
-			string searchText = searchTerm.Item.ToLower();
+			string searchText = searchTerm.Description.ToLower();
 			string termType = searchTerm.Hint.ToLower();
 
 			foreach (string line in textlines)
@@ -500,7 +501,7 @@ namespace DataMinerAPI.Engine
 				return searchTerm;
 		}
 
-		private SearchTerm CheckValue(SearchTerm searchTerm, string searchText, string restofLine,
+		private DocItem CheckValue(DocItem searchTerm, string searchText, string restofLine,
 										List<string> evalWords, string line, List<string> textlines, int currentLine)
 		{
 			/* look for values as attributes of searchTerms
@@ -595,7 +596,7 @@ namespace DataMinerAPI.Engine
 		}
 
 
-		private SearchTerm CheckText(SearchTerm searchTerm, string restofLine)
+		private DocItem CheckText(DocItem searchTerm, string restofLine)
 		{
 
 			if (restofLine.Length >= 2)
