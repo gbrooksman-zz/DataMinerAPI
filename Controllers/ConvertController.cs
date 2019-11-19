@@ -2,6 +2,7 @@ using Microsoft.AspNetCore.Mvc;
 using DataMinerAPI.Engine;
 using System;
 using Serilog;
+using Microsoft.Extensions.Caching.Memory;
 
 namespace DataMinerAPI.Controllers
 {
@@ -11,16 +12,23 @@ namespace DataMinerAPI.Controllers
 	public class ConvertController : Controller
 	{
 		private readonly ServiceSettings settings;
-		public ConvertController(ServiceSettings _settings)
+		private readonly IMemoryCache cache;
+
+		public ConvertController(IMemoryCache _cache, ServiceSettings _settings)
 		{
 			settings = _settings;
+		}
+
+		private string GetSampleKeywords()
+		{
+			return System.IO.File.ReadAllText(@"/files/keywords.xml");
 		}
 
 		[HttpPost]
 		[Route("TestPDF")]		
 		public IActionResult TestPDF(string tempValue)
 		{
-			Log.Debug(" in TestPDF method ");
+			Log.Debug("In TestPDF method ");
 
 			IActionResult res = Ok();
 
@@ -28,11 +36,11 @@ namespace DataMinerAPI.Controllers
 			
 			try
 			{
-				res = this.Post(fileName);
+				res = this.Post(fileName, GetSampleKeywords(), "Test");
 			}
 			catch(Exception ex)
 			{
-				Log.Error(" in TestPDF Method", ex);
+				Log.Error("TestPDF Method", ex);
 				res = BadRequest();
 			}
 
@@ -44,7 +52,7 @@ namespace DataMinerAPI.Controllers
 		[Route("TestWord")]		
 		public IActionResult TestWord(string tempValue)
 		{
-			Log.Debug(" in TestWord method ");
+			Log.Debug("In TestWord method ");
 
 			IActionResult res = Ok();
 
@@ -52,13 +60,13 @@ namespace DataMinerAPI.Controllers
 			
 			try
 			{
-				res = this.Post(fileName);
+				res = this.Post(fileName, GetSampleKeywords(), "Test");
 
 			}
 			catch(Exception ex)
 			{
 				res = BadRequest();
-				Log.Error(" in TestWord Method", ex);
+				Log.Error("TestWord Method", ex);
 			}
 
 			return res;
@@ -68,7 +76,7 @@ namespace DataMinerAPI.Controllers
 		[Route("TestExcel")]		
 		public IActionResult TestExcel(string tempValue)
 		{
-			Log.Debug(" in Testexcel method ");
+			Log.Debug("In TestExcel method ");
 
 			IActionResult res = Ok();
 
@@ -76,12 +84,12 @@ namespace DataMinerAPI.Controllers
 			
 			try
 			{
-				res = this.Post(fileName);
+				res = this.Post(fileName, GetSampleKeywords(), "Test");
 			}
 			catch(Exception ex)
 			{
 				res = BadRequest();
-				Log.Error(" in TestExcel Method", ex);				
+				Log.Error("TestExcel Method", ex);				
 			}
 
 			return res;
@@ -91,7 +99,7 @@ namespace DataMinerAPI.Controllers
 		[Route("TestText")]		
 		public IActionResult TestText(string tempValue)
 		{
-			Log.Debug(" in TestText method ");
+			Log.Debug("In TestText method ");
 
 			IActionResult res = Ok();
 
@@ -99,19 +107,19 @@ namespace DataMinerAPI.Controllers
 			
 			try
 			{
-				res = this.Post(fileName);
+				res = this.Post(fileName, GetSampleKeywords(), "Test");
 			}
 			catch(Exception ex)
 			{
 				res = BadRequest();
-				Log.Error(" in TestText Method", ex);
+				Log.Error("TestText Method", ex);
 			}
 
 			return res;
 		}
 
 		[HttpPost]		
-		public IActionResult Post(string fileName)
+		public IActionResult Post(string fileName, string keyWordsXML, string application)
 		{			
 			string inputDir = settings.FilesFolder;
 			string workingDir = settings.WorkingFolder;
@@ -124,7 +132,7 @@ namespace DataMinerAPI.Controllers
 
 			try
 			{
-			//	Log.Information($"Started Conversion for request Guid: {requestGuid}");
+				Log.Debug($"Started Conversion for request Guid: {requestGuid}");
 
 				string fileExtension = System.IO.Path.GetExtension(fileName);
 
@@ -148,11 +156,11 @@ namespace DataMinerAPI.Controllers
 
 						Engine.PDFToText pdfEngine = new Engine.PDFToText();
 
-					//	Log.Information($"Calling convert for pdf ");
+						Log.Debug($"Calling convert for pdf: {requestGuid}");
 
 						retArgs = pdfEngine.ConvertPDFToText(conversionSource,requestGuid, fileExtension);
 
-				//		Log.Information($"Convert finished");	
+						Log.Debug($"Convert pdf finished");	
 				
 						break;
 
@@ -162,15 +170,15 @@ namespace DataMinerAPI.Controllers
 
 					case "docx":
 
-					//	Log.Information($"Calling convert for docx");
+						Log.Debug($"Calling convert for docx: {requestGuid}");
 
-							Engine.WordToText wordEngine = new Engine.WordToText();
+						Engine.WordToText wordEngine = new Engine.WordToText();
 
-							retArgs = wordEngine.ConvertWordToText(conversionSource,requestGuid, fileExtension);
+						retArgs = wordEngine.ConvertWordToText(conversionSource,requestGuid, fileExtension);
 
-					//		Log.Information($"Convert finished");	
+						Log.Debug($"Convert docx finished");	
 
-							break;
+						break;
 
 					case "xls":
 
@@ -178,25 +186,25 @@ namespace DataMinerAPI.Controllers
 
 					case "xlsx":
 						
-						Log.Information($"Calling convert for docx");
+						Log.Debug($"Calling convert for xlsx: {requestGuid}");
 
 						Engine.ExcelToText excelEngine = new Engine.ExcelToText();
 
 						retArgs = excelEngine.ConvertExcelToText(conversionSource,requestGuid, fileExtension);
 
-						Log.Information($"Convert finished");	
+						Log.Debug($"Convert xlsx finished");	
 
 						break;
 
 					default:
 
-						Log.Information($"File type not explicitly handled so calling convert for text");
+						Log.Debug($"File type not explicitly handled so calling convert for text: {requestGuid}");
 
 						Engine.TextToText textEngine = new Engine.TextToText();
 
 						retArgs = textEngine.ConvertTextToText(conversionSource,requestGuid, fileExtension);
 
-						Log.Information($"Convert finished");	
+						Log.Debug($"Convert default finished");	
 
 						break;
 				}
@@ -206,6 +214,19 @@ namespace DataMinerAPI.Controllers
 					System.IO.File.Delete(conversionSource);
 					System.IO.File.Delete(conversionSource.Replace(fileType, "txt"));
 				}
+
+				if (retArgs.Success)
+				{
+					TextProcessorEngine textEngine = new TextProcessorEngine(cache, settings);
+
+					textEngine.ProcessContent(retArgs.Content, keyWordsXML, requestGuid.ToString(), application);
+
+				}
+
+				Log.Debug($"Content: {retArgs.Content}");
+
+				Log.Debug($"Finished Conversion for request Guid: {requestGuid}");
+
 
 			}
 			catch (Exception ex)

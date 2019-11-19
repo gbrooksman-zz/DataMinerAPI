@@ -24,6 +24,10 @@ namespace DataMinerAPI
 
         public bool DeleteWorkingFiles { get; set; }
 
+		public int MaxAttributeScore { get; set; }
+
+		public int MaxFormulaScore { get; set; }
+
     }
 
 }

@@ -3,7 +3,6 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using LiteDB;
 using Serilog;
 
 namespace DataMinerAPI
@@ -26,6 +25,8 @@ namespace DataMinerAPI
 
             services.AddSingleton(Configuration.GetSection("ServiceSettings").Get<ServiceSettings>());
 
+            services.AddMemoryCache();
+
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -34,9 +35,7 @@ namespace DataMinerAPI
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
-            }
-
-            app.UseSerilogRequestLogging(); 
+            }            
            
             app.UseCors("AllowAnyOrigin");
 

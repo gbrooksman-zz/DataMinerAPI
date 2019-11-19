@@ -1,11 +1,9 @@
 using Microsoft.Extensions.Caching.Memory;
 using Microsoft.Extensions.Configuration;
-using Microsoft.Extensions.Options;
 using Newtonsoft.Json;
 using Serilog;
 using System;
 using System.Collections.Generic;
-using System.Data.SqlClient;
 using System.Linq;
 using System.Text.RegularExpressions;
 using System.Xml;
@@ -19,25 +17,12 @@ namespace DataMinerAPI.Engine
 	public class TextProcessorEngine
 	{
 		private readonly List<string> _lines = new List<string>();
-
 		private List<Component> knownChemicals = new List<Component>();
 		private List<SectionHeader> sectionHeaders = new List<SectionHeader>();
 		private List<OtherIdentifier> otherIdentifiers = new List<OtherIdentifier>();
-
 		private List<string> listofCASTerms = new List<string>();
-
-		//private List<string> listofFormulaStartTerms = new List<string>();
-
-		//private List<string> listofFormulaStopTerms = new List<string>();
-
-		//private readonly List<string> listofTransportStartTerms = new List<string>();
-
-		//private readonly List<string> listofTransportStopTerms = new List<string>();
-
-		private IMemoryCache cache;
-		private readonly IConfiguration config;
-		private readonly AppOptions options;
-
+		private readonly IMemoryCache cache;
+		private readonly ServiceSettings settings;
 		private const int HIGH_SCORE = 10;
 		private const int MEDIUM_SCORE = 6;
 		private const int LOW_SCORE = 3;
@@ -49,11 +34,10 @@ namespace DataMinerAPI.Engine
 		/// <param name="_cache"></param>
 		/// <param name="_config"></param>
 		/// <param name="_options"></param>
-		public TextProcessorEngine(IMemoryCache _cache, IConfiguration _config, AppOptions _options)
+		public TextProcessorEngine(IMemoryCache _cache, ServiceSettings _settings)
 		{
 			cache = _cache;
-			config = _config;
-			options = _options;
+			settings = _settings;
 
 			knownChemicals = cache.GetOrCreate<List<Component>>("knownComponents",
 			   cacheEntry =>
@@ -91,7 +75,7 @@ namespace DataMinerAPI.Engine
 			List<Component> comps = new List<Component>();
 
 			XmlDocument xdoc = new XmlDocument();
-			xdoc.Load(@"data/components.xml");
+			xdoc.Load(@"Data/components.xml");
 			XmlNode root = xdoc.DocumentElement;
 
 			foreach (XmlNode node in root.SelectNodes("component"))
@@ -114,7 +98,7 @@ namespace DataMinerAPI.Engine
 			List<SectionHeader> headers = new List<SectionHeader>();
 
 			XmlDocument xdoc = new XmlDocument();
-			xdoc.Load(@"data/section_headers.xml");
+			xdoc.Load(@"Data/section_headers.xml");
 			XmlNode root = xdoc.DocumentElement;
 
 			foreach (XmlNode node in root.SelectNodes("section"))
@@ -137,7 +121,7 @@ namespace DataMinerAPI.Engine
 			List<OtherIdentifier> oids = new List<OtherIdentifier>();
 
 			XmlDocument xdoc = new XmlDocument();
-			xdoc.Load(@"data/identifiers.xml");
+			xdoc.Load(@"Data/identifiers.xml");
 			XmlNode root = xdoc.DocumentElement;
 
 			foreach (XmlNode node in root.SelectNodes("category"))
@@ -165,16 +149,16 @@ namespace DataMinerAPI.Engine
 		{
 			int attrScore = entity.SearchTerms.Sum(x => x.Score) + entity.FormulaItems.Sum(x => x.Score);
 
-			if (options.MaxAttributeScore > 0)
+			if (settings.MaxAttributeScore > 0)
 			{
-				attrScore = attrScore > options.MaxAttributeScore ? options.MaxAttributeScore : attrScore;
+				attrScore = attrScore > settings.MaxAttributeScore ? settings.MaxAttributeScore : attrScore;
 			}
 
 			int formScore = entity.FormulaItems.Sum(x => x.Score) + entity.FormulaItems.Sum(x => x.Score);
 
-			if (options.MaxFormulaScore > 0)
+			if (settings.MaxFormulaScore > 0)
 			{
-				formScore = formScore > options.MaxFormulaScore ? options.MaxFormulaScore : formScore;
+				formScore = formScore > settings.MaxFormulaScore ? settings.MaxFormulaScore : formScore;
 			}
 
 			return (attrScore + formScore);
@@ -231,7 +215,7 @@ namespace DataMinerAPI.Engine
 			result.Score = CalculateScore(result);
 			result.DateStamp = DateTime.Now;
 
-			if (options.SaveToAzure)
+		/* 	if (settings.SaveToAzure)
 			{
 				result.Messages.Add($"Saved results to Azure");
 				SaveResult(result, content, requestGuid);
@@ -242,12 +226,12 @@ namespace DataMinerAPI.Engine
 				result.Messages.Add($"Saved results to LocalSQL");
 				SaveResultSQL(result, content, requestGuid);
 			}
-
+ 		*/
 			return result;
 		}
 
 
-		private void SaveResult(ResultEntity result, string content, string requestGuid)
+	/* 	private void SaveResult(ResultEntity result, string content, string requestGuid)
 		{
 			StorageEngine storageEngine = new StorageEngine(config);
 
@@ -260,8 +244,8 @@ namespace DataMinerAPI.Engine
 				Log.Error(result.Exception, $"Exception for request {requestGuid}");
 			}
 		}
-
-		private void SaveResultSQL(ResultEntity result, string content, string requestGuid)
+ */
+	/* 	private void SaveResultSQL(ResultEntity result, string content, string requestGuid)
 		{			
             StorageEngine storageEngine = new StorageEngine(config);
 
@@ -273,7 +257,7 @@ namespace DataMinerAPI.Engine
 				result.Messages.Add(result.Exception.Message);
 				Log.Error(result.Exception, $"Exception for request {requestGuid}");
 			}
-		}
+		} */
 
 		private ResultEntity Validate(ResultEntity result, string application, string requestGuid, string content, string keywordsJson)
 		{
@@ -313,7 +297,6 @@ namespace DataMinerAPI.Engine
 			}
 			else
 			{
-
 				if (items.Count == 0)
 				{
 					formulaLines = GetSection(textlines, "2", "3");		//try pre GHS structure
@@ -329,7 +312,6 @@ namespace DataMinerAPI.Engine
 			}
 
 			return items;
-
 		}
 
 

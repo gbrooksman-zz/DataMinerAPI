@@ -1,0 +1,57 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<sections>
+	<section id="1">
+		<title>Chemical Product and Company Identification </title>
+		<title>CHEMICAL PRODUCT</title>
+		<title>Identification of the substance/mixture and of the company/undertaking</title>
+	</section>
+	<section id="2">
+		<title>Hazards Identification</title>
+	</section>
+	<section id="3">
+		<title>Composition/Information on Ingredients</title>
+	</section>
+	<section id="4">
+		<title>First Aid Measures</title>
+	</section>
+	<section id="5">
+		<title>Fire Fighting Measures</title>
+		<title>Firefighting measures</title>
+	</section>
+	<section id="6">
+		<title>Accidental Release Measures</title>
+		<title>ACCIDENTAL RELEASE MEASURES SPILL CLEAN-UP PROCEDURES</title>
+	</section>
+	<section id="7">
+		<title>Handling and Storage</title>
+	</section>
+	<section id="8">
+		<title>Exposure Controls/Personal Protection</title>
+		<title>EXPOSURE CONTROL /PERSONAL PROTECTION</title>
+	</section>
+	<section id="9">
+		<title>Physical and Chemical Properties</title>
+	</section>
+	<section id="10">
+		<title>Stability and Reactivity</title>
+	</section>
+	<section id="11">
+		<title>Toxicological Information</title>
+	</section>
+	<section id="12">
+		<title>Ecological Information</title>
+	</section>
+	<section id="13">
+		<title>Disposal Considerations</title>
+	</section>
+	<section id="14">
+		<title>Transportation Information</title>
+		<title>TRANSPORT INFORMATION</title>
+	</section>
+	<section id="15">
+		<title>Regulatory Information</title>
+	</section>
+	<section id="16">
+		<title>Other Information</title>
+	</section>
+</sections>
