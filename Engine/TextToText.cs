@@ -3,6 +3,7 @@ using System.IO;
 using System.Text;
 using System.Linq;
 using Serilog;
+using DataMinerAPI.Models;
 
 
 namespace DataMinerAPI.Engine
@@ -22,7 +23,7 @@ namespace DataMinerAPI.Engine
             try
             {
                 string textContent = System.IO.File.ReadAllText(conversionSource);
-                era.Content = textContent;
+                era.DocumentContent = textContent;
 				era.Success = true;
 				era.Message = "Conversion ok";
             }
@@ -31,7 +32,7 @@ namespace DataMinerAPI.Engine
                 Log.Error(ex, "In ConvertTextToText");
 				era.Success = false;
 				era.Message = "Conversion failed";
-				era.Content = ex.Message;
+				era.DocumentContent = ex.Message;
             }
 
             return era;

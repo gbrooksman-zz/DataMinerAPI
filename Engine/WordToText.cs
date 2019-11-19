@@ -5,6 +5,7 @@ using System.Text;
 using System.Xml;
 using DocumentFormat.OpenXml.Packaging;  
 using Serilog;
+using DataMinerAPI.Models;
 
 namespace DataMinerAPI.Engine
 {
@@ -48,7 +49,7 @@ namespace DataMinerAPI.Engine
                 string textResults = sb.ToString();
                 File.WriteAllText($"{textFileName}", textResults);
 
-                era.Content = textResults;
+                era.DocumentContent = textResults;
 				era.Success = true;
 				era.Message = "Conversion ok";
             }
@@ -57,7 +58,7 @@ namespace DataMinerAPI.Engine
                 Log.Error(ex, "In ConvertWordToText");
 				era.Success = false;
 				era.Message = "Conversion failed";
-				era.Content = ex.Message;
+				era.DocumentContent = ex.Message;
             }
 
             return era;

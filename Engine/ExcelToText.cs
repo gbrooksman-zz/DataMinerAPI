@@ -5,7 +5,7 @@ using DocumentFormat.OpenXml.Packaging;
 using DocumentFormat.OpenXml.Spreadsheet;  
 using System.Linq;
 using Serilog;
-
+using DataMinerAPI.Models;
 
 namespace DataMinerAPI.Engine
 {
@@ -56,7 +56,7 @@ namespace DataMinerAPI.Engine
                     }
                 }
 
-                era.Content = File.ReadAllText(textFileName,Encoding.UTF8);
+                era.DocumentContent = File.ReadAllText(textFileName,Encoding.UTF8);
 			    era.Success = true;
 			    era.Message = "Conversion ok";
             }
@@ -65,7 +65,7 @@ namespace DataMinerAPI.Engine
                 Log.Error(ex, "In ConvertExcelToText");
 				era.Success = false;
 				era.Message = "Conversion failed";
-				era.Content = ex.Message;
+				era.DocumentContent = ex.Message;
             }       
           
             return era;

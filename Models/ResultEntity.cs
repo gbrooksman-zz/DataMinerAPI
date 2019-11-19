@@ -73,5 +73,10 @@ namespace DataMinerAPI.Models
 		/// </summary>
 		public Exception Exception { get; set; }
 
+		/// <summary>
+		/// 
+		/// </summary>
+		public bool Success { get; set; }
+
 	}
 }

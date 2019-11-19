@@ -1,5 +1,23 @@
+using System.Collections.Generic;
+
 namespace DataMinerAPI.Models
 {
+
+	public class SearchSet
+	{
+		public SearchSet()
+		{
+			
+		}
+
+		public bool DoFormula { get; set; }
+
+		public int TotalScore { get; set; }
+
+		public List<SearchTerm> SearchTerms { get; set; }
+	}
+
+
 	/// <summary>
 	///
 	/// </summary>
@@ -13,17 +31,17 @@ namespace DataMinerAPI.Models
 		/// <summary>
 		///
 		/// </summary>
-		public string Type { get; set; }
+		public string Hint { get; set; }
 
 		/// <summary>
 		///
 		/// </summary>
-		public string Value { get; set; }
+		public string DataCode { get; set; }
 
 		/// <summary>
 		///
 		/// </summary>
-		public string OtherInfo { get; set; }
+		public string Section { get; set; }
 
 		/// <summary>
 		///
@@ -33,6 +51,9 @@ namespace DataMinerAPI.Models
 		/// <summary>
 		///
 		/// </summary>
-		public string DataCode { get; set; }
-	}
+		public string Result { get; set; }
+
+		public List<string> Synonyms { get; set; }
+	}	
+
 }

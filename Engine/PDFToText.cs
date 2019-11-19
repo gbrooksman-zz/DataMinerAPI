@@ -5,6 +5,7 @@ using System.Diagnostics;
 using System.IO;
 using System.Text;
 using Serilog;
+using DataMinerAPI.Models;
 
 namespace DataMinerAPI.Engine
 {
@@ -26,7 +27,7 @@ namespace DataMinerAPI.Engine
 
 				RunProcess(converter, $" -layout {conversionSource} {textFileName}");
 
-				era.Content = File.ReadAllText(textFileName,Encoding.UTF8);
+				era.DocumentContent = File.ReadAllText(textFileName,Encoding.UTF8);
 				era.Success = true;
 				era.Message = "Conversion ok";
 			}
@@ -35,7 +36,7 @@ namespace DataMinerAPI.Engine
 				Log.Error(ex, "In Convert.PDF");
 				era.Success = false;
 				era.Message = "Conversion failed";
-				era.Content = ex.Message;
+				era.DocumentContent = ex.Message;
 			}
 			return era;
 		}
@@ -63,13 +64,13 @@ namespace DataMinerAPI.Engine
 				{
 					era.Success = false;
 					era.Message = "Conversion from Image failed - no content could be extracted";
-					era.Content = string.Empty; ;
+					era.DocumentContent = string.Empty; ;
 				}
 				else
 				{
 					era.Success = true;
 					era.Message = "Conversion from Image complete";
-					era.Content = pdfContent;
+					era.DocumentContent = pdfContent;
 				}
 			}
 			catch (Exception ex)
@@ -77,7 +78,7 @@ namespace DataMinerAPI.Engine
 				//Log.Error(ex, "In ConvertImagePDF.PDF");
 				era.Success = false;
 				era.Message = "Conversion failed";
-				era.Content = ex.Message;
+				era.DocumentContent = ex.Message;
 			}
 			finally
 			{

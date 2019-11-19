@@ -8,6 +8,8 @@ using System.Linq;
 using System.Text.RegularExpressions;
 using System.Xml;
 using DataMinerAPI.Models;
+using System.IO;
+using System.Xml.Serialization;
 
 namespace DataMinerAPI.Engine
 {
@@ -17,9 +19,9 @@ namespace DataMinerAPI.Engine
 	public class TextProcessorEngine
 	{
 		private readonly List<string> _lines = new List<string>();
-		private List<Component> knownChemicals = new List<Component>();
-		private List<SectionHeader> sectionHeaders = new List<SectionHeader>();
-		private List<OtherIdentifier> otherIdentifiers = new List<OtherIdentifier>();
+		private readonly List<Component> knownChemicals = new List<Component>();
+		private readonly List<SectionHeader> sectionHeaders = new List<SectionHeader>();
+		private readonly List<OtherIdentifier> otherIdentifiers = new List<OtherIdentifier>();
 		private List<string> listofCASTerms = new List<string>();
 		private readonly IMemoryCache cache;
 		private readonly ServiceSettings settings;
@@ -70,7 +72,7 @@ namespace DataMinerAPI.Engine
 
 		private List<Component> GetKnownComponents()
 		{
-			Log.Information("Getting known components from xml file");
+			Log.Debug("Getting known components from xml file");
 
 			List<Component> comps = new List<Component>();
 
@@ -93,7 +95,7 @@ namespace DataMinerAPI.Engine
 
 		private List<SectionHeader> GetSectionHeaders()
 		{
-			Log.Information("Getting section headers from xml file");
+			Log.Debug("Getting section headers from xml file");
 
 			List<SectionHeader> headers = new List<SectionHeader>();
 
@@ -164,6 +166,18 @@ namespace DataMinerAPI.Engine
 			return (attrScore + formScore);
 		}
 
+		private SearchSet GetSearchSet(string xml)
+		{
+			SearchSet searchSet = new SearchSet();
+
+			XmlSerializer serializer = new XmlSerializer(typeof(SearchSet));
+			using (TextReader reader = new StringReader(xml))
+			{
+				searchSet = (SearchSet) serializer.Deserialize(reader);
+			}
+
+			return searchSet;
+		}
 
 		/// <summary>
 		///
@@ -173,22 +187,27 @@ namespace DataMinerAPI.Engine
 		/// <param name="requestGuid"></param>
 		/// <param name="application"></param>
 		/// <returns></returns>
-		public ResultEntity ProcessContent(string content, string keywordsJson, string requestGuid, string application)
-		{
-			ResultEntity result = new ResultEntity(requestGuid, application)
+		public ResultEntity ProcessContent(string content, string keywordsXML, string requestGuid, string application)
+		{					
+			SearchSet searchSet = GetSearchSet(keywordsXML);
+
+			ResultEntity parsedElements = new ResultEntity(requestGuid, application)
 			{
 				SearchTerms = new List<SearchTerm>(),
 				FormulaItems = new List<FormulaItem>(),
 				Messages = new List<string>()
 			};
 
-			result = Validate(result, application, requestGuid, content, keywordsJson);
+			try
+			{	
 
-			if (result.Exception != null)
+			parsedElements = Validate(parsedElements, application, requestGuid, content, keywordsXML);
+
+			if (parsedElements.Exception != null)
 			{
-				result.Messages.Add(result.Exception.Message);
-				Log.Error(result.Exception, $"Exception for request {requestGuid}");
-				return result;
+				parsedElements.Messages.Add(parsedElements.Exception.Message);
+				Log.Error(parsedElements.Exception, $"Exception for request {requestGuid}");
+				return parsedElements;
 			}
 
 			List<SearchTerm> searchResults = new List<SearchTerm>();
@@ -199,21 +218,20 @@ namespace DataMinerAPI.Engine
 
 			List<string> textlines = lines.Where(x => !string.IsNullOrWhiteSpace(x)).Select( y=>y.ToLower()).ToList();
 
-			List<SearchTerm> searchTerms = JsonConvert.DeserializeObject<List<SearchTerm>>(keywordsJson);
+            parsedElements.SearchTerms.AddRange(from SearchTerm searchTerm in searchSet.SearchTerms
+                                        select FindSearchTerm(searchTerm, textlines));
 
-			foreach (SearchTerm searchTerm in searchTerms)
+            parsedElements.Messages.Add($"Count of Keywords: {parsedElements.SearchTerms.Where(s => !string.IsNullOrEmpty(s.Result)).Count()}");
+
+			if (searchSet.DoFormula)
 			{
-				result.SearchTerms.Add(FindSearchTerm(searchTerm, textlines));
+				parsedElements.FormulaItems.AddRange(GetFormulation(textlines, requestGuid));
+				parsedElements.Messages.Add($"Count of Formula Items: {parsedElements.FormulaItems.Count}");
 			}
 
-			result.Messages.Add($"Count of Keywords: {result.SearchTerms.Where(s => !string.IsNullOrEmpty(s.Value)).Count()}");
-
-			result.FormulaItems.AddRange(GetFormulation(textlines, requestGuid));
-
-			result.Messages.Add($"Count of Formula Items: {result.FormulaItems.Count}");
-
-			result.Score = CalculateScore(result);
-			result.DateStamp = DateTime.Now;
+			parsedElements.Score = CalculateScore(parsedElements);
+			parsedElements.DateStamp = DateTime.Now;
+			parsedElements.Success = true;
 
 		/* 	if (settings.SaveToAzure)
 			{
@@ -227,7 +245,17 @@ namespace DataMinerAPI.Engine
 				SaveResultSQL(result, content, requestGuid);
 			}
  		*/
-			return result;
+
+			}
+			catch (Exception ex)
+			{
+				Log.Error(ex, "In ProcessContent");				
+				parsedElements.Exception = ex;
+				parsedElements.Success = false;
+				parsedElements.Score = 0;
+			}
+
+			return parsedElements;
 		}
 
 
@@ -324,13 +352,7 @@ namespace DataMinerAPI.Engine
 		/// <returns></returns>
 
 		public List<string> GetSection(List<string> textlines, string startSection, string stopSection)
-		{
-			List<SectionHeader> sectionHeaders = cache.GetOrCreate<List<SectionHeader>>("sectionHeaders",
-			   cacheEntry =>
-			   {
-				   return GetSectionHeaders();
-			   });
-
+		{	
 			List<string> startTextList = sectionHeaders.Where(x => x.Number == startSection).Select(y => y.Title.ToLower()).ToList();
 
 			List<string> stopTextList = sectionHeaders.Where(x => x.Number == stopSection).Select(y => y.Title.ToLower()).ToList();
@@ -437,7 +459,7 @@ namespace DataMinerAPI.Engine
 		{
 			int currentLine = 0;
 			string searchText = searchTerm.Item.ToLower();
-			string termType = searchTerm.Type.ToLower();
+			string termType = searchTerm.Hint.ToLower();
 
 			foreach (string line in textlines)
 			{
@@ -467,7 +489,7 @@ namespace DataMinerAPI.Engine
 					}
 				}
 
-				if (!string.IsNullOrEmpty(searchTerm.Value))
+				if (!string.IsNullOrEmpty(searchTerm.Result))
 				{
 					return searchTerm;
 				}
@@ -521,7 +543,7 @@ namespace DataMinerAPI.Engine
 			//Search 1
 			if (IsOnlyNumbers(restofLine))
 			{
-				searchTerm.Value = restofLine;
+				searchTerm.Result = restofLine;
 				searchTerm.Score = HIGH_SCORE;
 			}
 			//	if there are somw numbers in the rest of the line then medium chance this is
@@ -533,12 +555,12 @@ namespace DataMinerAPI.Engine
 				//Search 2
 				if (IsSomeNumbers(nextWord))
 				{
-					searchTerm.Value = nextWord ;
+					searchTerm.Result = nextWord ;
 					searchTerm.Score = MEDIUM_SCORE;
 				}
 				else
 				{
-					searchTerm.Value = string.Empty; ;
+					searchTerm.Result = string.Empty; ;
 					searchTerm.Score = NO_SCORE;
 				}
 			}
@@ -553,18 +575,18 @@ namespace DataMinerAPI.Engine
 				//Search 3
 				if ((IsSomeNumbers(nextLineText)) && (nextLineText.Length < 20))
 				{
-					searchTerm.Value = nextLineText;
+					searchTerm.Result = nextLineText;
 					searchTerm.Score = MEDIUM_SCORE;
 				}
 				//Search 4
 				else  if (nextLineText.Length >= line.Length)
 				{
-					searchTerm.Value = nextLineText.Substring(positionInLine);
+					searchTerm.Result = nextLineText.Substring(positionInLine);
 					searchTerm.Score = LOW_SCORE;
 				}
 				else
 				{
-					searchTerm.Value = string.Empty; ;
+					searchTerm.Result = string.Empty; ;
 					searchTerm.Score = NO_SCORE;
 				}
 			}
@@ -578,12 +600,12 @@ namespace DataMinerAPI.Engine
 
 			if (restofLine.Length >= 2)
 			{
-				searchTerm.Value = restofLine;
+				searchTerm.Result = restofLine;
 				searchTerm.Score = MEDIUM_SCORE;
 			}
 			else if(restofLine.Length == 0)
 			{
-				searchTerm.Value = string.Empty;
+				searchTerm.Result = string.Empty;
 				searchTerm.Score = NO_SCORE;
 			}
 

@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace DataMinerAPI.Engine
+namespace DataMinerAPI.Models
 {
     public class EngineReturnArgs
     {
@@ -13,9 +13,15 @@ namespace DataMinerAPI.Engine
 
         public string Message { get; set; }
 
-        public string Content { get; set; }
+        // document converted to text
+        public string DocumentContent { get; set; }
+
+        // documentconent parsed by text processor according to searchset keywords
+        public string ParsedContent { get; set; }
 
         public Exception Exception { get; set; }
+
+        public Guid RequestID { get; set; }
 
     }
 }
