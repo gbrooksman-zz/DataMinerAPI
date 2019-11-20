@@ -28,6 +28,12 @@ namespace DataMinerAPI
 
 		public int MaxFormulaScore { get; set; }
 
+        public bool SaveToAzure { get; set; }
+
+        public bool SaveToLog { get; set; }
+
+        public string AzureStorageConnectionString { get; set; }
+
     }
 
 }

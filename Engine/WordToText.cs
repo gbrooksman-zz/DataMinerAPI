@@ -14,6 +14,7 @@ namespace DataMinerAPI.Engine
         public EngineReturnArgs ConvertWordToText(string conversionSource, Guid requestGuid, string fileExtension)
         {
             EngineReturnArgs era = new EngineReturnArgs();
+            era.RequestID = requestGuid;
 
             try
             {               

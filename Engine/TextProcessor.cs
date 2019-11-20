@@ -10,7 +10,7 @@ using System.Xml;
 using DataMinerAPI.Models;
 using System.IO;
 using System.Xml.Serialization;
-
+using System.Text;
 
 namespace DataMinerAPI.Engine
 {
@@ -31,12 +31,7 @@ namespace DataMinerAPI.Engine
 		private const int LOW_SCORE = 3;
 		private const int NO_SCORE = 0;
 
-		/// <summary>
-		///
-		/// </summary>
-		/// <param name="_cache"></param>
-		/// <param name="_config"></param>
-		/// <param name="_options"></param>
+
 		public TextProcessorEngine(IMemoryCache _cache, ServiceSettings _settings)
 		{
 			cache = _cache;
@@ -62,13 +57,6 @@ namespace DataMinerAPI.Engine
 
 			//get the possible identifiers for cas numbers
 			listofCASTerms.AddRange(otherIdentifiers.Where(o =>o.Parent == "cas").Select(s=>s.Id).ToList());
-
-			//get the possible titles for section 3
-			//listofFormulaStartTerms.AddRange(sectionHeaders.Where(x=> x.Number == "3").Select(s=>s.Title).ToList());
-
-			//get the possible titles for section 4
-			//listofFormulaStopTerms.AddRange(sectionHeaders.Where(x => x.Number == "4").Select(s => s.Title).ToList());
-
 		}
 
 		private List<Component> GetKnownComponents()
@@ -111,7 +99,7 @@ namespace DataMinerAPI.Engine
 					headers.Add(new SectionHeader()
 					{
 						Number = node.Attributes["id"].Value,
-						Title = titleNode.InnerText
+						Title = titleNode.InnerText.ToLower()
 					});
 				}
 			}
@@ -142,29 +130,16 @@ namespace DataMinerAPI.Engine
 			return oids;
 		}
 
-		/// <summary>
-		///
-		/// </summary>
-		/// <param name="entity"></param>
-		/// <returns></returns>
-
-		public int CalculateScore(ResultEntity entity)
+		public int CalculateDocItemScore(ResultEntity entity)
 		{
-			int attrScore = entity.DocItems.Sum(x => x.Score) + entity.FormulaItems.Sum(x => x.Score);
+			int attrScore = entity.DocItems.Sum(x => x.Score);
+			return Math.Min(attrScore,settings.MaxAttributeScore);
+		}
 
-			if (settings.MaxAttributeScore > 0)
-			{
-				attrScore = attrScore > settings.MaxAttributeScore ? settings.MaxAttributeScore : attrScore;
-			}
-
-			int formScore = entity.FormulaItems.Sum(x => x.Score) + entity.FormulaItems.Sum(x => x.Score);
-
-			if (settings.MaxFormulaScore > 0)
-			{
-				formScore = formScore > settings.MaxFormulaScore ? settings.MaxFormulaScore : formScore;
-			}
-
-			return (attrScore + formScore);
+		public int CalculateFormulaScore(ResultEntity entity)
+		{			
+			int formScore = entity.FormulaItems.Sum(x => x.Score);
+			return Math.Min(formScore,settings.MaxAttributeScore);
 		}
 
 		private SearchSet GetSearchSet(string xml)
@@ -180,15 +155,7 @@ namespace DataMinerAPI.Engine
 			return searchSet;
 		}
 
-		/// <summary>
-		///
-		/// </summary>
-		/// <param name="content"></param>
-		/// <param name="keywordsJson"></param>
-		/// <param name="requestGuid"></param>
-		/// <param name="application"></param>
-		/// <returns></returns>
-		public ResultEntity ProcessDocumentContent(string content, string keywordsXML, string requestGuid, string application)
+		public ResultEntity ProcessDocumentContent(string docContent, string keywordsXML, string requestGuid, string application, string origFileName)
 		{					
 			SearchSet searchSet = GetSearchSet(keywordsXML);
 
@@ -201,79 +168,84 @@ namespace DataMinerAPI.Engine
 
 			try
 			{	
+				parsedElements = Validate(parsedElements, application, requestGuid, docContent, keywordsXML);
 
-			parsedElements = Validate(parsedElements, application, requestGuid, content, keywordsXML);
+				if (parsedElements.ExceptionMessage != null)
+				{
+					parsedElements.Messages.Add(parsedElements.ExceptionMessage);
+					Log.Error(parsedElements.ExceptionMessage, $"Exception for request {requestGuid}");
+					return parsedElements;
+				}
 
-			if (parsedElements.Exception != null)
-			{
-				parsedElements.Messages.Add(parsedElements.Exception.Message);
-				Log.Error(parsedElements.Exception, $"Exception for request {requestGuid}");
-				return parsedElements;
-			}
+				List<DocItem> searchResults = new List<DocItem>();
 
-			List<DocItem> searchResults = new List<DocItem>();
+				List<string> lines = docContent.Split(Environment.NewLine).ToList();
 
-			//-------------------------------------------------------------------------------------------------------------
+				List<string> textlines = lines.Where(x => !string.IsNullOrWhiteSpace(x)).Select( y => y.ToLower()).ToList();
 
-			List<string> lines = content.Split(Environment.NewLine).ToList();
+				parsedElements.DocItems.AddRange(from DocItem searchTerm in searchSet.DocItems
+												select FindSearchTerm(searchTerm, textlines));
 
-			List<string> textlines = lines.Where(x => !string.IsNullOrWhiteSpace(x)).Select( y=>y.ToLower()).ToList();
+				parsedElements.Messages.Add($"Count of DocItems: {parsedElements.DocItems.Where(s => !string.IsNullOrEmpty(s.Result)).Count()}");
 
-            parsedElements.DocItems.AddRange(from DocItem searchTerm in searchSet.DocItems
-                                        select FindSearchTerm(searchTerm, textlines));
+				if (searchSet.DoFormula)
+				{
+					parsedElements.FormulaItems.AddRange(GetFormulation(textlines, requestGuid));
+					parsedElements.Messages.Add($"Count of Formula Items: {parsedElements.FormulaItems.Count}");
+				}
 
-            parsedElements.Messages.Add($"Count of Keywords: {parsedElements.DocItems.Where(s => !string.IsNullOrEmpty(s.Result)).Count()}");
+				parsedElements.DocItemScore = CalculateDocItemScore(parsedElements);
+				parsedElements.FormulaScore = CalculateFormulaScore(parsedElements);
+				parsedElements.DateStamp = DateTime.Now;
+				parsedElements.Success = true;
 
-			if (searchSet.DoFormula)
-			{
-				parsedElements.FormulaItems.AddRange(GetFormulation(textlines, requestGuid));
-				parsedElements.Messages.Add($"Count of Formula Items: {parsedElements.FormulaItems.Count}");
-			}
+				if (settings.SaveToAzure)
+				{
+					parsedElements.Messages.Add($"Saved results to Azure");
+					SaveResult(parsedElements, docContent, requestGuid);
+				}	
 
-			parsedElements.Score = CalculateScore(parsedElements);
-			parsedElements.DateStamp = DateTime.Now;
-			parsedElements.Success = true;
-
-		/* 	if (settings.SaveToAzure)
-			{
-				result.Messages.Add($"Saved results to Azure");
-				SaveResult(result, content, requestGuid);
-			}
-
-			if (options.SaveToLocalSQL)
-			{
-				result.Messages.Add($"Saved results to LocalSQL");
-				SaveResultSQL(result, content, requestGuid);
-			}
- 		*/
-
+				if (settings.SaveToLog)
+				{
+					SaveResultToLog(parsedElements, docContent, requestGuid, origFileName, application);
+				}	
 			}
 			catch (Exception ex)
 			{
 				Log.Error(ex, "In ProcessContent");				
-				parsedElements.Exception = ex;
+				parsedElements.ExceptionMessage = ex.Message;
 				parsedElements.Success = false;
-				parsedElements.Score = 0;
+				parsedElements.DocItemScore = 0;
+				parsedElements.FormulaScore = 0;
 			}
 
 			return parsedElements;
 		}
 
-
-	/* 	private void SaveResult(ResultEntity result, string content, string requestGuid)
+		private void SaveResultToLog(ResultEntity result, string content, string requestGuid, 
+										string origFileName, string application)
 		{
-			StorageEngine storageEngine = new StorageEngine(config);
+			using (StreamWriter sw = File.AppendText($"{settings.FilesFolder}result_log.txt")) 
+			{
+				string output = $"{DateTime.Now} :: {application} :: {origFileName} :: {requestGuid} :: {result.FormulaScore} :: {result.DocItemScore} ";
+				sw.WriteLine(output);
+			}
+		}
+
+	 	private void SaveResult(ResultEntity result, string content, string requestGuid)
+		{
+			StorageEngine storageEngine = new StorageEngine(settings);
 
 			int responseCode = storageEngine.AddResultToAzure(result, content);
 
 			if (responseCode != 204)
 			{
-				result.Exception = new InvalidOperationException("Storing results failed");
-				result.Messages.Add(result.Exception.Message);
-				Log.Error(result.Exception, $"Exception for request {requestGuid}");
+				result.ExceptionMessage = "Storing results failed";
+				result.Messages.Add(result.ExceptionMessage);
+				Log.Error(result.ExceptionMessage, $"Exception for request {requestGuid}");
 			}
 		}
- */
+ 
 	/* 	private void SaveResultSQL(ResultEntity result, string content, string requestGuid)
 		{			
             StorageEngine storageEngine = new StorageEngine(config);
@@ -292,22 +264,22 @@ namespace DataMinerAPI.Engine
 		{
 			if (string.IsNullOrEmpty(application))
 			{
-				result.Exception = new ArgumentNullException("Application argument cannot be empty");
+				result.ExceptionMessage = "Application argument cannot be empty";
 			}
 
 			if (Guid.Parse(requestGuid) == Guid.Empty)
 			{
-				result.Exception = new ArgumentOutOfRangeException("RequestGuid argument cannot be empty or an empty guid");
+				result.ExceptionMessage = "RequestGuid argument cannot be empty or an empty guid";
 			}
 
 			if (string.IsNullOrEmpty(content))
 			{
-				result.Exception = new ArgumentNullException("Content argument cannot be empty");
+				result.ExceptionMessage = "Content argument cannot be empty";
 			}
 
 			if (string.IsNullOrEmpty(keywordsJson))
 			{
-				result.Exception = new ArgumentNullException("Keywords argument cannot be empty");
+				result.ExceptionMessage = "Keywords argument cannot be empty";
 			}
 
 			return result;
@@ -322,7 +294,7 @@ namespace DataMinerAPI.Engine
 
 			if (formulaLines.Count > 0)
 			{
-				items = BuildFormula(textlines);
+				items = BuildFormula(formulaLines);
 			}
 			else
 			{
@@ -331,7 +303,7 @@ namespace DataMinerAPI.Engine
 					formulaLines = GetSection(textlines, "2", "3");		//try pre GHS structure
 					if (formulaLines.Count > 0)
 					{
-						items = BuildFormula(textlines);
+						items = BuildFormula(formulaLines);
 					}
 					if (items.Count == 0)
 					{
@@ -354,6 +326,8 @@ namespace DataMinerAPI.Engine
 
 		public List<string> GetSection(List<string> textlines, string startSection, string stopSection)
 		{	
+			//sectionHeaders string are already lower case
+
 			List<string> startTextList = sectionHeaders.Where(x => x.Number == startSection).Select(y => y.Title.ToLower()).ToList();
 
 			List<string> stopTextList = sectionHeaders.Where(x => x.Number == stopSection).Select(y => y.Title.ToLower()).ToList();
@@ -363,15 +337,6 @@ namespace DataMinerAPI.Engine
 		}
 
 
-
-
-		/// <summary>
-		///
-		/// </summary>
-		/// <param name="startTextList"></param>
-		/// <param name="stopTextList"></param>
-		/// <param name="textlines"></param>
-		/// <returns></returns>
 		public List<string> GetDocumentFragment(List<string> startTextList, List<string> stopTextList, List<string> textlines)
 		{
 			List<string> frag = new List<string>();
@@ -413,7 +378,6 @@ namespace DataMinerAPI.Engine
 
 			}
 			return frag;
-
 		}
 
 		private List<FormulaItem> BuildFormula(List<string> lines)
@@ -449,13 +413,6 @@ namespace DataMinerAPI.Engine
 
 			return formulaItems;
 		}
-
-		/// <summary>
-		/// returns the value of the first occurrence of the search term
-		/// </summary>
-		/// <param name="searchTerm"></param>
-		/// <param name="textlines"></param>
-		/// <returns></returns>
 		private DocItem FindSearchTerm(DocItem searchTerm, List<string> textlines)
 		{
 			int currentLine = 0;

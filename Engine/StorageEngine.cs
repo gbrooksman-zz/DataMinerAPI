@@ -1,13 +1,9 @@
-using Microsoft.Extensions.Configuration;
 using Microsoft.WindowsAzure.Storage;
 using Microsoft.WindowsAzure.Storage.Table;
-using System;
 using System.Collections.Generic;
-using System.Data.SqlClient;
 using System.Linq;
 using System.Threading.Tasks;
 using DataMinerAPI.Models;
-
 
 namespace DataMinerAPI.Engine
 {
@@ -17,33 +13,17 @@ namespace DataMinerAPI.Engine
 	public class StorageEngine
 	{
 		private readonly CloudTable table;
-		private readonly SqlConnection conn;
+		private readonly ServiceSettings settings;
 
-		/// <summary>
-		///
-		/// </summary>
-		/// <param name="configuration"></param>
-		public StorageEngine(IConfiguration configuration)
+		public StorageEngine( ServiceSettings _settings)
 		{
-			string connAzureString = configuration.GetSection("ConnectionStrings")
-												.GetSection("textprocessordata_AzureStorageConnectionString")
-												.Value;
+			settings = _settings;
 
-			CloudStorageAccount storageAccount = CloudStorageAccount.Parse(connAzureString);
+			CloudStorageAccount storageAccount = CloudStorageAccount.Parse(settings.AzureStorageConnectionString);
 
 			CloudTableClient tableClient = storageAccount.CreateCloudTableClient();
 
-			table = tableClient.GetTableReference("TextProcessorResults");
-
-			string connSQLString = configuration.GetSection("ConnectionStrings")
-												.GetSection("local_sql_server")
-												.Value;
-
-			conn = new SqlConnection(connSQLString);
-
-			
-
-
+			table = tableClient.GetTableReference("ParsedDocuments");
 		}
 
 
@@ -59,6 +39,7 @@ namespace DataMinerAPI.Engine
 		{
 			entity.Application = entity.Application.ToUpper();
 			entity.Content = content;
+
 			TableOperation insertOperation = TableOperation.Insert(entity);
 
 			TableResult result = Task.Run(() => table.ExecuteAsync(insertOperation)).Result;
@@ -141,9 +122,9 @@ namespace DataMinerAPI.Engine
 						FormulaItems = entity.FormulaItems,
 						Messages = entity.Messages,
 						RequestGuid = entity.RequestGuid,
-						Score = entity.Score,
+						FormulaScore = entity.FormulaScore,
+						DocItemScore = entity.DocItemScore,
 						DocItems = entity.DocItems
-
 					});
 
 				}
@@ -155,15 +136,9 @@ namespace DataMinerAPI.Engine
 		#endregion
 
 
-		#region local sql server methods
+		#region local sql server methods - no longer used
 
-		/// <summary>
-		///
-		/// </summary>
-		/// <param name="entity"></param>
-		/// <param name="content"></param>
-		/// <returns></returns>
-		public int AddResultToLocalSQL(ResultEntity entity, string content)
+		/* public int AddResultToLocalSQL(ResultEntity entity, string content)
 		{
 			int ret = 0;
 			entity.Application = entity.Application.ToUpper();
@@ -215,7 +190,7 @@ namespace DataMinerAPI.Engine
 			return retEntity;
 
 		}
-
+ */
 		#endregion
 
 	}

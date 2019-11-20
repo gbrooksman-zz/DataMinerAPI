@@ -12,7 +12,9 @@ namespace DataMinerAPI.Models
 
 		public bool DoFormula { get; set; }
 
-		public int TotalScore { get; set; }
+		public int FormulaScore { get; set; }
+
+		public int DocItemScore { get; set; }
 
 		public List<DocItem> DocItems { get; set; }
 	}
@@ -23,34 +25,16 @@ namespace DataMinerAPI.Models
 	/// </summary>
 	public class DocItem
 	{
-		/// <summary>
-		///
-		/// </summary>
 		public string Description { get; set; }
 
-		/// <summary>
-		///
-		/// </summary>
 		public string Hint { get; set; }
 
-		/// <summary>
-		///
-		/// </summary>
 		public string DataCode { get; set; }
 
-		/// <summary>
-		///
-		/// </summary>
 		public string Section { get; set; }
 
-		/// <summary>
-		///
-		/// </summary>
 		public int Score { get; set; }
 
-		/// <summary>
-		///
-		/// </summary>
 		public string Result { get; set; }
 
 		public Terms Terms { get; set; }

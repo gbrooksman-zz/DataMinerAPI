@@ -116,14 +116,13 @@ namespace DataMinerAPI.Engine
                 System.IO.File.Delete(conversionSource.Replace(fileType, "txt"));
             }
 
-
             if (retArgs.Success)
             {
                 Log.Debug($"Initial Content: {retArgs.DocumentContent}");
 
                 TextProcessorEngine textEngine = new TextProcessorEngine(cache, settings);
 
-                ResultEntity textEngineResult = textEngine.ProcessDocumentContent(retArgs.DocumentContent, keyWordsXML, retArgs.RequestID.ToString(), application);
+                ResultEntity textEngineResult = textEngine.ProcessDocumentContent(retArgs.DocumentContent, keyWordsXML, retArgs.RequestID.ToString(), application, fileName);
             
                 if (textEngineResult.Success)
                 {                    
