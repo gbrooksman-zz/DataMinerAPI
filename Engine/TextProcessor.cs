@@ -31,6 +31,7 @@ namespace DataMinerAPI.Engine
 		private const int LOW_SCORE = 3;
 		private const int NO_SCORE = 0;
 
+		private List<Section> sectionList = new List<Section>();
 
 		public TextProcessorEngine(IMemoryCache _cache, ServiceSettings _settings)
 		{
@@ -156,9 +157,12 @@ namespace DataMinerAPI.Engine
 		}
 
 		public ResultEntity ProcessDocumentContent(string docContent, string keywordsXML, string requestGuid, string application, string origFileName)
-		{					
+		{	
+			//contains all of the parameters necessary to determine
+			//what to look for in the provided document
 			SearchSet searchSet = GetSearchSet(keywordsXML);
 
+			// the object that will be returned by this engine
 			ResultEntity parsedElements = new ResultEntity(requestGuid, application)
 			{
 				DocItems = new List<DocItem>(),
@@ -186,12 +190,12 @@ namespace DataMinerAPI.Engine
 				parsedElements.DocItems.AddRange(from DocItem searchTerm in searchSet.DocItems
 												select FindSearchTerm(searchTerm, textlines));
 
-				parsedElements.Messages.Add($"Count of DocItems: {parsedElements.DocItems.Where(s => !string.IsNullOrEmpty(s.Result)).Count()}");
+				parsedElements.Messages.Add($"Count of detected DocItems: {parsedElements.DocItems.Where(s => !string.IsNullOrEmpty(s.Result)).Count()}");
 
 				if (searchSet.DoFormula)
 				{
 					parsedElements.FormulaItems.AddRange(GetFormulation(textlines, requestGuid));
-					parsedElements.Messages.Add($"Count of Formula Items: {parsedElements.FormulaItems.Count}");
+					parsedElements.Messages.Add($"Count of detected Formula Items: {parsedElements.FormulaItems.Count}");
 				}
 
 				parsedElements.DocItemScore = CalculateDocItemScore(parsedElements);
@@ -202,7 +206,7 @@ namespace DataMinerAPI.Engine
 				if (settings.SaveToAzure)
 				{
 					parsedElements.Messages.Add($"Saved results to Azure");
-					SaveResult(parsedElements, docContent, requestGuid);
+					SaveResultToAzure(parsedElements, docContent, requestGuid);
 				}	
 
 				if (settings.SaveToLog)
@@ -212,7 +216,7 @@ namespace DataMinerAPI.Engine
 			}
 			catch (Exception ex)
 			{
-				Log.Error(ex, "In ProcessContent");				
+				Log.Error(ex, "In ProcessDocumentContent");				
 				parsedElements.ExceptionMessage = ex.Message;
 				parsedElements.Success = false;
 				parsedElements.DocItemScore = 0;
@@ -227,12 +231,13 @@ namespace DataMinerAPI.Engine
 		{
 			using (StreamWriter sw = File.AppendText($"{settings.FilesFolder}result_log.txt")) 
 			{
-				string output = $"{DateTime.Now} :: {application} :: {origFileName} :: {requestGuid} :: {result.FormulaScore} :: {result.DocItemScore} ";
+				string output = $@"	{DateTime.Now} :: {application} :: {origFileName} :: {requestGuid} :: {result.FormulaItems.Count} :: {result.FormulaScore} :: {result.DocItems.Where(x =>x.Result.Length > 0).Count()} :: {result.DocItemScore} ";
+
 				sw.WriteLine(output);
 			}
 		}
 
-	 	private void SaveResult(ResultEntity result, string content, string requestGuid)
+	 	private void SaveResultToAzure(ResultEntity result, string content, string requestGuid)
 		{
 			StorageEngine storageEngine = new StorageEngine(settings);
 
@@ -240,7 +245,7 @@ namespace DataMinerAPI.Engine
 
 			if (responseCode != 204)
 			{
-				result.ExceptionMessage = "Storing results failed";
+				result.ExceptionMessage = "Storing results to Azure failed";
 				result.Messages.Add(result.ExceptionMessage);
 				Log.Error(result.ExceptionMessage, $"Exception for request {requestGuid}");
 			}
@@ -283,7 +288,6 @@ namespace DataMinerAPI.Engine
 			}
 
 			return result;
-
 		}
 
 		private List<FormulaItem> GetFormulation (List<string> textlines ,string requestGuid)
@@ -315,25 +319,34 @@ namespace DataMinerAPI.Engine
 			return items;
 		}
 
-
-		/// <summary>
-		/// Get a document section or contiguous sections
-		/// </summary>
-		/// <param name="textlines"></param>
-		/// <param name="startSection"></param>
-		/// <param name="stopSection"></param>
-		/// <returns></returns>
-
 		public List<string> GetSection(List<string> textlines, string startSection, string stopSection)
 		{	
 			//sectionHeaders string are already lower case
 
-			List<string> startTextList = sectionHeaders.Where(x => x.Number == startSection).Select(y => y.Title.ToLower()).ToList();
+			List<string> frag = new List<string>();
 
-			List<string> stopTextList = sectionHeaders.Where(x => x.Number == stopSection).Select(y => y.Title.ToLower()).ToList();
+			//if we already parsed the section use it again
+			if (sectionList.Any(s => s.Number == startSection))
+			{
+				frag = sectionList.Where( s => s.Number == startSection).First().Content;
 
-			return GetDocumentFragment(startTextList, stopTextList, textlines);
+				return frag;
+			}
+			else
+			{			
+				List<string> startTextList = sectionHeaders.Where(x => x.Number == startSection).Select(y => y.Title.ToLower()).ToList();
 
+				List<string> stopTextList = sectionHeaders.Where(x => x.Number == stopSection).Select(y => y.Title.ToLower()).ToList();
+
+				frag =  GetDocumentFragment(startTextList, stopTextList, textlines);
+
+				if (!sectionList.Any(s => s.Number == startSection))
+				{
+					sectionList.Add(new Section(){Number = startSection, Content = frag});
+				}
+
+				return frag;
+			}
 		}
 
 
@@ -413,55 +426,62 @@ namespace DataMinerAPI.Engine
 
 			return formulaItems;
 		}
-		private DocItem FindSearchTerm(DocItem searchTerm, List<string> textlines)
+		private DocItem FindSearchTerm(DocItem docItem, List<string> textlines)
 		{
-			int currentLine = 0;
-			string searchText = searchTerm.Description.ToLower();
-			string termType = searchTerm.Hint.ToLower();
-
-			foreach (string line in textlines)
+			//string searchText = docItem.Description.ToLower();
+			
+			foreach (string searchText in docItem.Terms)
 			{
-				string evalLine = line.ToLower();
-				List<string> evalWords = evalLine.Split(" ").ToList();
-				evalWords.RemoveAll(x => x.Trim() == string.Empty);
+				int currentLine = 0;
+			
+				string termType = docItem.Hint.ToLower();
 
-				if (evalLine.Contains(searchText))
+				foreach (string line in textlines)
 				{
-					string restofLine = evalLine.Substring(evalLine.IndexOf(searchText) + searchText.Length + 1).Trim();
+					string evalLine = line.ToLower();
+					List<string> evalWords = evalLine.Split(" ").ToList();
+					evalWords.RemoveAll(x => x.Trim() == string.Empty);
 
-					if (termType == "number")
+					if (evalLine.Contains(searchText))
 					{
-						searchTerm = CheckValue(searchTerm, searchText, restofLine,
+						string restofLine = evalLine.Substring(evalLine.IndexOf(searchText) + searchText.Length + 1).Trim();
+
+						if (termType == "number")
+						{
+							docItem = CheckValue(docItem, searchText, restofLine,
 												evalWords, line.ToLower(), textlines, currentLine);
 
+						}
+						else if (termType == "text")
+						{
+							docItem = CheckText(docItem, restofLine);
+						}					
+						else if (termType == "yesno")
+						{
+							docItem = CheckBool(docItem, restofLine);
+						}
+						else
+						{
+							docItem = CheckText(docItem, restofLine);
+						}
 					}
-					else if (termType == "text")
+
+					if (!string.IsNullOrEmpty(docItem.Result))
 					{
-						searchTerm = CheckText(searchTerm, restofLine);
-
+						return docItem;
 					}
-					else
-					{
-						searchTerm = CheckText(searchTerm, restofLine);
 
-					}
+					currentLine++;
 				}
-
-				if (!string.IsNullOrEmpty(searchTerm.Result))
-				{
-					return searchTerm;
-				}
-
-				currentLine++;
 			}
 
-				return searchTerm;
+			return docItem;
 		}
 
-		private DocItem CheckValue(DocItem searchTerm, string searchText, string restofLine,
+		private DocItem CheckValue(DocItem docItem, string searchText, string restofLine,
 										List<string> evalWords, string line, List<string> textlines, int currentLine)
 		{
-			/* look for values as attributes of searchTerms
+			/* look for values as attributes of docItem Terms
 
 				Search 1:
 
@@ -501,8 +521,8 @@ namespace DataMinerAPI.Engine
 			//Search 1
 			if (IsOnlyNumbers(restofLine))
 			{
-				searchTerm.Result = restofLine;
-				searchTerm.Score = HIGH_SCORE;
+				docItem.Result = restofLine;
+				docItem.Score = HIGH_SCORE;
 			}
 			//	if there are somw numbers in the rest of the line then medium chance this is
 			//	the value we are looking for since it could be mixed with uom, method et al
@@ -513,157 +533,83 @@ namespace DataMinerAPI.Engine
 				//Search 2
 				if (IsSomeNumbers(nextWord))
 				{
-					searchTerm.Result = nextWord ;
-					searchTerm.Score = MEDIUM_SCORE;
+					docItem.Result = nextWord ;
+					docItem.Score = MEDIUM_SCORE;
 				}
 				else
 				{
-					searchTerm.Result = string.Empty; ;
-					searchTerm.Score = NO_SCORE;
+					docItem.Result = string.Empty; ;
+					docItem.Score = NO_SCORE;
 				}
 			}
 			else	 //look below the found search term in case it is a tabular layout
 			{
 				int positionInLine = line.IndexOf(searchText);
 
-				if (currentLine == textlines.Count)	 return searchTerm;
+				if (currentLine == textlines.Count)
+				{
+					 return docItem;
+				}
 
 				string nextLineText = textlines[currentLine + 1];
 
 				//Search 3
 				if ((IsSomeNumbers(nextLineText)) && (nextLineText.Length < 20))
 				{
-					searchTerm.Result = nextLineText;
-					searchTerm.Score = MEDIUM_SCORE;
+					docItem.Result = nextLineText;
+					docItem.Score = MEDIUM_SCORE;
 				}
 				//Search 4
 				else  if (nextLineText.Length >= line.Length)
 				{
-					searchTerm.Result = nextLineText.Substring(positionInLine);
-					searchTerm.Score = LOW_SCORE;
+					docItem.Result = nextLineText.Substring(positionInLine);
+					docItem.Score = LOW_SCORE;
 				}
 				else
 				{
-					searchTerm.Result = string.Empty; ;
-					searchTerm.Score = NO_SCORE;
+					docItem.Result = string.Empty; ;
+					docItem.Score = NO_SCORE;
 				}
 			}
 
-			return searchTerm;
+			return docItem;
 		}
 
 
-		private DocItem CheckText(DocItem searchTerm, string restofLine)
+		private DocItem CheckText(DocItem docItem, string restofLine)
 		{
 
 			if (restofLine.Length >= 2)
 			{
-				searchTerm.Result = restofLine;
-				searchTerm.Score = MEDIUM_SCORE;
+				docItem.Result = restofLine;
+				docItem.Score = MEDIUM_SCORE;
 			}
 			else if(restofLine.Length == 0)
 			{
-				searchTerm.Result = string.Empty;
-				searchTerm.Score = NO_SCORE;
+				docItem.Result = string.Empty;
+				docItem.Score = NO_SCORE;
 			}
 
-			return searchTerm;
+			return docItem;
 		}
 
-		//private SearchTerm SearchTermEval(SearchTerm searchTerm, List<string> lines, List<string> words)
-		//{
-		//	int currentLine = 0;
 
-		//	foreach (string line in lines)
-		//	{
-		//		string evalLine = line.ToLower();
+		private DocItem CheckBool(DocItem docItem, string restofLine)
+		{
 
-		//		currentLine++;
+			if (restofLine == "yes" || restofLine == "true" )
+			{
+				docItem.Result = restofLine;
+				docItem.Score = MEDIUM_SCORE;
+			}
+			else if(restofLine.Length == 0)
+			{
+				docItem.Result = string.Empty;
+				docItem.Score = NO_SCORE;
+			}
 
-		//		if (evalLine.Contains(searchTerm.Item.ToLower()))
-		//		{
-		//			string restofLine = evalLine.Substring(evalLine.IndexOf(searchTerm.Item.ToLower()) + searchTerm.Item.Length + 1).Trim();
-
-		//			if (searchTerm.Type.ToLower() == "number")
-		//			{
-		//				if (IsNumber(restofLine))
-		//				{
-		//					searchTerm.Value = restofLine;
-		//					searchTerm.Score = 10;
-		//				}
-		//				else
-		//				{
-		//					searchTerm.Value = restofLine;
-		//					searchTerm.Score = 5;
-		//				}
-		//			}
-		//			else if (searchTerm.Type.ToLower() == "text")
-		//			{
-		//				if (restofLine.Length > 3)
-		//				{
-		//					searchTerm.Value = restofLine;
-		//					searchTerm.Score = 5;
-		//				}
-		//				else
-		//				{
-		//					searchTerm.Value = restofLine;
-		//					searchTerm.Score = 3;
-		//				}
-		//			}
-		//			else
-		//			{
-
-		//			}
-
-		//			// found the term but its value has not yet been found
-		//			if (string.IsNullOrEmpty(searchTerm.Value.Trim()))
-		//			{
-		//				string nextline = lines[currentLine];
-		//				searchTerm.Value = nextline;
-		//				searchTerm.Score = 5;
-		//			}
-
-		//			//	if we dont have a hit yet lets go through the words array and
-		//			//	look for our term and then grab the value from the next line
-		//			//	to see if it is right
-		//			if (string.IsNullOrEmpty(searchTerm.Value.Trim()))
-		//			{
-		//				string searchingFor = searchTerm.Item.ToLower();
-
-		//				int wc = 0;
-
-		//				foreach (string word in words)
-		//				{
-		//					wc++;
-		//					if (word == searchingFor)
-		//					{
-		//						for (int i = 0; i < 10; i++)
-		//						{
-		//							if (words[wc + i] != Environment.NewLine)
-		//							{
-		//								searchTerm.Value += $"{words[wc + i]} ";
-
-		//								//this might be the end of the earch term's value
-		//								if (searchTerm.Value.Contains(".") || searchTerm.Value.Contains(":"))
-		//								{
-		//									break;
-		//								}
-		//							}
-		//						}
-		//						searchTerm.Value = searchTerm.Value.Trim();
-		//						searchTerm.Score = 3;
-		//					}
-
-		//				}
-
-		//			}
-		//		}
-
-		//	}
-
-		//	return searchTerm;
-		//}
-
+			return docItem;
+		}
 
 		private bool IsSomeNumbers(string input)
 		{
@@ -677,14 +623,10 @@ namespace DataMinerAPI.Engine
 			return input.All(char.IsDigit);
 		}
 
-
-
 		private bool IsNumber(string input)
 		{
 			return Regex.IsMatch(input, @"\d");
 		}
-
-
 
 		private List<string> GetCASNumbers(string input)
 		{

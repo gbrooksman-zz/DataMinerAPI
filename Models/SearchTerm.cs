@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.Xml.Serialization;
 
 namespace DataMinerAPI.Models
 {
@@ -15,7 +16,7 @@ namespace DataMinerAPI.Models
 		public int FormulaScore { get; set; }
 
 		public int DocItemScore { get; set; }
-
+		
 		public List<DocItem> DocItems { get; set; }
 	}
 
@@ -37,7 +38,9 @@ namespace DataMinerAPI.Models
 
 		public string Result { get; set; }
 
-		public Terms Terms { get; set; }
+		[XmlArray]
+    	[XmlArrayItem(ElementName="Term")]
+		public List<string> Terms { get; set; }
 	}	
 
 
