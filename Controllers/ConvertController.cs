@@ -7,6 +7,7 @@ using DataMinerAPI.Models;
 using System.Xml.Serialization;
 using System.Xml;
 using System.IO;
+using System.Net;
 
 namespace DataMinerAPI.Controllers
 {
@@ -40,13 +41,13 @@ namespace DataMinerAPI.Controllers
 			string fileName = "1.pdf";
 			
 			try
-			{
+			{				
 				res = this.Post(fileName, GetSampleKeywords(), "Test");
 			}
 			catch(Exception ex)
 			{
-				Log.Error("TestPDF Method", ex);
 				res = BadRequest();
+				Log.Error("TestWord Method", ex);				
 			}
 
 			return res;
@@ -146,19 +147,27 @@ namespace DataMinerAPI.Controllers
 			}
 			else
 			{
-				return NoContent();  //no result but no exception --???
+				return NotFound(new ProblemDetails()
+				{
+					Title = "Not found in Post Method",
+					Status = (int) HttpStatusCode.NotFound,
+					Detail = "No exception",
+					Type = "/api/problem/general-failure",					
+					Instance = HttpContext.Request.Path
+				});
 			}
 			}
 			catch (Exception ex)
 			{
-				Log.Error(ex, "Could not convert file");
+				Log.Error(ex, $"Could not convert file: {fileName}");
 
-				return BadRequest(new
+				return BadRequest(new ProblemDetails()
 				{
-					success = false,
-					message = ex.Message,
-					content = "Could not convert file",
-					guid = Guid.Empty.ToString()
+					Title = "Error in Post Method",
+					Status = (int) HttpStatusCode.BadRequest,
+					Detail = ex.Message,
+					Type = "/api/problem/bad-doc-type",					
+					Instance = HttpContext.Request.Path
 				});
 			}			
 		}
