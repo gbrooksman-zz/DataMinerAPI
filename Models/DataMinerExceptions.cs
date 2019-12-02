@@ -46,4 +46,40 @@ namespace DataMinerAPI.Models
             : base(message, inner) { }
     }
 
+    public class ProcessDocumentContentException : Exception
+    {
+        public ProcessDocumentContentException() { }
+
+        public ProcessDocumentContentException(string message)
+            : base(message)  { }
+
+        public ProcessDocumentContentException(string message, Exception inner)
+            : base(message, inner) { }
+    }
+
+    public class SaveToAzureException : Exception
+    {
+        public SaveToAzureException() { }
+
+        public SaveToAzureException(string message)
+            : base(message)  { }
+
+        public SaveToAzureException(string message, Exception inner)
+            : base(message, inner) { }
+    }
+
+
+    public class SaveToLogException : Exception
+    {
+        public SaveToLogException() { }
+
+        public SaveToLogException(string message)
+            : base(message)  { }
+
+        public SaveToLogException(string message, Exception inner)
+            : base(message, inner) { }
+    }
+
+
+
 }

@@ -268,28 +268,46 @@ namespace DataMinerAPI.Engine
 		public void SaveResultToLog(ResultEntity result, string content, string requestGuid, 
 										string origFileName, string application)
 		{
-			using (StreamWriter sw = File.AppendText($"{settings.FilesFolder}result_log.txt")) 
+			try
 			{
-				string output = $@"	{DateTime.Now} :: {application} :: {origFileName} :: {requestGuid} :: {result.FormulaItems.Count} :: {result.FormulaScore} :: {result.DocItems.Where(x =>x.Result.Length > 0).Count()} :: {result.DocItemScore} ";
+				using (StreamWriter sw = File.AppendText($"{settings.FilesFolder}result_log.txt")) 
+				{
+					string output = $@"	{DateTime.Now} :: {application} :: {origFileName} :: {requestGuid} :: {result.FormulaItems.Count} :: {result.FormulaScore} :: {result.DocItems.Where(x =>x.Result.Length > 0).Count()} :: {result.DocItemScore} ";
 
-				sw.WriteLine(output);
+					sw.WriteLine(output);
+				}
+			}
+			catch (Exception ex)
+			{
+				string msg = $"Exception for request {requestGuid}";
+				SaveToLogException saveEx = new SaveToLogException(msg, ex);
+				Log.Error(msg, saveEx);
+				throw saveEx;
 			}
 		}
 
 	 	public void SaveResultToAzure(ResultEntity result, string content, string requestGuid)
 		{
-			StorageEngine storageEngine = new StorageEngine(settings);
-
-			int responseCode = storageEngine.AddResultToAzure(result, content);
-
-			if (responseCode != 204)
+			try
 			{
-				result.ExceptionMessage = "Storing results to Azure failed";
-				result.Messages.Add(result.ExceptionMessage);
-				Log.Error(result.ExceptionMessage, $"Exception for request {requestGuid}");
+				StorageEngine storageEngine = new StorageEngine(settings);
+
+				int responseCode = storageEngine.AddResultToAzure(result, content);
+
+				if (responseCode != 204)
+				{
+					string msg = $"Exception for request {requestGuid} -- Response Code: {responseCode}";
+					SaveToAzureException saveEx = new SaveToAzureException(msg);
+					Log.Error(msg, saveEx);
+				}
 			}
+			catch (Exception ex)
+			{
+				string msg = $"Exception for request {requestGuid}";
+				SaveToAzureException saveEx = new SaveToAzureException(msg, ex);
+				Log.Error(msg, saveEx);
+				throw saveEx;
+			}			
 		}
-
     }
-
 }

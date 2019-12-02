@@ -119,12 +119,9 @@ namespace DataMinerAPI.Engine
 			}
 			catch (Exception ex)
 			{
-				Log.Error(ex, "In ProcessDocumentContent");				
-				parsedElements.AppException = ex;
-				parsedElements.Success = false;
-				parsedElements.DocItemScore = 0;
-				parsedElements.FormulaScore = 0;
-				throw;
+				ProcessDocumentContentException procEx = new ProcessDocumentContentException("ProcessDocumentContent", ex));				
+				Log.Error(procEx,ex.Message );				
+				throw procEx;
 			}
 
 			return parsedElements;
