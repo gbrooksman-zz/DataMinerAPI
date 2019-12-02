@@ -54,7 +54,8 @@ namespace DataMinerAPI.Engine
 				   return helpers.GetSectionHeaders();
 			   });
 
-			searchData.OtherIdentifiers = cache.GetOrCreate<List<OtherIdentifier>>("otherIdentifiers",			   	cacheEntry =>
+			searchData.OtherIdentifiers = cache.GetOrCreate<List<OtherIdentifier>>("otherIdentifiers",			   	
+				cacheEntry =>
 				{
 					return helpers.GetOtherIdentifiers();
 				});
@@ -63,11 +64,7 @@ namespace DataMinerAPI.Engine
 
 		public ResultEntity ProcessDocumentContent(string docContent, string keywordsXML, string requestGuid, string application, string origFileName)
 		{	
-			//contains all of the parameters necessary to determine
-			//what to look for in the provided document
-			SearchSet searchSet = helpers.GetSearchSet(keywordsXML);
-
-			// the object that will be returned by this engine
+			// the object that will be returned by this engine 
 			ResultEntity parsedElements = new ResultEntity(requestGuid, application)
 			{
 				DocItems = new List<DocItem>(),
@@ -79,14 +76,14 @@ namespace DataMinerAPI.Engine
 			{	
 				parsedElements = helpers.Validate(parsedElements, application, requestGuid, docContent, keywordsXML);
 
-				if (parsedElements.ExceptionMessage != null)
+				if (!parsedElements.Success)
 				{
-					parsedElements.Messages.Add(parsedElements.ExceptionMessage);
-					Log.Error(parsedElements.ExceptionMessage, $"Exception for request {requestGuid}");
+					Log.Error(parsedElements.AppException, "in Validation");
 					return parsedElements;
 				}
 
-				List<DocItem> searchResults = new List<DocItem>();
+				//	contains all of the parameters necessary to determine what to look for in the provided document
+				SearchSet searchSet = helpers.GetSearchSet(keywordsXML);
 
 				List<string> lines = docContent.Split(Environment.NewLine).ToList();
 
@@ -123,10 +120,11 @@ namespace DataMinerAPI.Engine
 			catch (Exception ex)
 			{
 				Log.Error(ex, "In ProcessDocumentContent");				
-				parsedElements.ExceptionMessage = ex.Message;
+				parsedElements.AppException = ex;
 				parsedElements.Success = false;
 				parsedElements.DocItemScore = 0;
 				parsedElements.FormulaScore = 0;
+				throw;
 			}
 
 			return parsedElements;

@@ -41,6 +41,10 @@ namespace DataMinerAPI.Models
 		[XmlArray]
     	[XmlArrayItem(ElementName="Term")]
 		public List<string> Terms { get; set; }
+
+		[XmlArray]
+    	[XmlArrayItem(ElementName="Term")]
+		public List<string> ParentTerms { get; set; }
 	}	
 
 
@@ -49,4 +53,8 @@ namespace DataMinerAPI.Models
 		public List<string> Term { get; set; }
 	}
 
+	public class ParentTerms 
+	{		
+		public List<string> Term { get; set; }
+	}
 }

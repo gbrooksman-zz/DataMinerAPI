@@ -136,26 +136,32 @@ namespace DataMinerAPI.Engine
 		}
 
 
-		public ResultEntity Validate(ResultEntity result, string application, string requestGuid, string content, string keywordsJson)
+		public ResultEntity Validate(ResultEntity result, string application, string requestGuid, string content, string keywordsXML)
 		{
+			result.Success = true;
+
 			if (string.IsNullOrEmpty(application))
 			{
-				result.ExceptionMessage = "Application argument cannot be empty";
+				result.AppException = new MissingApplicationException("Application identifier is missing");
+				result.Success = false;
 			}
 
 			if (Guid.Parse(requestGuid) == Guid.Empty)
 			{
-				result.ExceptionMessage = "RequestGuid argument cannot be empty or an empty guid";
+				result.AppException = new MissingRequestGuidException("RequestGuid argument cannot be empty or an empty guid");
+				result.Success = false;
 			}
 
 			if (string.IsNullOrEmpty(content))
 			{
-				result.ExceptionMessage = "Content argument cannot be empty";
+				result.AppException = new MissingDocumentContentException("Content argument cannot be empty");
+				result.Success = false;
 			}
 
-			if (string.IsNullOrEmpty(keywordsJson))
+			if (string.IsNullOrEmpty(keywordsXML))
 			{
-				result.ExceptionMessage = "Keywords argument cannot be empty";
+				result.AppException = new MissingKeywordsException("Keywords argument cannot be empty");
+				result.Success = false;
 			}
 
 			return result;

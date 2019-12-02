@@ -37,7 +37,7 @@ namespace DataMinerAPI.Models
 
 		public DateTimeOffset DateStamp { get; set; }
 
-		public string ExceptionMessage { get; set; }
+		public Exception AppException { get; set; }
 
 		public bool Success { get; set; }
 	}
