@@ -34,6 +34,8 @@ namespace DataMinerAPI
 
         public string AzureStorageConnectionString { get; set; }
 
+        public bool SaveParsedContent { get; set; }
+
     }
 
 }

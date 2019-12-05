@@ -21,26 +21,34 @@ namespace DataMinerAPI.Engine
             helpers = new Helpers(cache, settings);
         }         
 
-        public DocItem SearchForItem(DocItem docItem, List<string> textlines)
+        public DocItem SearchForItem(DocItem docItem, List<string> textlines, SearchData searchData)
 		{			
 			foreach (string searchText in docItem.Terms)
 			{
 				int currentLine = 0;
 			
 				string termType = docItem.Hint.ToLower();
+/* 
+				if (helpers.IsOnlyNumbers(docItem.Section))
+				{
+					int stopSecton = int.Parse(docItem.Section);
+					stopSecton = stopSecton++;
+					textlines = helpers.GetSection(textlines, docItem.Section, stopSecton.ToString(), searchData);
+				} */
 
 				foreach (string line in textlines)
 				{
-					string evalLine = line.ToLower();
-					List<string> evalWords = evalLine.Split(" ").ToList();
-					evalWords.RemoveAll(x => x.Trim() == string.Empty);
+					string evalLine = line.ToLower();					
 
-					if (evalLine.Contains(searchText))
+					if (evalLine.Contains(searchText.ToLower()))
 					{
 						string restofLine = evalLine.Substring(evalLine.IndexOf(searchText) + searchText.Length + 1).Trim();
 
 						if (termType == "number")
 						{
+							List<string> evalWords = evalLine.Split(" ").ToList();
+							evalWords.RemoveAll(x => x.Trim() == string.Empty);
+
 							docItem = CheckValue(docItem, searchText, restofLine,
 												evalWords, line.ToLower(), textlines, currentLine);
 

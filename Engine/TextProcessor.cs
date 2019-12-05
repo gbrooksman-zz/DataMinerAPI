@@ -1,16 +1,10 @@
 using Microsoft.Extensions.Caching.Memory;
-using Microsoft.Extensions.Configuration;
-using Newtonsoft.Json;
 using Serilog;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text.RegularExpressions;
-using System.Xml;
 using DataMinerAPI.Models;
-using System.IO;
-using System.Xml.Serialization;
-using System.Text;
+using System.Text.Json;
 
 namespace DataMinerAPI.Engine
 {
@@ -62,7 +56,7 @@ namespace DataMinerAPI.Engine
 		}
 
 
-		public ResultEntity ProcessDocumentContent(string docContent, string keywordsXML, string requestGuid, string application, string origFileName)
+		public ResultEntity ProcessDocumentContent(string docContent, string keywordsJSON, string requestGuid, string application, string origFileName)
 		{	
 			// the object that will be returned by this engine 
 			ResultEntity parsedElements = new ResultEntity(requestGuid, application)
@@ -74,7 +68,7 @@ namespace DataMinerAPI.Engine
 
 			try
 			{	
-				parsedElements = helpers.Validate(parsedElements, application, requestGuid, docContent, keywordsXML);
+				parsedElements = helpers.Validate(parsedElements, application, requestGuid, docContent, keywordsJSON);
 
 				if (!parsedElements.Success)
 				{
@@ -83,14 +77,14 @@ namespace DataMinerAPI.Engine
 				}
 
 				//	contains all of the parameters necessary to determine what to look for in the provided document
-				SearchSet searchSet = helpers.GetSearchSet(keywordsXML);
+				SearchSet searchSet = JsonSerializer.Deserialize<SearchSet>(keywordsJSON);
 
 				List<string> lines = docContent.Split(Environment.NewLine).ToList();
 
 				List<string> textlines = lines.Where(x => !string.IsNullOrWhiteSpace(x)).Select( y => y.ToLower()).ToList();
 
 				parsedElements.DocItems.AddRange(from DocItem searchTerm in searchSet.DocItems
-												select docItemBuilder.SearchForItem(searchTerm, textlines));
+												select docItemBuilder.SearchForItem(searchTerm, textlines, searchData));
 
 				parsedElements.Messages.Add($"Count of detected DocItems: {parsedElements.DocItems.Where(s => !string.IsNullOrEmpty(s.Result)).Count()}");
 
@@ -119,7 +113,7 @@ namespace DataMinerAPI.Engine
 			}
 			catch (Exception ex)
 			{
-				ProcessDocumentContentException procEx = new ProcessDocumentContentException("ProcessDocumentContent", ex));				
+				ProcessDocumentContentException procEx = new ProcessDocumentContentException("ProcessDocumentContent", ex);				
 				Log.Error(procEx,ex.Message );				
 				throw procEx;
 			}

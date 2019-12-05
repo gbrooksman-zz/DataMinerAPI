@@ -8,6 +8,8 @@ using System.Xml.Serialization;
 using System.Xml;
 using System.IO;
 using System.Net;
+using Microsoft.AspNetCore.Http;
+using System.Net.Mime;
 
 namespace DataMinerAPI.Controllers
 {
@@ -27,11 +29,11 @@ namespace DataMinerAPI.Controllers
 
 		private string GetSampleKeywords()
 		{
-			return System.IO.File.ReadAllText(@"files/keywords.xml");
+			return System.IO.File.ReadAllText(@"files/keywords.json");
 		}
 
 		[HttpPost]
-		[Route("TestPDF")]		
+		[Route("TestPDF")]
 		public IActionResult TestPDF(string tempValue)
 		{
 			Log.Debug("In TestPDF method ");
@@ -124,15 +126,18 @@ namespace DataMinerAPI.Controllers
 			return res;
 		}
 
-		[HttpPost]		
-		public IActionResult Post(string fileName, string keyWordsXML, string application)
+		[HttpPost]
+		[ProducesResponseType(StatusCodes.Status200OK)]	
+		[ProducesResponseType(StatusCodes.Status404NotFound)]
+		[ProducesResponseType(StatusCodes.Status500InternalServerError)]
+		public IActionResult Post(string fileName, string keywordsJSON, string application)
 		{	
 			EngineReturnArgs retArgs = new EngineReturnArgs();
 
 			try
 			{
 				ConversionEngine conversionEngine = new ConversionEngine(cache, settings);
-				retArgs = conversionEngine.ConvertDocument(fileName, keyWordsXML, application);	
+				retArgs = conversionEngine.ConvertDocument(fileName, keywordsJSON, application);	
 
 			if (retArgs.Success)
 			{

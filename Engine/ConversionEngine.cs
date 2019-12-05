@@ -1,15 +1,8 @@
 using Microsoft.Extensions.Caching.Memory;
-using Microsoft.Extensions.Configuration;
-using Newtonsoft.Json;
 using Serilog;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text.RegularExpressions;
-using System.Xml;
 using DataMinerAPI.Models;
-using System.IO;
-using System.Xml.Serialization;
+using System.Text.Json;
 
 namespace DataMinerAPI.Engine
 {
@@ -34,7 +27,7 @@ namespace DataMinerAPI.Engine
 			workingDir = settings.WorkingFolder;
         }
 
-        public EngineReturnArgs ConvertDocument(string fileName, string keyWordsXML, string application)
+        public EngineReturnArgs ConvertDocument(string fileName, string keywordsJSON, string application)
         {            
 
 			EngineReturnArgs retArgs = new EngineReturnArgs();
@@ -122,21 +115,16 @@ namespace DataMinerAPI.Engine
 
                 TextProcessorEngine textEngine = new TextProcessorEngine(cache, settings);
 
-                ResultEntity textEngineResult = textEngine.ProcessDocumentContent(retArgs.DocumentContent, keyWordsXML, retArgs.RequestID.ToString(), application, fileName);
+                ResultEntity textEngineResult = textEngine.ProcessDocumentContent(retArgs.DocumentContent, keywordsJSON, retArgs.RequestID.ToString(), application, fileName);
             
                 if (textEngineResult.Success)
-                {                    
-                    XmlSerializer xSer = new XmlSerializer(typeof(ResultEntity));
-
-                    using(var sww = new StringWriter())
+                {   
+                    var options = new JsonSerializerOptions
                     {
-                        using(XmlWriter writer = XmlWriter.Create(sww))
-                        {
-                            xSer.Serialize(writer, textEngineResult);
-                            retArgs.ParsedContent = sww.ToString(); 
-                            Log.Debug($"Parsed Content: {retArgs.ParsedContent}");
-                        }
-                    }
+                        PropertyNamingPolicy = JsonNamingPolicy.CamelCase,
+                        WriteIndented = true
+                    };
+                    retArgs.ParsedContent = JsonSerializer.Serialize(textEngineResult, options);
                 }
             }
 

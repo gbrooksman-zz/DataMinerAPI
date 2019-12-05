@@ -1,6 +1,7 @@
 using Microsoft.WindowsAzure.Storage.Table;
 using System;
 using System.Collections.Generic;
+using System.Xml.Serialization;
 
 namespace DataMinerAPI.Models
 {
@@ -37,6 +38,7 @@ namespace DataMinerAPI.Models
 
 		public DateTimeOffset DateStamp { get; set; }
 
+		[XmlIgnore]
 		public Exception AppException { get; set; }
 
 		public bool Success { get; set; }

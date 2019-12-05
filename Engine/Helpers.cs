@@ -10,6 +10,8 @@ using System.Xml;
 using Microsoft.Extensions.Caching.Memory;
 using System.Xml.Serialization;
 using System.Text.RegularExpressions;
+using System.Text.Json.Serialization;
+using System.Text.Json;
 
 namespace DataMinerAPI.Engine
 {
@@ -251,19 +253,6 @@ namespace DataMinerAPI.Engine
 			return oids;
 		}
         
-        public SearchSet GetSearchSet(string xml)
-		{
-			SearchSet searchSet = new SearchSet();
-
-			XmlSerializer serializer = new XmlSerializer(typeof(SearchSet), new XmlRootAttribute("SearchSet"));
-			using (TextReader reader = new StringReader(xml))
-			{
-				searchSet = (SearchSet) serializer.Deserialize(reader);
-			}
-
-			return searchSet;
-		}
-
 
 		public void SaveResultToLog(ResultEntity result, string content, string requestGuid, 
 										string origFileName, string application)
@@ -272,7 +261,7 @@ namespace DataMinerAPI.Engine
 			{
 				using (StreamWriter sw = File.AppendText($"{settings.FilesFolder}result_log.txt")) 
 				{
-					string output = $@"	{DateTime.Now} :: {application} :: {origFileName} :: {requestGuid} :: {result.FormulaItems.Count} :: {result.FormulaScore} :: {result.DocItems.Where(x =>x.Result.Length > 0).Count()} :: {result.DocItemScore} ";
+					string output = $@"	{DateTime.Now} :: {application} :: {origFileName} :: {requestGuid} :: {result.FormulaItems.Count} :: {result.FormulaScore} :: {result.DocItems.Where(x => !string.IsNullOrEmpty(x.Result)).Count()} :: {result.DocItemScore} ";
 
 					sw.WriteLine(output);
 				}
