@@ -111,11 +111,6 @@ namespace DataMinerAPI.Engine
 			return input.All(char.IsDigit);
 		}
 
-/* 		public bool IsNumber(string input)
-		{
-			return Regex.IsMatch(input, @"\d");
-		} */
-
 		public List<string> GetCASNumbers(string input)
 		{
 			string casRegex = @"\b[1-9]{1}[0-9]{1,5}-\d{2}-\d\b";
@@ -259,7 +254,7 @@ namespace DataMinerAPI.Engine
 		{
 			try
 			{
-				using (StreamWriter sw = File.AppendText($"{settings.FilesFolder}result_log.txt")) 
+				using (StreamWriter sw = File.AppendText($"{settings.FilesFolder}out/result_log.txt")) 
 				{
 					string output = $@"	{DateTime.Now} :: {application} :: {origFileName} :: {requestGuid} :: {result.FormulaItems.Count} :: {result.FormulaScore} :: {result.DocItems.Where(x => !string.IsNullOrEmpty(x.Result)).Count()} :: {result.DocItemScore} ";
 

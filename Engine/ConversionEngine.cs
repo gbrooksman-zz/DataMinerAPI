@@ -28,12 +28,11 @@ namespace DataMinerAPI.Engine
         }
 
         public EngineReturnArgs ConvertDocument(string fileName, string keywordsJSON, string application)
-        {            
-
+        {   
 			EngineReturnArgs retArgs = new EngineReturnArgs();
 
-            retArgs.RequestID =  Guid.NewGuid();   
-
+            retArgs.RequestID =  Guid.NewGuid();  
+            
             string fileType = this.GetFileTypeFromName(fileName);
 
             Log.Debug($"Started Conversion for request Guid: {retArgs.RequestID}");
@@ -109,23 +108,30 @@ namespace DataMinerAPI.Engine
                 System.IO.File.Delete(conversionSource.Replace(fileType, "txt"));
             }
 
+            retArgs.FileName = fileName; 
+
             if (retArgs.Success)
             {
                 Log.Debug($"Initial Content: {retArgs.DocumentContent}");
 
                 TextProcessorEngine textEngine = new TextProcessorEngine(cache, settings);
 
-                ResultEntity textEngineResult = textEngine.ProcessDocumentContent(retArgs.DocumentContent, keywordsJSON, retArgs.RequestID.ToString(), application, fileName);
-            
-                if (textEngineResult.Success)
+                ResultEntity procResult = textEngine.ProcessDocumentContent(retArgs.DocumentContent, keywordsJSON, retArgs.RequestID.ToString(), application, fileName);
+
+                if (procResult.Success)
                 {   
                     var options = new JsonSerializerOptions
                     {
-                        PropertyNamingPolicy = JsonNamingPolicy.CamelCase,
                         WriteIndented = true
                     };
-                    retArgs.ParsedContent = JsonSerializer.Serialize(textEngineResult, options);
+
+                   
+                    retArgs.ParsedContent = JsonSerializer.Serialize(procResult, options);
+                   
                 }
+
+                retArgs.DoFormula = procResult.DoFormula;
+                retArgs.FileName = fileName;
             }
 
             Log.Debug($"Finished Conversion for request Guid: {retArgs.RequestID}");

@@ -4,15 +4,18 @@ namespace DataMinerAPI.Models
 {	
 	public class SearchSet
 	{
+		//this class is populated from keyuwords.json serialization
 		public SearchSet()
 		{
 			
 		}
 
+		public string FileName { get; set; }
 		public bool DoFormula { get; set; }
 		public int FormulaScore { get; set; }
 		public int DocItemScore { get; set; }
 		public List<DocItem> DocItems { get; set; }
+		public List<FormulaItem> FormulaItems { get; set; }
 	}
 
 

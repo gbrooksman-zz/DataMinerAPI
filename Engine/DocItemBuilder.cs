@@ -135,17 +135,21 @@ namespace DataMinerAPI.Engine
 			else if (helpers.IsSomeNumbers(restofLine))
 			{
 				// get just the next word if it is numeric
-				string nextWord = evalWords[evalWords.IndexOf(searchText) + searchText.Split(" ").Length + 1];
-				//Search 2
-				if (helpers.IsSomeNumbers(nextWord))
+
+				if (evalWords.Count > 1)
 				{
-					docItem.Result = nextWord ;
-					docItem.Score = (int) Scores.MEDIUM_SCORE;
-				}
-				else
-				{
-					docItem.Result = string.Empty; ;
-					docItem.Score = (int) Scores.NO_SCORE;
+					string nextWord = evalWords[evalWords.IndexOf(searchText) + searchText.Split(" ").Length + 1];
+					//Search 2
+					if (helpers.IsSomeNumbers(nextWord))
+					{
+						docItem.Result = nextWord ;
+						docItem.Score = (int) Scores.MEDIUM_SCORE;
+					}
+					else
+					{
+						docItem.Result = string.Empty; ;
+						docItem.Score = (int) Scores.NO_SCORE;
+					}
 				}
 			}
 			else	 //look below the found search term in case it is a tabular layout
@@ -168,8 +172,11 @@ namespace DataMinerAPI.Engine
 				//Search 4
 				else  if (nextLineText.Length >= line.Length)
 				{
-					docItem.Result = nextLineText.Substring(positionInLine);
-					docItem.Score = (int) Scores.LOW_SCORE;
+					if (positionInLine != -1)
+					{
+						docItem.Result = nextLineText.Substring(positionInLine);
+						docItem.Score = (int) Scores.LOW_SCORE;
+					}
 				}
 				else
 				{

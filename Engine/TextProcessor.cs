@@ -59,21 +59,22 @@ namespace DataMinerAPI.Engine
 		public ResultEntity ProcessDocumentContent(string docContent, string keywordsJSON, string requestGuid, string application, string origFileName)
 		{	
 			// the object that will be returned by this engine 
-			ResultEntity parsedElements = new ResultEntity(requestGuid, application)
+			ResultEntity returnEntity = new ResultEntity(requestGuid, application)
 			{
 				DocItems = new List<DocItem>(),
 				FormulaItems = new List<FormulaItem>(),
-				Messages = new List<string>()
+				Messages = new List<string>(),
+				FileName = origFileName
 			};
 
 			try
 			{	
-				parsedElements = helpers.Validate(parsedElements, application, requestGuid, docContent, keywordsJSON);
+				returnEntity = helpers.Validate(returnEntity, application, requestGuid, docContent, keywordsJSON);
 
-				if (!parsedElements.Success)
+				if (!returnEntity.Success)
 				{
-					Log.Error(parsedElements.AppException, "in Validation");
-					return parsedElements;
+					Log.Error(returnEntity.AppException, "in Validation");
+					return returnEntity;
 				}
 
 				//	contains all of the parameters necessary to determine what to look for in the provided document
@@ -83,32 +84,33 @@ namespace DataMinerAPI.Engine
 
 				List<string> textlines = lines.Where(x => !string.IsNullOrWhiteSpace(x)).Select( y => y.ToLower()).ToList();
 
-				parsedElements.DocItems.AddRange(from DocItem searchTerm in searchSet.DocItems
+				returnEntity.DocItems.AddRange(from DocItem searchTerm in searchSet.DocItems
 												select docItemBuilder.SearchForItem(searchTerm, textlines, searchData));
 
-				parsedElements.Messages.Add($"Count of detected DocItems: {parsedElements.DocItems.Where(s => !string.IsNullOrEmpty(s.Result)).Count()}");
+				returnEntity.Messages.Add($"Count of detected DocItems: {returnEntity.DocItems.Where(s => !string.IsNullOrEmpty(s.Result)).Count()}");
 
 				if (searchSet.DoFormula)
 				{
-					parsedElements.FormulaItems.AddRange(formulaBuilder.GetFormulation(textlines, requestGuid, searchData));
-					parsedElements.Messages.Add($"Count of detected Formula Items: {parsedElements.FormulaItems.Count}");
-				}
-
-				parsedElements.DocItemScore = helpers.CalculateDocItemScore(parsedElements);
-				parsedElements.FormulaScore = helpers.CalculateFormulaScore(parsedElements);
-				parsedElements.DateStamp = DateTime.Now;
-				parsedElements.Success = true;
+					returnEntity.DoFormula = true;
+					returnEntity.FormulaItems.AddRange(formulaBuilder.GetFormulation(textlines, requestGuid, searchData));
+					returnEntity.Messages.Add($"Count of detected Formula Items: {returnEntity.FormulaItems.Count}");
+				}				
+				
+				returnEntity.DocItemScore = helpers.CalculateDocItemScore(returnEntity);
+				returnEntity.FormulaScore = helpers.CalculateFormulaScore(returnEntity);
+				returnEntity.DateStamp = DateTime.Now;
+				returnEntity.Success = true;
 
 				if (settings.SaveToAzure)
 				{
-					parsedElements.Messages.Add($"Saved results to Azure");
-					helpers.SaveResultToAzure(parsedElements, docContent, requestGuid);
+					returnEntity.Messages.Add($"Saved results to Azure");
+					helpers.SaveResultToAzure(returnEntity, docContent, requestGuid);
 				}	
 
 				if (settings.SaveToLog)
 				{
-					parsedElements.Messages.Add($"Saved results to log file");
-					helpers.SaveResultToLog(parsedElements, docContent, requestGuid, origFileName, application);
+					returnEntity.Messages.Add($"Saved results to log file");
+					helpers.SaveResultToLog(returnEntity, docContent, requestGuid, origFileName, application);
 				}	
 			}
 			catch (Exception ex)
@@ -118,7 +120,7 @@ namespace DataMinerAPI.Engine
 				throw procEx;
 			}
 
-			return parsedElements;
+			return returnEntity;
 		}
 	}
 }

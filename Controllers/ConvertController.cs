@@ -29,7 +29,7 @@ namespace DataMinerAPI.Controllers
 
 		private string GetSampleKeywords()
 		{
-			return System.IO.File.ReadAllText(@"files/keywords.json");
+			return System.IO.File.ReadAllText($"{settings.FilesFolder}keywords/keywords.json");
 		}
 
 		[HttpPost]
@@ -127,6 +127,29 @@ namespace DataMinerAPI.Controllers
 		}
 
 		[HttpPost]
+		[Route("TestBatch")]		
+		public IActionResult TestBatch()
+		{
+			Log.Debug("In TestBatch method ");
+
+			IActionResult res = Ok();
+			
+			try
+			{
+				res = this.ConvertBatch(GetSampleKeywords(), "Test");
+			}
+			catch(Exception ex)
+			{
+				res = BadRequest();
+				Log.Error("TestBatch Method", ex);
+			}
+
+			return res;
+		}
+
+
+
+		[HttpPost]
 		[ProducesResponseType(StatusCodes.Status200OK)]	
 		[ProducesResponseType(StatusCodes.Status404NotFound)]
 		[ProducesResponseType(StatusCodes.Status500InternalServerError)]
@@ -143,6 +166,7 @@ namespace DataMinerAPI.Controllers
 			{
 				return Ok(new
 				{
+					filename = retArgs.FileName,
 					success = true,
 					message = retArgs.Message,
 					documentcontent = retArgs.DocumentContent,
@@ -173,6 +197,69 @@ namespace DataMinerAPI.Controllers
 					Status = (int) HttpStatusCode.BadRequest,
 					Detail = ex.Message,
 					Type = "/api/problem/bad-doc-type",					
+					Instance = HttpContext.Request.Path
+				});
+			}			
+		}
+
+		[HttpPost]
+		[ProducesResponseType(StatusCodes.Status200OK)]	
+		[ProducesResponseType(StatusCodes.Status404NotFound)]
+		[ProducesResponseType(StatusCodes.Status500InternalServerError)]
+		public IActionResult ConvertBatch(string keywordsJSON, string application)
+		{	
+			EngineReturnArgs retArgs = new EngineReturnArgs();
+
+			try
+			{
+				ConversionEngine conversionEngine = new ConversionEngine(cache, settings);
+
+				BatchOutputBuilder batchBuilder = new BatchOutputBuilder(cache, settings);
+				
+				batchBuilder.InitOutputFiles();
+
+				foreach (string fileName in Directory.GetFiles(settings.FilesFolder))
+				{	
+					string fileNameOnly = Path.GetFileName(fileName);	
+							
+					retArgs = conversionEngine.ConvertDocument(fileNameOnly, keywordsJSON, application);
+
+					if (retArgs.Success)
+					{
+						batchBuilder.AddBatchItem(retArgs);
+					}
+				}
+			if (retArgs.Success)
+			{
+				return Ok( new
+				{
+					success = true,
+					message = "Batch process completed. check result_log.txt and batchconvert.xml"
+				});
+			}
+			else
+			{
+				//this isn't quite the right response... but for now, ok
+				return NotFound(new ProblemDetails()
+				{
+					Title = "Not found in Post Method",
+					Status = (int) HttpStatusCode.NotFound,
+					Detail = "No exception",
+					Type = "/api/problem/general-failure",					
+					Instance = HttpContext.Request.Path
+				});
+			}
+			}
+			catch (Exception ex)
+			{
+				Log.Error(ex, $"Could not convert one or more files: {settings.FilesFolder}");
+
+				return BadRequest(new ProblemDetails()
+				{
+					Title = "Error in ConvertBatch Method",
+					Status = (int) HttpStatusCode.BadRequest,
+					Detail = ex.Message,
+					Type = "/api/problem/bad-convert-batch",					
 					Instance = HttpContext.Request.Path
 				});
 			}			

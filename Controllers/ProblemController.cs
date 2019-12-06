@@ -31,6 +31,13 @@ namespace DataMinerAPI.Controllers
         {
             return Ok("an unknown error has prevented the service from completing");
         }
-    }
+        
+        [Route("bad-convert-batch")]
+        [HttpGet]
+        public IActionResult BadConvertBatch()
+        {
+            return Ok("an error has prevented the service from completing a batch conversion process");
+        }
 
+    }
 }

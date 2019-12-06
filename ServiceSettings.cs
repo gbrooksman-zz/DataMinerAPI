@@ -12,7 +12,6 @@ namespace DataMinerAPI
 
     public class ServiceSettings
     {
-
         public ServiceSettings()
         {
             

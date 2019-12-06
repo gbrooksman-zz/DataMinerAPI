@@ -23,5 +23,9 @@ namespace DataMinerAPI.Models
 
         public Guid RequestID { get; set; }
 
+        public string FileName { get; set; }
+
+        public bool DoFormula { get; set; }
+
     }
 }

@@ -42,5 +42,9 @@ namespace DataMinerAPI.Models
 		public Exception AppException { get; set; }
 
 		public bool Success { get; set; }
+
+		public string FileName { get; set; }
+
+		public bool DoFormula { get; set; }
 	}
 }
