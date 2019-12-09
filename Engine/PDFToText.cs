@@ -16,13 +16,14 @@ namespace DataMinerAPI.Engine
 
 		}  
 
-		public EngineReturnArgs ConvertPDFToText(string conversionSource, Guid requestGuid, string fileExtension) 
+		public EngineReturnArgs ConvertPDFToText(string conversionSource, 
+									Guid requestGuid) 
 		{
 			EngineReturnArgs era = new EngineReturnArgs();
 			era.RequestID = requestGuid;
 			try
 			{ 
-				string textFileName = conversionSource.Replace(fileExtension,".txt");				
+				string textFileName = Path.ChangeExtension(conversionSource, ".txt");
 
 				string converter = @"Engine/pdftotext";
 

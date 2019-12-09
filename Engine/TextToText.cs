@@ -16,7 +16,7 @@ namespace DataMinerAPI.Engine
            
        }
 
-        public EngineReturnArgs ConvertTextToText(string conversionSource, Guid requestGuid, string fileExtension) 
+        public EngineReturnArgs ConvertTextToText(string conversionSource, Guid requestGuid) 
         {
             EngineReturnArgs era = new EngineReturnArgs();
             era.RequestID = requestGuid;

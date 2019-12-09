@@ -11,7 +11,7 @@ namespace DataMinerAPI.Engine
 {
     public class WordToText
 	{
-        public EngineReturnArgs ConvertWordToText(string conversionSource, Guid requestGuid, string fileExtension)
+        public EngineReturnArgs ConvertWordToText(string conversionSource, Guid requestGuid)
         {
             EngineReturnArgs era = new EngineReturnArgs();
             era.RequestID = requestGuid;
@@ -46,8 +46,10 @@ namespace DataMinerAPI.Engine
                     }   
                 }
 
-                string textFileName = conversionSource.Replace(".docx", ".txt");
+                string textFileName = Path.ChangeExtension(conversionSource, ".txt");
+
                 string textResults = sb.ToString();
+                
                 File.WriteAllText($"{textFileName}", textResults);
 
                 era.DocumentContent = textResults;

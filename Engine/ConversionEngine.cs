@@ -3,6 +3,7 @@ using Serilog;
 using System;
 using DataMinerAPI.Models;
 using System.Text.Json;
+using System.IO;
 
 namespace DataMinerAPI.Engine
 {
@@ -27,21 +28,60 @@ namespace DataMinerAPI.Engine
 			workingDir = settings.WorkingFolder;
         }
 
-        public EngineReturnArgs ConvertDocument(string fileName, string keywordsJSON, string application)
-        {   
-			EngineReturnArgs retArgs = new EngineReturnArgs();
+        public EngineReturnArgs ConvertDocumentFromFile(string fileName, string keywordsJSON, string application)
+        {
+            EngineReturnArgs retArgs = new EngineReturnArgs();
 
-            retArgs.RequestID =  Guid.NewGuid();  
-            
-            string fileType = this.GetFileTypeFromName(fileName);
+            retArgs.RequestID =  Guid.NewGuid();              
 
             Log.Debug($"Started Conversion for request Guid: {retArgs.RequestID}");
 
             string fileExtension = System.IO.Path.GetExtension(fileName);
-
+            
             string conversionSource = $"{workingDir}{retArgs.RequestID}{fileExtension}";
 
             System.IO.File.Copy($"{inputDir}{fileName}", conversionSource);		
+
+            retArgs = ConvertDocument(conversionSource, keywordsJSON, application, retArgs.RequestID);
+
+            return retArgs;        
+        } 
+
+        public EngineReturnArgs ConvertDocumentFromBytes(byte[] bytes, string keywordsJSON, string application, string fileType)
+        {
+            EngineReturnArgs retArgs = new EngineReturnArgs();
+
+            retArgs.RequestID =  Guid.NewGuid();  
+
+            string conversionSource = $"{workingDir}{retArgs.RequestID}.{fileType}";
+
+            File.WriteAllBytes(conversionSource, bytes);
+            
+            retArgs = ConvertDocument(conversionSource, keywordsJSON, application, retArgs.RequestID);
+
+            return retArgs;
+        } 
+
+        private EngineReturnArgs ConvertDocument(string conversionSource, string keywordsJSON, 
+                                                    string application, Guid requestGuid)
+        {   
+			EngineReturnArgs retArgs = new EngineReturnArgs();
+
+           // retArgs.RequestID =  Guid.NewGuid();  
+            
+           /*  string fileType = this.GetFileTypeFromName(fileName);
+
+            Log.Debug($"Started Conversion for request Guid: {retArgs.RequestID}");
+
+            
+
+            string conversionSource = $"{workingDir}{retArgs.RequestID}{fileExtension}";
+
+            System.IO.File.Copy($"{inputDir}{fileName}", conversionSource);		 */
+
+            retArgs.RequestID = requestGuid;
+
+            string fileType = System.IO.Path.GetExtension(conversionSource).Replace(".","");
 
             switch(fileType.ToLower())
             {
@@ -51,7 +91,7 @@ namespace DataMinerAPI.Engine
 
                     Log.Debug($"Calling convert for pdf: {retArgs.RequestID}");
 
-                    retArgs = pdfEngine.ConvertPDFToText(conversionSource,retArgs.RequestID, fileExtension);
+                    retArgs = pdfEngine.ConvertPDFToText(conversionSource,retArgs.RequestID);
 
                     Log.Debug($"Convert pdf finished");	
             
@@ -67,7 +107,7 @@ namespace DataMinerAPI.Engine
 
                     Engine.WordToText wordEngine = new Engine.WordToText();
 
-                    retArgs = wordEngine.ConvertWordToText(conversionSource,retArgs.RequestID, fileExtension);
+                    retArgs = wordEngine.ConvertWordToText(conversionSource,retArgs.RequestID);
 
                     Log.Debug($"Convert docx finished");	
 
@@ -83,7 +123,7 @@ namespace DataMinerAPI.Engine
 
                     Engine.ExcelToText excelEngine = new Engine.ExcelToText();
 
-                    retArgs = excelEngine.ConvertExcelToText(conversionSource,retArgs.RequestID, fileExtension);
+                    retArgs = excelEngine.ConvertExcelToText(conversionSource,retArgs.RequestID);
 
                     Log.Debug($"Convert xlsx finished");	
 
@@ -95,7 +135,7 @@ namespace DataMinerAPI.Engine
 
                     Engine.TextToText textEngine = new Engine.TextToText();
 
-                    retArgs = textEngine.ConvertTextToText(conversionSource,retArgs.RequestID, fileExtension);
+                    retArgs = textEngine.ConvertTextToText(conversionSource,retArgs.RequestID);
 
                     Log.Debug($"Convert default finished");	
 
@@ -105,10 +145,10 @@ namespace DataMinerAPI.Engine
             if (settings.DeleteWorkingFiles)
             {
                 System.IO.File.Delete(conversionSource);
-                System.IO.File.Delete(conversionSource.Replace(fileType, "txt"));
+                System.IO.File.Delete(conversionSource.Replace($".{fileType}", ".txt"));
             }
 
-            retArgs.FileName = fileName; 
+            retArgs.FileName = Path.GetFileName(conversionSource);
 
             if (retArgs.Success)
             {
@@ -116,7 +156,7 @@ namespace DataMinerAPI.Engine
 
                 TextProcessorEngine textEngine = new TextProcessorEngine(cache, settings);
 
-                ResultEntity procResult = textEngine.ProcessDocumentContent(retArgs.DocumentContent, keywordsJSON, retArgs.RequestID.ToString(), application, fileName);
+                ResultEntity procResult = textEngine.ProcessDocumentContent(retArgs.DocumentContent, keywordsJSON, retArgs.RequestID.ToString(), application, conversionSource);
 
                 if (procResult.Success)
                 {   
@@ -124,26 +164,17 @@ namespace DataMinerAPI.Engine
                     {
                         WriteIndented = true
                     };
-
                    
-                    retArgs.ParsedContent = JsonSerializer.Serialize(procResult, options);
-                   
+                    retArgs.ParsedContent = JsonSerializer.Serialize(procResult, options);                   
                 }
 
                 retArgs.DoFormula = procResult.DoFormula;
-                retArgs.FileName = fileName;
+                retArgs.FileName = Path.GetFileName(conversionSource);
             }
 
             Log.Debug($"Finished Conversion for request Guid: {retArgs.RequestID}");
 
             return retArgs;
-        } 
-
-        private string GetFileTypeFromName(string fileName)
-		{
-			return System.IO.Path.GetExtension(fileName).Replace(".","");
-		}      
-
+        }   
     }
-
 }

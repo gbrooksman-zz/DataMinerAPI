@@ -44,7 +44,7 @@ namespace DataMinerAPI.Controllers
 			
 			try
 			{				
-				res = this.Post(fileName, GetSampleKeywords(), "Test");
+				res = this.ConvertOneFile(fileName, GetSampleKeywords(), "Test");
 			}
 			catch(Exception ex)
 			{
@@ -68,7 +68,7 @@ namespace DataMinerAPI.Controllers
 			
 			try
 			{
-				res = this.Post(fileName, GetSampleKeywords(), "Test");
+				res = this.ConvertOneFile(fileName, GetSampleKeywords(), "Test");
 
 			}
 			catch(Exception ex)
@@ -92,7 +92,7 @@ namespace DataMinerAPI.Controllers
 			
 			try
 			{
-				res = this.Post(fileName, GetSampleKeywords(), "Test");
+				res = this.ConvertOneFile(fileName, GetSampleKeywords(), "Test");
 			}
 			catch(Exception ex)
 			{
@@ -115,7 +115,7 @@ namespace DataMinerAPI.Controllers
 			
 			try
 			{
-				res = this.Post(fileName, GetSampleKeywords(), "Test");
+				res = this.ConvertOneFile(fileName, GetSampleKeywords(), "Test");
 			}
 			catch(Exception ex)
 			{
@@ -153,14 +153,14 @@ namespace DataMinerAPI.Controllers
 		[ProducesResponseType(StatusCodes.Status200OK)]	
 		[ProducesResponseType(StatusCodes.Status404NotFound)]
 		[ProducesResponseType(StatusCodes.Status500InternalServerError)]
-		public IActionResult Post(string fileName, string keywordsJSON, string application)
+		public IActionResult ConvertOneFile(string fileName, string keywordsJSON, string application)
 		{	
 			EngineReturnArgs retArgs = new EngineReturnArgs();
 
 			try
 			{
 				ConversionEngine conversionEngine = new ConversionEngine(cache, settings);
-				retArgs = conversionEngine.ConvertDocument(fileName, keywordsJSON, application);	
+				retArgs = conversionEngine.ConvertDocumentFromFile(fileName, keywordsJSON, application);	
 
 			if (retArgs.Success)
 			{
@@ -206,6 +206,66 @@ namespace DataMinerAPI.Controllers
 		[ProducesResponseType(StatusCodes.Status200OK)]	
 		[ProducesResponseType(StatusCodes.Status404NotFound)]
 		[ProducesResponseType(StatusCodes.Status500InternalServerError)]
+		public IActionResult ConvertOneBytes(string keywordsJSON, string application, string fileType)
+		{	
+			EngineReturnArgs retArgs = new EngineReturnArgs();
+
+			try
+			{
+				ConversionEngine conversionEngine = new ConversionEngine(cache, settings);
+
+				int ibyteLength = (int)Request.ContentLength.GetValueOrDefault();
+
+				byte[] bytes = new byte[ibyteLength];
+
+				Request.Body.ReadAsync(bytes, 0, ibyteLength);
+				
+				retArgs = conversionEngine.ConvertDocumentFromBytes(bytes, keywordsJSON, application, fileType);	
+
+			if (retArgs.Success)
+			{
+				return Ok(new
+				{
+					filename = retArgs.FileName,
+					success = true,
+					message = retArgs.Message,
+					documentcontent = retArgs.DocumentContent,
+					parsedcontent = retArgs.ParsedContent,
+					guid = retArgs.RequestID.ToString()
+				});
+			}
+			else
+			{
+				//this isn't quite the right response... but for now, ok
+				return NotFound(new ProblemDetails()
+				{
+					Title = "Not found in Post Method",
+					Status = (int) HttpStatusCode.NotFound,
+					Detail = "No exception",
+					Type = "/api/problem/general-failure",					
+					Instance = HttpContext.Request.Path
+				});
+			}
+			}
+			catch (Exception ex)
+			{
+				Log.Error(ex, $"Could not convert byte array");
+
+				return BadRequest(new ProblemDetails()
+				{
+					Title = "Error in Post Method",
+					Status = (int) HttpStatusCode.BadRequest,
+					Detail = ex.Message,
+					Type = "/api/problem/bad-doc-type",					
+					Instance = HttpContext.Request.Path
+				});
+			}			
+		}
+
+		[HttpPost]
+		[ProducesResponseType(StatusCodes.Status200OK)]	
+		[ProducesResponseType(StatusCodes.Status404NotFound)]
+		[ProducesResponseType(StatusCodes.Status500InternalServerError)]
 		public IActionResult ConvertBatch(string keywordsJSON, string application)
 		{	
 			EngineReturnArgs retArgs = new EngineReturnArgs();
@@ -222,7 +282,7 @@ namespace DataMinerAPI.Controllers
 				{	
 					string fileNameOnly = Path.GetFileName(fileName);	
 							
-					retArgs = conversionEngine.ConvertDocument(fileNameOnly, keywordsJSON, application);
+					retArgs = conversionEngine.ConvertDocumentFromFile(fileNameOnly, keywordsJSON, application);
 
 					if (retArgs.Success)
 					{

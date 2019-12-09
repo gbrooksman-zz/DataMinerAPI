@@ -11,14 +11,14 @@ namespace DataMinerAPI.Engine
 {
     public class ExcelToText
 	{
-        public EngineReturnArgs ConvertExcelToText(string conversionSource, Guid requestGuid, string fileExtension)
+        public EngineReturnArgs ConvertExcelToText(string conversionSource, Guid requestGuid)
         {     
             EngineReturnArgs era = new EngineReturnArgs();
             era.RequestID = requestGuid;
 
             try
             {  
-                string textFileName = conversionSource.Replace(".xlsx", ".txt");
+                string textFileName = Path.ChangeExtension(conversionSource, ".txt");
             
                 using (SpreadsheetDocument doc = SpreadsheetDocument.Open(conversionSource, false))
                 {
