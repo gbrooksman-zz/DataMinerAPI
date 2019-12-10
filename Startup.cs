@@ -42,7 +42,7 @@ namespace DataMinerAPI
            
             app.UseCors("AllowAnyOrigin");
 
-            app.UseHttpsRedirection();
+            //app.UseHttpsRedirection();
 
             app.UseRouting();
 

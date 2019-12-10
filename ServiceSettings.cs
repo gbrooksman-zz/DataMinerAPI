@@ -21,6 +21,8 @@ namespace DataMinerAPI
 
         public string WorkingFolder { get; set; }
 
+        public string KeywordsFolder { get; set; }
+
         public bool DeleteWorkingFiles { get; set; }
 
 		public int MaxAttributeScore { get; set; }

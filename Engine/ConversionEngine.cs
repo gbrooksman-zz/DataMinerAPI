@@ -38,7 +38,7 @@ namespace DataMinerAPI.Engine
 
             string fileExtension = System.IO.Path.GetExtension(fileName);
             
-            string conversionSource = $"{workingDir}{retArgs.RequestID}{fileExtension}";
+            string conversionSource = $"{workingDir}{fileName}";
 
             System.IO.File.Copy($"{inputDir}{fileName}", conversionSource);		
 
@@ -67,18 +67,6 @@ namespace DataMinerAPI.Engine
         {   
 			EngineReturnArgs retArgs = new EngineReturnArgs();
 
-           // retArgs.RequestID =  Guid.NewGuid();  
-            
-           /*  string fileType = this.GetFileTypeFromName(fileName);
-
-            Log.Debug($"Started Conversion for request Guid: {retArgs.RequestID}");
-
-            
-
-            string conversionSource = $"{workingDir}{retArgs.RequestID}{fileExtension}";
-
-            System.IO.File.Copy($"{inputDir}{fileName}", conversionSource);		 */
-
             retArgs.RequestID = requestGuid;
 
             string fileType = System.IO.Path.GetExtension(conversionSource).Replace(".","");
@@ -89,7 +77,7 @@ namespace DataMinerAPI.Engine
 
                     Engine.PDFToText pdfEngine = new Engine.PDFToText();
 
-                    Log.Debug($"Calling convert for pdf: {retArgs.RequestID}");
+                    Log.Debug($"Calling convert for pdf: {conversionSource}");
 
                     retArgs = pdfEngine.ConvertPDFToText(conversionSource,retArgs.RequestID);
 
@@ -103,7 +91,7 @@ namespace DataMinerAPI.Engine
 
                 case "docx":
 
-                    Log.Debug($"Calling convert for docx: {retArgs.RequestID}");
+                    Log.Debug($"Calling convert for docx: {conversionSource}");
 
                     Engine.WordToText wordEngine = new Engine.WordToText();
 
@@ -119,7 +107,7 @@ namespace DataMinerAPI.Engine
 
                 case "xlsx":
                     
-                    Log.Debug($"Calling convert for xlsx: {retArgs.RequestID}");
+                    Log.Debug($"Calling convert for xlsx: {conversionSource}");
 
                     Engine.ExcelToText excelEngine = new Engine.ExcelToText();
 
@@ -131,7 +119,7 @@ namespace DataMinerAPI.Engine
 
                 default:
 
-                    Log.Debug($"File type not explicitly handled so calling convert for text: {retArgs.RequestID}");
+                    Log.Debug($"File type not explicitly handled so calling convert for text: {conversionSource}");
 
                     Engine.TextToText textEngine = new Engine.TextToText();
 

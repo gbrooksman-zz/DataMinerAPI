@@ -34,7 +34,7 @@ namespace DataMinerAPI.Controllers
 
 		[HttpPost]
 		[Route("TestPDF")]
-		public IActionResult TestPDF(string tempValue)
+		public IActionResult TestPDF()
 		{
 			Log.Debug("In TestPDF method ");
 
@@ -44,7 +44,7 @@ namespace DataMinerAPI.Controllers
 			
 			try
 			{				
-				res = this.ConvertOneFile(fileName, GetSampleKeywords(), "Test");
+				res = this.ConvertFile(fileName, GetSampleKeywords(), "Test");
 			}
 			catch(Exception ex)
 			{
@@ -58,7 +58,7 @@ namespace DataMinerAPI.Controllers
 
 		[HttpPost]
 		[Route("TestWord")]		
-		public IActionResult TestWord(string tempValue)
+		public IActionResult TestWord()
 		{
 			Log.Debug("In TestWord method ");
 
@@ -68,7 +68,7 @@ namespace DataMinerAPI.Controllers
 			
 			try
 			{
-				res = this.ConvertOneFile(fileName, GetSampleKeywords(), "Test");
+				res = this.ConvertFile(fileName, GetSampleKeywords(), "Test");
 
 			}
 			catch(Exception ex)
@@ -82,7 +82,7 @@ namespace DataMinerAPI.Controllers
 
 		[HttpPost]
 		[Route("TestExcel")]		
-		public IActionResult TestExcel(string tempValue)
+		public IActionResult TestExcel()
 		{
 			Log.Debug("In TestExcel method ");
 
@@ -92,7 +92,7 @@ namespace DataMinerAPI.Controllers
 			
 			try
 			{
-				res = this.ConvertOneFile(fileName, GetSampleKeywords(), "Test");
+				res = this.ConvertFile(fileName, GetSampleKeywords(), "Test");
 			}
 			catch(Exception ex)
 			{
@@ -105,7 +105,7 @@ namespace DataMinerAPI.Controllers
 
 		[HttpPost]
 		[Route("TestText")]		
-		public IActionResult TestText(string tempValue)
+		public IActionResult TestText()
 		{
 			Log.Debug("In TestText method ");
 
@@ -115,7 +115,7 @@ namespace DataMinerAPI.Controllers
 			
 			try
 			{
-				res = this.ConvertOneFile(fileName, GetSampleKeywords(), "Test");
+				res = this.ConvertFile(fileName, GetSampleKeywords(), "Test");
 			}
 			catch(Exception ex)
 			{
@@ -150,10 +150,11 @@ namespace DataMinerAPI.Controllers
 
 
 		[HttpPost]
+		[Route("ConvertFile")]	
 		[ProducesResponseType(StatusCodes.Status200OK)]	
 		[ProducesResponseType(StatusCodes.Status404NotFound)]
 		[ProducesResponseType(StatusCodes.Status500InternalServerError)]
-		public IActionResult ConvertOneFile(string fileName, string keywordsJSON, string application)
+		public IActionResult ConvertFile(string fileName, string keywordsJSON, string application)
 		{	
 			EngineReturnArgs retArgs = new EngineReturnArgs();
 
@@ -203,11 +204,12 @@ namespace DataMinerAPI.Controllers
 		}
 
 		[HttpPost]
+		[Route("ConvertBytes")]	
 		[ProducesResponseType(StatusCodes.Status200OK)]	
 		[ProducesResponseType(StatusCodes.Status404NotFound)]
 		[ProducesResponseType(StatusCodes.Status500InternalServerError)]
-		public IActionResult ConvertOneBytes(string keywordsJSON, string application, string fileType)
-		{	
+		public IActionResult ConvertBytes(string keywordsFile, string application, string fileType)
+		{				
 			EngineReturnArgs retArgs = new EngineReturnArgs();
 
 			try
@@ -219,7 +221,14 @@ namespace DataMinerAPI.Controllers
 				byte[] bytes = new byte[ibyteLength];
 
 				Request.Body.ReadAsync(bytes, 0, ibyteLength);
-				
+
+				string keywordsJSON = "keywords.json";
+
+				if (!string.IsNullOrEmpty(keywordsFile))				
+				{
+					keywordsJSON = System.IO.File.ReadAllText($"{settings.KeywordsFolder}{keywordsFile}");
+				}
+
 				retArgs = conversionEngine.ConvertDocumentFromBytes(bytes, keywordsJSON, application, fileType);	
 
 			if (retArgs.Success)
