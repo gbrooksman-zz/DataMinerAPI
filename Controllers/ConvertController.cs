@@ -180,7 +180,7 @@ namespace DataMinerAPI.Controllers
 				//this isn't quite the right response... but for now, ok
 				return NotFound(new ProblemDetails()
 				{
-					Title = "Not found in Post Method",
+					Title = "Not found in ConvertFile Method",
 					Status = (int) HttpStatusCode.NotFound,
 					Detail = "No exception",
 					Type = "/api/problem/general-failure",					
@@ -194,7 +194,7 @@ namespace DataMinerAPI.Controllers
 
 				return BadRequest(new ProblemDetails()
 				{
-					Title = "Error in Post Method",
+					Title = "Error in ConvertFile Method",
 					Status = (int) HttpStatusCode.BadRequest,
 					Detail = ex.Message,
 					Type = "/api/problem/bad-doc-type",					
@@ -248,7 +248,7 @@ namespace DataMinerAPI.Controllers
 				//this isn't quite the right response... but for now, ok
 				return NotFound(new ProblemDetails()
 				{
-					Title = "Not found in Post Method",
+					Title = "Not found in ConvertBytes Method",
 					Status = (int) HttpStatusCode.NotFound,
 					Detail = "No exception",
 					Type = "/api/problem/general-failure",					
@@ -258,11 +258,11 @@ namespace DataMinerAPI.Controllers
 			}
 			catch (Exception ex)
 			{
-				Log.Error(ex, $"Could not convert byte array");
+				Log.Error(ex, $"Could not convert byte array?");
 
 				return BadRequest(new ProblemDetails()
 				{
-					Title = "Error in Post Method",
+					Title = "Error in ConvertBytes Method",
 					Status = (int) HttpStatusCode.BadRequest,
 					Detail = ex.Message,
 					Type = "/api/problem/bad-doc-type",					

@@ -41,6 +41,7 @@ project.lock.json
 project.fragment.lock.json
 artifacts/
 
+2fa.txt
 
 # Files built by Visual Studio
 *_i.c
