@@ -126,7 +126,7 @@ namespace DataMinerAPI.Controllers
 			return res;
 		}
 
-		[HttpPost]
+		/* [HttpPost]
 		[Route("TestBatch")]		
 		public IActionResult TestBatch()
 		{
@@ -146,7 +146,7 @@ namespace DataMinerAPI.Controllers
 
 			return res;
 		}
-
+ */
 
 
 		[HttpPost]
@@ -172,7 +172,8 @@ namespace DataMinerAPI.Controllers
 					message = retArgs.Message,
 					documentcontent = retArgs.DocumentContent,
 					parsedcontent = retArgs.ParsedContent,
-					guid = retArgs.RequestID.ToString()
+					requestid = retArgs.RequestID.ToString(),
+					doformula = retArgs.DoFormula
 				});
 			}
 			else
@@ -240,7 +241,8 @@ namespace DataMinerAPI.Controllers
 					message = retArgs.Message,
 					documentcontent = retArgs.DocumentContent,
 					parsedcontent = retArgs.ParsedContent,
-					guid = retArgs.RequestID.ToString()
+					requestid = retArgs.RequestID.ToString(),
+					doformula = retArgs.DoFormula
 				});
 			}
 			else
@@ -271,7 +273,7 @@ namespace DataMinerAPI.Controllers
 			}			
 		}
 
-		[HttpPost]
+	/* 	[HttpPost]
 		[ProducesResponseType(StatusCodes.Status200OK)]	
 		[ProducesResponseType(StatusCodes.Status404NotFound)]
 		[ProducesResponseType(StatusCodes.Status500InternalServerError)]
@@ -332,6 +334,6 @@ namespace DataMinerAPI.Controllers
 					Instance = HttpContext.Request.Path
 				});
 			}			
-		}
+		} */
 	}
 }
