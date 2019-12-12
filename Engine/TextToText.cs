@@ -16,27 +16,27 @@ namespace DataMinerAPI.Engine
            
        }
 
-        public EngineReturnArgs ConvertTextToText(string conversionSource, Guid requestGuid) 
+        public ResponseEntity ConvertTextToText(string conversionSource, Guid requestGuid) 
         {
-            EngineReturnArgs era = new EngineReturnArgs();
-            era.RequestID = requestGuid;
+            ResponseEntity respEntity = new ResponseEntity();
+            respEntity.RequestID = requestGuid;
 
             try
             {
                 string textContent = System.IO.File.ReadAllText(conversionSource);
-                era.DocumentContent = textContent;
-				era.Success = true;
-				era.Message = "Conversion ok";
+                respEntity.DocumentContent = textContent;
+				respEntity.Success = true;
+				respEntity.Message = "Conversion ok";
             }
             catch(Exception ex)
             {
                 Log.Error(ex, "In ConvertTextToText");
-				era.Success = false;
-				era.Message = "Conversion failed";
-				era.DocumentContent = ex.Message;
+				respEntity.Success = false;
+				respEntity.Message = "Conversion failed";
+				respEntity.DocumentContent = ex.Message;
             }
 
-            return era;
+            return respEntity;
         }
     }
 }

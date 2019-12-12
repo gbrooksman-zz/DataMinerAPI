@@ -15,7 +15,6 @@ namespace DataMinerAPI.Controllers
 {
 	[Produces("application/json")]
 	[Route("api/convert")]
-
 	public class ConvertController : Controller
 	{
 		private readonly ServiceSettings settings;
@@ -32,6 +31,7 @@ namespace DataMinerAPI.Controllers
 			return System.IO.File.ReadAllText($"{settings.FilesFolder}keywords/keywords.json");
 		}
 
+		[ApiExplorerSettings(IgnoreApi=true)]
 		[HttpPost]
 		[Route("TestPDF")]
 		public IActionResult TestPDF()
@@ -55,7 +55,7 @@ namespace DataMinerAPI.Controllers
 			return res;
 		}
 
-
+		[ApiExplorerSettings(IgnoreApi=true)]
 		[HttpPost]
 		[Route("TestWord")]		
 		public IActionResult TestWord()
@@ -80,6 +80,7 @@ namespace DataMinerAPI.Controllers
 			return res;
 		}
 
+		[ApiExplorerSettings(IgnoreApi=true)]
 		[HttpPost]
 		[Route("TestExcel")]		
 		public IActionResult TestExcel()
@@ -103,6 +104,7 @@ namespace DataMinerAPI.Controllers
 			return res;
 		}
 
+		[ApiExplorerSettings(IgnoreApi=true)]
 		[HttpPost]
 		[Route("TestText")]		
 		public IActionResult TestText()
@@ -126,54 +128,33 @@ namespace DataMinerAPI.Controllers
 			return res;
 		}
 
-		/* [HttpPost]
-		[Route("TestBatch")]		
-		public IActionResult TestBatch()
-		{
-			Log.Debug("In TestBatch method ");
-
-			IActionResult res = Ok();
-			
-			try
-			{
-				res = this.ConvertBatch(GetSampleKeywords(), "Test");
-			}
-			catch(Exception ex)
-			{
-				res = BadRequest();
-				Log.Error("TestBatch Method", ex);
-			}
-
-			return res;
-		}
- */
-
-
+		[ApiExplorerSettings(IgnoreApi=true)]
 		[HttpPost]
 		[Route("ConvertFile")]	
 		[ProducesResponseType(StatusCodes.Status200OK)]	
 		[ProducesResponseType(StatusCodes.Status404NotFound)]
 		[ProducesResponseType(StatusCodes.Status500InternalServerError)]
+		
 		public IActionResult ConvertFile(string fileName, string keywordsJSON, string application)
 		{	
-			EngineReturnArgs retArgs = new EngineReturnArgs();
+			ResponseEntity respEntity = new ResponseEntity();
 
 			try
 			{
 				ConversionEngine conversionEngine = new ConversionEngine(cache, settings);
-				retArgs = conversionEngine.ConvertDocumentFromFile(fileName, keywordsJSON, application);	
+				respEntity = conversionEngine.ConvertDocumentFromFile(fileName, keywordsJSON, application);	
 
-			if (retArgs.Success)
+			if (respEntity.Success)
 			{
 				return Ok(new
 				{
-					filename = retArgs.FileName,
+					filename = respEntity.FileName,
 					success = true,
-					message = retArgs.Message,
-					documentcontent = retArgs.DocumentContent,
-					parsedcontent = retArgs.ParsedContent,
-					requestid = retArgs.RequestID.ToString(),
-					doformula = retArgs.DoFormula
+					message = respEntity.Message,
+					documentcontent = respEntity.DocumentContent,
+					parsedcontent = respEntity.ParsedContent,
+					requestid = respEntity.RequestID.ToString(),
+					doformula = respEntity.DoFormula
 				});
 			}
 			else
@@ -204,14 +185,35 @@ namespace DataMinerAPI.Controllers
 			}			
 		}
 
+		/// <summary>
+		/// This method converts a file into text and searches for a set of keywords.
+		/// The request body must contain a byte array that is the document content.
+		/// </summary>
+		/// <param name="keywordsFile">The file name of a keywords file to use as search criteria.!-- The keywords file must be present in the files/keywords folder of this service</param>
+		/// <param name="application">The application calling this service</param>
+		/// <param name="fileType">The extension of file to be seached (omit the period)</param>
+		/// <remarks>
+		/// Sample request:
+		/// POST: ConvertAndSearch
+		/// {
+		/// 	"keywords": "keywords.json"	,
+		/// 	"application": "SCN",
+		/// 	"filetype: "pdf"
+		/// }
+		/// </remarks>
+		/// <returns></returns>
+		/// <response code="200">a populated entity containing the search results</response>
+		/// <response code="400">the document could not be parsed and/or searched.Most likely the byte array is corrupt	</response>
+		/// <response code="500">an unknown error occurred, the response body may contain more information</response>
 		[HttpPost]
-		[Route("ConvertBytes")]	
+		[Route("ConvertAndSearch")]	
 		[ProducesResponseType(StatusCodes.Status200OK)]	
-		[ProducesResponseType(StatusCodes.Status404NotFound)]
+		[ProducesResponseType(StatusCodes.Status400BadRequest)]
 		[ProducesResponseType(StatusCodes.Status500InternalServerError)]
-		public IActionResult ConvertBytes(string keywordsFile, string application, string fileType)
+		[Produces("application/json", Type = typeof(SearchResults))]
+		public IActionResult ConvertAndSearch(string keywordsFile, string application, string fileType)
 		{				
-			EngineReturnArgs retArgs = new EngineReturnArgs();
+			ResponseEntity respEntity = new ResponseEntity();
 
 			try
 			{
@@ -230,110 +232,46 @@ namespace DataMinerAPI.Controllers
 					keywordsJSON = System.IO.File.ReadAllText($"{settings.KeywordsFolder}{keywordsFile}");
 				}
 
-				retArgs = conversionEngine.ConvertDocumentFromBytes(bytes, keywordsJSON, application, fileType);	
+				respEntity = conversionEngine.ConvertDocumentFromBytes(bytes, keywordsJSON, application, fileType);	
 
-			if (retArgs.Success)
+			if (respEntity.Success)
 			{
 				return Ok(new
 				{
-					filename = retArgs.FileName,
+					filename = respEntity.FileName,
 					success = true,
-					message = retArgs.Message,
-					documentcontent = retArgs.DocumentContent,
-					parsedcontent = retArgs.ParsedContent,
-					requestid = retArgs.RequestID.ToString(),
-					doformula = retArgs.DoFormula
+					message = respEntity.Message,
+					documentcontent = respEntity.DocumentContent,
+					parsedcontent = respEntity.ParsedContent,
+					requestid = respEntity.RequestID.ToString(),
+					doformula = respEntity.DoFormula
 				});
 			}
 			else
 			{
-				//this isn't quite the right response... but for now, ok
-				return NotFound(new ProblemDetails()
-				{
-					Title = "Not found in ConvertBytes Method",
-					Status = (int) HttpStatusCode.NotFound,
-					Detail = "No exception",
-					Type = "/api/problem/general-failure",					
-					Instance = HttpContext.Request.Path
-				});
-			}
-			}
-			catch (Exception ex)
-			{
-				Log.Error(ex, $"Could not convert byte array?");
-
 				return BadRequest(new ProblemDetails()
 				{
-					Title = "Error in ConvertBytes Method",
+					Title = "Error in ConvertAndSearch Method",
 					Status = (int) HttpStatusCode.BadRequest,
-					Detail = ex.Message,
+					Detail = "Could not convert byte array",
 					Type = "/api/problem/bad-doc-type",					
 					Instance = HttpContext.Request.Path
 				});
-			}			
-		}
-
-	/* 	[HttpPost]
-		[ProducesResponseType(StatusCodes.Status200OK)]	
-		[ProducesResponseType(StatusCodes.Status404NotFound)]
-		[ProducesResponseType(StatusCodes.Status500InternalServerError)]
-		public IActionResult ConvertBatch(string keywordsJSON, string application)
-		{	
-			EngineReturnArgs retArgs = new EngineReturnArgs();
-
-			try
-			{
-				ConversionEngine conversionEngine = new ConversionEngine(cache, settings);
-
-				BatchOutputBuilder batchBuilder = new BatchOutputBuilder(cache, settings);
-				
-				batchBuilder.InitOutputFiles();
-
-				foreach (string fileName in Directory.GetFiles(settings.FilesFolder))
-				{	
-					string fileNameOnly = Path.GetFileName(fileName);	
-							
-					retArgs = conversionEngine.ConvertDocumentFromFile(fileNameOnly, keywordsJSON, application);
-
-					if (retArgs.Success)
-					{
-						batchBuilder.AddBatchItem(retArgs);
-					}
-				}
-			if (retArgs.Success)
-			{
-				return Ok( new
-				{
-					success = true,
-					message = "Batch process completed. check result_log.txt and batchconvert.xml"
-				});
-			}
-			else
-			{
-				//this isn't quite the right response... but for now, ok
-				return NotFound(new ProblemDetails()
-				{
-					Title = "Not found in Post Method",
-					Status = (int) HttpStatusCode.NotFound,
-					Detail = "No exception",
-					Type = "/api/problem/general-failure",					
-					Instance = HttpContext.Request.Path
-				});
 			}
 			}
 			catch (Exception ex)
-			{
-				Log.Error(ex, $"Could not convert one or more files: {settings.FilesFolder}");
-
-				return BadRequest(new ProblemDetails()
+			{	
+				var responseObject = new ProblemDetails()
 				{
-					Title = "Error in ConvertBatch Method",
+					Title = "Error in ConvertAndSearch Method",
 					Status = (int) HttpStatusCode.BadRequest,
 					Detail = ex.Message,
-					Type = "/api/problem/bad-convert-batch",					
+					Type = "/api/problem/general-failure",					
 					Instance = HttpContext.Request.Path
-				});
+				};
+
+				return StatusCode(StatusCodes.Status500InternalServerError, responseObject);
 			}			
-		} */
+		}
 	}
 }

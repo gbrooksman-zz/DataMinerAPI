@@ -1,12 +1,18 @@
 using System.Collections.Generic;
 using System.Xml.Serialization;
+using Microsoft.AspNetCore.Mvc;
 
 namespace DataMinerAPI.Models
 {
 
-	public class SearchData
+	/// <summary>
+	/// this class holds content that is read from xml files and represents 
+	/// known entites in each of the areas.!-- the content is held in xml files
+	/// stored in the Data folder of this service.
+	/// </summary>
+	public class SearchableContent
 	{
-		public SearchData()
+		public SearchableContent()
 		{
 			
 		}

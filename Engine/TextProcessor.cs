@@ -18,7 +18,7 @@ namespace DataMinerAPI.Engine
 
 		private Helpers helpers;
 		private DocItemBuilder docItemBuilder;
-		private SearchData searchData;
+		private SearchableContent searchData;
 		private FormulaBuilder formulaBuilder;
 
 		public TextProcessorEngine(IMemoryCache _cache, ServiceSettings _settings)
@@ -30,7 +30,7 @@ namespace DataMinerAPI.Engine
 			docItemBuilder = new DocItemBuilder(cache, settings);
 			formulaBuilder = new FormulaBuilder(cache, settings);
 
-			searchData = new SearchData(){	KnownChemicals = new List<Component>(),
+			searchData = new SearchableContent(){	KnownChemicals = new List<Component>(),
 											OtherIdentifiers = new List<OtherIdentifier>(),
 											SectionHeaders = new List<SectionHeader>(),
 											SectionList = new List<Section>() };
@@ -56,15 +56,17 @@ namespace DataMinerAPI.Engine
 		}
 
 
-		public ResultEntity ProcessDocumentContent(string docContent, string keywordsJSON, string requestGuid, string application, string origFileName)
+		public SearchResults ProcessDocumentContent(string docContent, string keywordsJSON, string requestGuid, string application, string origFileName)
 		{	
 			// the object that will be returned by this engine 
-			ResultEntity returnEntity = new ResultEntity(requestGuid, application)
+			SearchResults returnEntity = new SearchResults()
 			{
 				DocItems = new List<DocItem>(),
 				FormulaItems = new List<FormulaItem>(),
 				Messages = new List<string>(),
-				FileName = origFileName
+				FileName = origFileName,
+				RequestGuid = requestGuid,
+				Application = application
 			};
 
 			try
@@ -78,7 +80,7 @@ namespace DataMinerAPI.Engine
 				}
 
 				//	contains all of the parameters necessary to determine what to look for in the provided document
-				SearchSet searchSet = JsonSerializer.Deserialize<SearchSet>(keywordsJSON);
+				SearchCriteria searchSet = JsonSerializer.Deserialize<SearchCriteria>(keywordsJSON);
 
 				List<string> lines = docContent.Split(Environment.NewLine).ToList();
 
@@ -101,11 +103,11 @@ namespace DataMinerAPI.Engine
 				returnEntity.DateStamp = DateTime.Now;
 				returnEntity.Success = true;
 
-				if (settings.SaveToAzure)
+				/* if (settings.SaveToAzure)
 				{
 					returnEntity.Messages.Add($"Saved results to Azure");
 					helpers.SaveResultToAzure(returnEntity, docContent, requestGuid);
-				}	
+				}	 */
 
 				if (settings.SaveToLog)
 				{

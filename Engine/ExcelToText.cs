@@ -11,10 +11,10 @@ namespace DataMinerAPI.Engine
 {
     public class ExcelToText
 	{
-        public EngineReturnArgs ConvertExcelToText(string conversionSource, Guid requestGuid)
+        public ResponseEntity ConvertExcelToText(string conversionSource, Guid requestGuid)
         {     
-            EngineReturnArgs era = new EngineReturnArgs();
-            era.RequestID = requestGuid;
+            ResponseEntity respEntity = new ResponseEntity();
+            respEntity.RequestID = requestGuid;
 
             try
             {  
@@ -57,19 +57,19 @@ namespace DataMinerAPI.Engine
                     }
                 }
 
-                era.DocumentContent = File.ReadAllText(textFileName,Encoding.UTF8);
-			    era.Success = true;
-			    era.Message = "Conversion ok";
+                respEntity.DocumentContent = File.ReadAllText(textFileName,Encoding.UTF8);
+			    respEntity.Success = true;
+			    respEntity.Message = "Conversion ok";
             }
             catch (Exception ex)
             {
                 Log.Error(ex, "In ConvertExcelToText");
-				era.Success = false;
-				era.Message = "Conversion failed";
-				era.DocumentContent = ex.Message;
+				respEntity.Success = false;
+				respEntity.Message = "Conversion failed";
+				respEntity.DocumentContent = ex.Message;
             }       
           
-            return era;
+            return respEntity;
         }    
     }
 }

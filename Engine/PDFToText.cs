@@ -16,11 +16,11 @@ namespace DataMinerAPI.Engine
 
 		}  
 
-		public EngineReturnArgs ConvertPDFToText(string conversionSource, 
+		public ResponseEntity ConvertPDFToText(string conversionSource, 
 									Guid requestGuid) 
 		{
-			EngineReturnArgs era = new EngineReturnArgs();
-			era.RequestID = requestGuid;
+			ResponseEntity respEntity = new ResponseEntity();
+			respEntity.RequestID = requestGuid;
 			try
 			{ 
 				string textFileName = Path.ChangeExtension(conversionSource, ".txt");
@@ -29,38 +29,29 @@ namespace DataMinerAPI.Engine
 
 				RunProcess(converter, $" -layout {conversionSource} {textFileName}");
 
-				era.DocumentContent = File.ReadAllText(textFileName,Encoding.UTF8);
-				era.Success = true;
-				era.Message = "Conversion ok";
+				respEntity.DocumentContent = File.ReadAllText(textFileName,Encoding.UTF8);
+				respEntity.Success = true;
+				respEntity.Message = "Conversion ok";
 			}
 			catch (Exception ex)
 			{
 				Log.Error(ex, "In Convert.PDF");
-				era.Success = false;
-				era.Message = "Conversion failed";
-				era.DocumentContent = ex.Message;
+				respEntity.Success = false;
+				respEntity.Message = "Conversion failed";
+				respEntity.DocumentContent = ex.Message;
 			}
-			return era;
+			return respEntity;
 		}
 
 
-		public EngineReturnArgs ConvertImagePDF(byte[] bytes)
+		public ResponseEntity ConvertImagePDF(byte[] bytes)
 		{
 			List<string> tempFiles = new List<string>();
-			EngineReturnArgs era = new EngineReturnArgs();
+			ResponseEntity era = new ResponseEntity();
 
 			try
 			{
 				string pdfContent = string.Empty;
-
-			/* 	using (PdfDocument pdf = new PdfDocument(bytes))
-				{
-					//int x = 0;
-					foreach (PdfImage pdfimage in pdf.GetImages())
-					{
-						//do something here
-					}
-				} */
 
 				if (pdfContent.Trim().Length == 0)
 				{
@@ -77,7 +68,6 @@ namespace DataMinerAPI.Engine
 			}
 			catch (Exception ex)
 			{
-				//Log.Error(ex, "In ConvertImagePDF.PDF");
 				era.Success = false;
 				era.Message = "Conversion failed";
 				era.DocumentContent = ex.Message;

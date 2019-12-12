@@ -5,9 +5,13 @@ using System.Threading.Tasks;
 
 namespace DataMinerAPI.Models
 {
-    public class EngineReturnArgs
+    /// <summary>
+    /// this entity is returned by the convert controller. it contains both the text extracted from
+    /// the source byte array and the populated search results in json format.
+    /// </summary>
+    public class ResponseEntity
     {
-        public EngineReturnArgs() { }
+        public ResponseEntity() { }
 
         public bool Success { get; set; }
 
@@ -18,8 +22,6 @@ namespace DataMinerAPI.Models
 
         // documentconent parsed by text processor according to searchset keywords
         public string ParsedContent { get; set; }
-
-        public Exception Exception { get; set; }
 
         public Guid RequestID { get; set; }
 

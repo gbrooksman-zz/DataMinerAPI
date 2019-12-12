@@ -26,7 +26,7 @@ namespace DataMinerAPI.Engine
 			settings = _settings;
         }
 
-		public List<string> GetSection(List<string> textlines, string startSection, string stopSection, SearchData searchData)
+		public List<string> GetSection(List<string> textlines, string startSection, string stopSection, SearchableContent searchData)
 		{	
 			//sectionHeaders string are already lower case
 
@@ -133,7 +133,7 @@ namespace DataMinerAPI.Engine
 		}
 
 
-		public ResultEntity Validate(ResultEntity result, string application, string requestGuid, string content, string keywordsXML)
+		public SearchResults Validate(SearchResults result, string application, string requestGuid, string content, string keywordsXML)
 		{
 			result.Success = true;
 
@@ -165,13 +165,13 @@ namespace DataMinerAPI.Engine
 		}
 
 
-        public int CalculateDocItemScore(ResultEntity entity)
+        public int CalculateDocItemScore(SearchResults entity)
 		{
 			int attrScore = entity.DocItems.Sum(x => x.Score);
 			return Math.Min(attrScore,settings.MaxAttributeScore);
 		}
 
-		public int CalculateFormulaScore(ResultEntity entity)
+		public int CalculateFormulaScore(SearchResults entity)
 		{			
 			int formScore = entity.FormulaItems.Sum(x => x.Score);
 			return Math.Min(formScore,settings.MaxAttributeScore);
@@ -249,7 +249,7 @@ namespace DataMinerAPI.Engine
 		}
         
 
-		public void SaveResultToLog(ResultEntity result, string content, string requestGuid, 
+		public void SaveResultToLog(SearchResults result, string content, string requestGuid, 
 										string origFileName, string application)
 		{
 			try
@@ -270,7 +270,7 @@ namespace DataMinerAPI.Engine
 			}
 		}
 
-	 	public void SaveResultToAzure(ResultEntity result, string content, string requestGuid)
+	 /* 	public void SaveResultToAzure(ResultEntity result, string content, string requestGuid)
 		{
 			try
 			{
@@ -292,6 +292,6 @@ namespace DataMinerAPI.Engine
 				Log.Error(msg, saveEx);
 				throw saveEx;
 			}			
-		}
+		} */
     }
 }

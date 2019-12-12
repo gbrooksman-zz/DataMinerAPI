@@ -21,7 +21,7 @@ namespace DataMinerAPI.Engine
             helpers = new Helpers(cache, settings);
         }         
 
-        public DocItem SearchForItem(DocItem docItem, List<string> textlines, SearchData searchData)
+        public DocItem SearchForItem(DocItem docItem, List<string> textlines, SearchableContent searchData)
 		{			
 			foreach (string searchText in docItem.Terms)
 			{

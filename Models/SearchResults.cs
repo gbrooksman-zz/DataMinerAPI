@@ -1,24 +1,19 @@
-using Microsoft.WindowsAzure.Storage.Table;
 using System;
 using System.Collections.Generic;
 using System.Xml.Serialization;
+using Microsoft.AspNetCore.Mvc;
 
 namespace DataMinerAPI.Models
 {
 	/// <summary>
-	/// 
+	/// This entity is used by the service internally after the document has been parsed to accumulate the results 
+	/// of the keyword searching process. instances of this class are aggregated into 
+	/// the responseentity returned by the controller.
 	/// </summary>
-	public class ResultEntity : TableEntity
-	{		
-		public ResultEntity(string reqGuid, string partitionKey)
-		{
-			RequestGuid = reqGuid;
-			RowKey = reqGuid;
-			PartitionKey = partitionKey;
-			Application = partitionKey;
-		}
 
-		public ResultEntity() { }
+	public class SearchResults 
+	{	
+		public SearchResults() { }
 
 		public string RequestGuid { get; set; }
 

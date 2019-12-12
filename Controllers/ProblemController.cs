@@ -8,6 +8,7 @@ namespace DataMinerAPI.Controllers
     [ApiController]
     [Produces("application/json")]
 	[Route("api/problem")]
+    [ApiExplorerSettings(IgnoreApi=true)]
     public class ProblemController : ControllerBase
     {
         [Route("bad-doc-type")]

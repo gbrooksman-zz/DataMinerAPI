@@ -22,7 +22,7 @@ namespace DataMinerAPI.Engine
         } 
 
 
-        public List<FormulaItem> GetFormulation (List<string> textlines ,string requestGuid, SearchData searchData)
+        public List<FormulaItem> GetFormulation (List<string> textlines ,string requestGuid, SearchableContent searchData)
 		{
 			List<FormulaItem> items = new List<FormulaItem>();
 
@@ -51,7 +51,7 @@ namespace DataMinerAPI.Engine
 			return items;
 		}	
 
-		private List<FormulaItem> BuildFormula(List<string> lines, SearchData searchData)
+		private List<FormulaItem> BuildFormula(List<string> lines, SearchableContent searchData)
 		{
 			List<FormulaItem> formulaItems = new List<FormulaItem>();
 

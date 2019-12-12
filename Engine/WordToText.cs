@@ -11,9 +11,9 @@ namespace DataMinerAPI.Engine
 {
     public class WordToText
 	{
-        public EngineReturnArgs ConvertWordToText(string conversionSource, Guid requestGuid)
+        public ResponseEntity ConvertWordToText(string conversionSource, Guid requestGuid)
         {
-            EngineReturnArgs era = new EngineReturnArgs();
+            ResponseEntity era = new ResponseEntity();
             era.RequestID = requestGuid;
 
             try
